@@ -43,3 +43,6 @@ s/^\(\(pll_id\|ID\|pid\|LAST_PLL_ID\) *: \+\).\+/\1-normalized-/g
 # My timing functions depend on computer speed
 s/^After .\+/-normalized-/g
 s/^\(\.[^0-9]*\)[0-9]\+\(s elapsed\.\)/\1-normalized-\2/g
+
+#### display_run_specs.ado ####
+/^LOGREMOVE/d

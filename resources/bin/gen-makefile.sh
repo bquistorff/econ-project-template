@@ -14,9 +14,9 @@
 # and don't go into ado/<>/ like the other files. Should deal
 # better with this.
 
-outfile=makefile
-echo "#Generated makefile" > $outfile
-echo ".DEFAULT_GOAL := all_modules" >> $outfile
+outfile=dep.ados
+echo "#Generated makefile-ish file" > $outfile
+#echo ".DEFAULT_GOAL := all_modules" >> $outfile
 
 PKGFILES=ado-store/*/*.pkg
 

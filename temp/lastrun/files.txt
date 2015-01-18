@@ -1,0 +1,2 @@
+../log/fake2.log
+../data/clean/auto3.dta

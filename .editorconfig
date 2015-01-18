@@ -9,5 +9,8 @@ indent_style = tab
 insert_final_newline = true
 
 # Tab indentation (no size specified)
-[{makefile,*.sh}]
+[*.{sh,py}]
+indent_style = tab
+
+[{makefile}]
 indent_style = tab

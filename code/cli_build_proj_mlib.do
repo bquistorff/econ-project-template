@@ -4,7 +4,7 @@
 * This should also help a bit with speed.
 
 *Possibly get some project-specific settings
-*qui include ....do
+qui include proj_prefs.do
 
 * Load all the mata files in ado/
 local mata_files : dir "ado" files "*.mata"

@@ -1,0 +1,37 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}fake2
+       {txt}log:  {res}C:\Users\Brian\Documents\GitHub\econ-project-template\code\../log/smcl/fake2.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}18 Jan 2015, 23:01:53
+                  {txt}c(os) = {res}"Windows"
+               {txt}c(osdtl) = {res}"64-bit"
+        {txt}c(machine_type) = {res}"PC (64-bit x86-64)"
+           {txt}c(byteorder) = {res}"lohi"
+              {txt}c(flavor) = {res}"IC"
+            {txt}c(hostname) = {res}"Lenovo-BQ"
+                 {txt}c(pwd) = {res}"C:\Users\Brian\Documents\GitHub\econ-project-template\code"
+       {txt}c(stata_version) = {res}13
+          {txt}c(processors) = {res}1
+LOGREMOVE env UNVERSIONED_DATA: 
+LOGREMOVE env DEFNUMCLUSTERS: 
+LOGREMOVE env S_ADO: 
+{txt}
+{com}. 
+. * Content
+. use ../data/clean/auto2.dta
+{txt}(1978 Automobile Data)
+
+{com}. save12 ../data/clean/auto3.dta, replace
+{txt}file ../data/clean/auto3.dta saved
+
+{com}. 
+. * Footer
+. log close `do_name'
+      {txt}name:  {res}fake2
+       {txt}log:  {res}C:\Users\Brian\Documents\GitHub\econ-project-template\code\../log/smcl/fake2.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}18 Jan 2015, 23:01:53
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

@@ -65,11 +65,9 @@ fi
 
 for f in "$@"
 do
-	if [ "$backup" = "" ]; then
-		echo "Normalizing: $f"
-	else
+	if ! [ "$backup" = "" ]; then
 		cp $f $backup
-		echo "Normalizing: $f (backup in $backup)"
+		#echo "Normalizing: $f (backup in $backup)"
 	fi
     
     #On Cygwin I was getting errors with 'sed -i' like

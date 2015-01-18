@@ -22,5 +22,5 @@ program log_open_base
 	}
 	log using "`using'", `replace' name(`name')
 	
-	display_install_specs
+	display_run_specs
 end

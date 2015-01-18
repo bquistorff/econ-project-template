@@ -1,5 +1,9 @@
 # econ-project-template
 
+There are two file tracking systems.
+1) Procmon based for the makefile settings
+2) in Stata logging (so that VCS will work if working interactively).
+
 ## Setup details (HW and installed software)
 *List OS-CPU-software* combinations that have been tested
 *List any known limitations (e.g. X doesn't work on Unix)

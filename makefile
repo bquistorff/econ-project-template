@@ -1,17 +1,12 @@
 # If you don't list all dependencies for code (because maybe it varies programmatically) then you can force a remake by doing 'make -B <target>. Note that it will remake all dependencies!
 
-#nice-ness. Uncomment a line to enable. Default is +10
-#nice_prefix := nice
-#nice_prefix := nice -n10
+# Todo: Add target to remake all .md5 files.
 
 ############################# Project-specific Entries ####################
 
-# which entries use parallel and need a windows gateway	
-# from $grep -r eval_synth . --include="*.do"
-#analysis_gdp_indep analysis_pa_workers_indep analysis_pop analysis_germany analysis_populstat analysis_state_exp : code/pll_gateway.sh
-
-# which do files depend on each other
-#GE_ge2med_map analysis_weighted_p_value analysis_misc : analysis_pop
+export PATH := $(shell pwd)/resources/bin:$(PATH)
+#Sometimes it uses /bin/sh which has a problem with picking up the better path
+SHELL := /bin/bash
 
 # The figs that are too big in vector format and need to be rasterized
 #pngs_of_big_figs : fig/png/GE_placebo_dropped_map.png fig/png/RI_effects_map.png
@@ -19,68 +14,69 @@
 
 ############################# Standard Entries ###########################
 
-.PHONY: epss post_co install_mods clean fullupdate svnupdate svnaddcommitlast svnaddlast svncommitlast
+.PHONY: epss post_co install_mods clean fullupdate vcs_updatefrom_remote vcs_addcommitlast vcs_addlast vcs_commitlast_remote
 
 ### SVN entries
-fullupdate : svnupdate post_co
+fullupdate : vcs_updatefrom_remote post_co
 
 post_co : install_mods epss
 
-svnupdate:
-	svn update .
+vcs_updatefrom_remote:
+	if [ -d ".svn" ]; then \
+		svn update .; \
+	fi
+	if [ -d ".git" ]; then \
+		git pull; \
+	fi
+
+vcs_addcommitlast: vcs_addlast vcs_commitlast_remote
+
+vcs_addlast:
+	if [ -d ".svn" ]; then \
+		cd code; \
+		cat ../temp/lastrun/files.txt | svn add --targets -; \
+	fi
+	if [ -d ".git" ]; then \
+		cd code; \
+		cat ../temp/lastrun/files.txt | xargs git add; \
+	fi
+
+vcs_commitlast_remote:
+	if [ -d ".svn" ]; then \
+		cd code; \
+		cat ../temp/lastrun/files.txt | svn commit -m ""  --targets -; \
+	fi
+	if [ -d ".git" ]; then \
+		git commit -m "std commit"; \
+		git push ; \
+	fi
+
 	
-svnaddcommitlast: svnaddlast svncommitlast
-
-svnaddlast:
-	cd code; cat ../temp/lastrun/files.txt | svn add --targets -
-
-svncommitlast:
-	cd code; cat ../temp/lastrun/files.txt | svn commit -m ""  --targets -
 
 ### Local install entries
 pkgs_in_ado_store := $(wildcard code/ado-store/*/*.pkg)
 
-code/makefile: $(pkgs_in_ado_store)
+code/dep.ados: $(pkgs_in_ado_store)
 	cd code && gen-makefile.sh
 
-install_mods: code/makefile
-	cd code && $(MAKE)
-
-#Note you don't need the ; after the & (and it would produce an error).
-code/pll_gateway.sh :
-	if [ "$$OS" = "Windows_NT" ]; then cd code; setup_win_gateway.sh 2>&1 | tail -100 > pll_gateway.log.extra & else echo "Gateway not needed on non-Windows platforms"; fi
+install_mods: code/dep.ados
+	cd code && $(MAKE) all_modules
 
 clean:
 	-cd code; cleanup-incomplete-parallel.sh; 
 	-cd code; cleanup-tests.sh;
 	-rm -f temp/*
-	-mv code/*.log code/*.log.extra temp/lastrun/
+	cd code && $(MAKE) clean
+	
+#### Misc #####
 
-matas_in_ado := $(wildcard code/ado/*.mata)
-code/ado/l/lproject.mlib : $(matas_in_ado)
-	cd code; statab.sh do cli_build_proj_mlib.do
+hide_dot_files :
+	if [ "$$OS" = "Windows_NT" ]; then \
+		ATTRIB +H /s /d ".*" \
+	else \
+		echo "Only Windows needs Hidden attribute for dot files"; \
+	fi
 
-########### Stata scripts
-do_files := $(wildcard code/*.do)
-dos := $(patsubst code/%.do,%,$(do_files))
-#do_files_to_log_base := $(patsubst code/%.do,log/%.log,$(do_files))
-do_files_to_smcl := $(patsubst code/%.do,log/smcl/%.smcl,$(do_files))
-
-#The below was working on Linux but not Cygwin so switched to blanket secondary
-#.INTERMEDIATE : $(do_files_to_smcl)
-.SECONDARY:
-
-log/smcl/%.smcl : code/%.do
-	cd code; $(nice_prefix) statab.sh do $*.do && cp ../temp/lastrun/$*-files.txt ../temp/lastrun/files.txt
-	cd code; cat ../temp/lastrun/files.txt | grep \.gph | while read p; do python ../resources/normalize_gph.py $$p; done
-	cd code; cat ../temp/lastrun/files.txt | grep \.dta | while read p; do python ../resources/normalize_dta.py $$p; done
-
-.PHONY : all_stata $(dos)
-
-$(dos) : % : log/%.log
-$(dos) : code/ado/l/lproject.mlib
-
-#all_stata: $(dos)
 
 ########### Graphs ##############
 gph_files := $(wildcard fig/gph/*.gph)
@@ -92,17 +88,27 @@ gph_files_to_eps_notitle_nopath := $(patsubst fig/gph/%.gph,%_notitle.eps,$(gph_
 epss : $(gph_files_to_eps_base)
 
 fig/png/%.png fig/png/notitle/%_notitle.png : fig/gph/%.gph
-	if [ "$$OS" = "Windows_NT" ]; then cd code; statab.sh do cli_gph_eps.do $* png; else echo "Only works on Windows"; fi
+	if [ "$$OS" = "Windows_NT" ]; then \
+		cd code; \
+		statab.sh do cli_gph_eps.do $* png; \
+	else \
+		echo "Only works on Windows"; \
+	fi
 
-#Should put in here the ghostscript solution (below) if can't rely on Windows
+#Should put in here the ghostscript or epstopdf solution (below) if can't rely on Windows
 fig/pdf/%.pdf fig/pdf/notitle/%_notitle.pdf : fig/gph/%.gph
-	if [ "$$OS" = "Windows_NT" ]; then cd code; statab.sh do cli_gph_eps.do $* pdf; else echo "Only works on Windows"; fi
+	if [ "$$OS" = "Windows_NT" ]; then \
+		cd code; \
+		statab.sh do cli_gph_eps.do $* pdf; \
+	else \
+		echo "Only works on Windows"; \
+	fi
 
 fig/eps/%.eps fig/eps/notitle/%_notitle.eps : fig/gph/%.gph
 	cd code; statab.sh do cli_gph_eps.do $*
 
-fig/svg/%.eps : fig/eps/%.eps
-	inkscape -f fig/eps/$*.eps --export-plain-svg=fig/svg/$*.eps  
+fig/svg/%.svg : fig/eps/%.eps
+	inkscape -f fig/eps/$*.eps --export-plain-svg=fig/svg/$*.svg  
 
 #the mv command below is big, so cd first to make it smaller. Should be more robust.
 remove_orphan_eps : epss
@@ -146,15 +152,6 @@ remove_orphan_table_formats : pdf_tables png_tables lyx_tables
 	cd tab/pdf; mkdir -p temp/ && mv $(tex_table_files_to_pdf_nopath) temp/ && rm -f *.pdf && mv temp/*.pdf . && rmdir temp/
 	cd tab/png; mkdir -p temp/ && mv $(tex_table_files_to_png_nopath) temp/ && rm -f *.png && mv temp/*.png . && rmdir temp/
 	cd tab/lyx; mkdir -p temp/ && mv $(tex_table_files_to_lyx_nopath) temp/ && rm -f *.lyx && mv temp/*.lyx . && rmdir temp/
-
-########### Logs ##############
-smcl_files := $(wildcard log/smcl/*.smcl)
-smcl_files_to_log := $(patsubst log/smcl/%.smcl,log/raw/%.log,$(smcl_files))
-
-log/%.log : log/smcl/%.smcl
-	cd code; statab.sh do cli_smcl_log.do $*
-	cd code; normalize_log.sh -r .. -b ../log/raw/ ../log/$*.log
-	cd code; sed -e 's:\.smcl:\.log:g' -e 's:smcl/::g' -i ../temp/lastrun/files.txt
 
 ########### Writeups ##############
 writeups/%.pdf : writeups/%.lyx

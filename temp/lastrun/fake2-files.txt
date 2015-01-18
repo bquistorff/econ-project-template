@@ -1,0 +1,2 @@
+../log/smcl/fake2.smcl
+../data/clean/auto3.dta
