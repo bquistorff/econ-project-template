@@ -1,6 +1,6 @@
 *Callable from the command line for install packages from local store (that need machine-specific installation)
 *Non-SSC installs: see code/readme.txt
-global dir_base ".."
+global dir_base "."
 
 * Use the -net set- line before installing other packages
 net set ado "${dir_base}/code/ado/"

@@ -4,16 +4,16 @@
 * This should also help a bit with speed.
 
 *Possibly get some project-specific settings
-qui include proj_prefs.do
+qui include code/setup_ado.do
 
 * Load all the mata files in ado/
-local mata_files : dir "ado" files "*.mata"
+local mata_files : dir "code/ado" files "*.mata"
 foreach mata_file in `mata_files'{
-	do "ado/`mata_file'"
+	do "code/ado/`mata_file'"
 }
 
 mata:
-mata mlib create lproject, replace dir("../code/ado/l")
+mata mlib create lproject, replace dir("code/ado/l")
 mata mlib add lproject *()
 mata mlib index
 

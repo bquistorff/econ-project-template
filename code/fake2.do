@@ -1,14 +1,15 @@
 * Description: Blah
 
 *Header
+do code/setup_ado.do
 clear_all
-qui include "proj_prefs.do"
+qui include "code/proj_prefs.do"
 
 local do_name fake2
 log_open `do_name'
 
 * Content
-use ../data/clean/auto2.dta
+use ${dir_base}/data/clean/auto2.dta
 
 twoway (scatter price mpg)
 save_fig auto_scatter

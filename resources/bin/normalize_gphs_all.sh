@@ -1,2 +1,2 @@
 #!/bin/bash
-python normalize_gph.py "../fig/gph/*.gph"
+python normalize_gph.py "fig/gph/*.gph"

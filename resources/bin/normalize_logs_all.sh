@@ -1,4 +1,4 @@
 #!/bin/bash
 
-normalize_log.sh "../log/*.log"
+normalize_log.sh "log/*.log"
 

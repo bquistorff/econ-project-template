@@ -15,10 +15,10 @@
 # better with this.
 
 outfile=dep.ados
-echo "#Generated makefile-ish file" > $outfile
+echo "#Generated makefile" > $outfile
 #echo ".DEFAULT_GOAL := all_modules" >> $outfile
 
-PKGFILES=ado-store/*/*.pkg
+PKGFILES=code/ado-store/*/*.pkg
 
 for fullfile in $PKGFILES
 do
@@ -36,10 +36,10 @@ do
     base="${filename%.*}"
     base_letter=${base:0:1}
     
-    targets=$({ cat $fullfile | grep ^f | grep -v .dta | cut -d ' ' --fields 2; cat $fullfile | grep "^g $STATA_PLATFORM " | cut -d ' ' --fields 4; } | sed -e "s:^:ado/$base_letter/:" | paste -sd " ")
-    deps=$({ cat $fullfile | grep ^f | grep -v .dta | cut -d ' ' --fields 2; cat $fullfile | grep "^g $STATA_PLATFORM " | cut -d ' ' --fields 3; } | sed -e "s:^:ado-store/$base_letter/:" | paste -sd " ")
+    targets=$({ cat $fullfile | grep ^f | grep -v .dta | cut -d ' ' --fields 2; cat $fullfile | grep "^g $STATA_PLATFORM " | cut -d ' ' --fields 4; } | sed -e "s:^:code/ado/$base_letter/:" | paste -sd " ")
+    deps=$({ cat $fullfile | grep ^f | grep -v .dta | cut -d ' ' --fields 2; cat $fullfile | grep "^g $STATA_PLATFORM " | cut -d ' ' --fields 3; } | sed -e "s:^:code/ado-store/$base_letter/:" | paste -sd " ")
     echo $targets : $deps >> $outfile
-    echo "	statab.sh do cli_install_module.do $base; mv cli_install_module.log ../temp/lastrun" >> $outfile
+    echo "	statab.sh do code/cli_install_module.do $base; mv cli_install_module.log temp/lastrun" >> $outfile
     echo $base : $targets >> $outfile
     echo -e "\n" >> $outfile
 done

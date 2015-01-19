@@ -1,6 +1,7 @@
 #!/bin/bash
 # Example usage
-#./store-mod-install-files.sh http://fmwww.bc.edu/repec/bocode/s/synth.pkg ado-store
+# cd code
+# store-mod-install-files.sh http://fmwww.bc.edu/repec/bocode/s/synth.pkg ado-store
 # Assumes the standard first-letter directory structure.
 
 pkgfilename=$(basename "$1") 

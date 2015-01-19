@@ -26,7 +26,7 @@ while getopts "hb:r:" opt; do
 		echo '       -r   Path to the project root (use for normalizing paths)'
 		echo '       -h   Help'
 		echo 'Example:'
-		echo '    $0 -r .. ../log/log1.log ../log2.log'
+		echo '    $0 -r . log/log1.log log2.log'
 		exit 0
 	;;
 	b)
@@ -71,7 +71,7 @@ do
 	fi
     
     #On Cygwin I was getting errors with 'sed -i' like
-    #sed: cannot rename ../temp/lastrun/sed8xOWT7: Permission denied
+    #sed: cannot rename temp/lastrun/sed8xOWT7: Permission denied
     # so switch to manual file manipulation
     
     ### Machine-specific (from script because they use a shell variable)

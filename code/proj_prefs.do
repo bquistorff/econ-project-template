@@ -14,7 +14,7 @@ set tracedepth 1
 
 *Defaults
 set seed 1337
-if ("${dir_base}"=="") global dir_base ".."
+if ("${dir_base}"=="") global dir_base "."
 if ("${track_files}"=="") global track_files = ("${testing}" != "1")
 
 if "${testing}"== "1"{
@@ -33,12 +33,6 @@ if `"`: environment UNVERSIONED_DATA'"'!="" {
 global defnumclusters = 2
 if "`: environment DEFNUMCLUSTERS'"!="" {
 	global defnumclusters = `: environment DEFNUMCLUSTERS'
-}
-
-*This one will already have been imported
-if `"`: environment S_ADO'"'=="" {
-	global S_ADO =`""ado/";BASE"'
-	mata: mata mlib index
 }
 
 *All of the above env vars should be in one category
