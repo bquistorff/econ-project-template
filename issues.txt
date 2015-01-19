@@ -1,1 +1,2 @@
--make git versions of the svn tools
+Makefile:
+-Evaluate useful with waf and https://github.com/hmgaudecker/econ-project-templates

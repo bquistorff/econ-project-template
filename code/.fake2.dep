@@ -1,3 +1,3 @@
 # fake2
-../data/clean/auto3.dta ../data/clean/.auto3.dta.md5 ../log/smcl/fake2.smcl : ../data/clean/.auto2.dta.md5 ado/log_open.ado fake2.do ado/save12.ado ado/writeout_tracked_file.ado clear_all.ado proj_prefs.do ado/d/display_run_specs.ado 
+../fig/gph/auto_scatter.gph ../log/smcl/fake2.smcl : ../data/clean/.auto2.dta.md5 ado/log_open.ado fake2.do ado/save_fig.ado ado/writeout_tracked_file.ado clear_all.ado proj_prefs.do ado/d/display_run_specs.ado 
 	st_launcher.sh fake2

@@ -67,6 +67,7 @@ clean:
 	-cd code; cleanup-tests.sh;
 	-rm -f temp/*
 	cd code && $(MAKE) clean
+	-cd writeups && latexmk -CA
 	
 #### Misc #####
 
@@ -155,4 +156,5 @@ remove_orphan_table_formats : pdf_tables png_tables lyx_tables
 
 ########### Writeups ##############
 writeups/%.pdf : writeups/%.lyx
-	cd writeups && lyx -e pdf2 $*.lyx
+#	cd writeups && lyx -e pdf2 $*.lyx
+	latexmk -pdf -pdflatex="pdflatex -interactive=nonstopmode" -use-make writeups/$*.tex

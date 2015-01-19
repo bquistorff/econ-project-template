@@ -9,7 +9,9 @@ log_open `do_name'
 
 * Content
 use ../data/clean/auto2.dta
-save12 ../data/clean/auto3.dta, replace
+
+twoway (scatter price mpg)
+save_fig auto_scatter
 
 * Footer
 log close `do_name'

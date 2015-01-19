@@ -16,6 +16,7 @@ DO_SCRIPTS := $(wildcard *.do)
 DO_SCRIPTS_base := $(patsubst %.do,%,$(DO_SCRIPTS))
 .PHONY : $(DO_SCRIPTS_base)
 $(DO_SCRIPTS_base):
+	@echo Converting to make command for the associate log file.
 	$(MAKE) ../log/smcl/$@.smcl
 
 # Allos a forcing of code to be run (might happen that dep files are out of date).
@@ -23,14 +24,20 @@ DO_SCRIPTS_force := $(patsubst %.do,%-force,$(DO_SCRIPTS))
 .PHONY : $(DO_SCRIPTS_force)
 $(DO_SCRIPTS_force) :
 	st_launcher.sh $(patsubst %-force,%,$@)
+
+FORCE:
+
+%.md5 : FORCE
+	$(MAKE) $(dir $*)$(patsubst .%,%,$(notdir $*))
 	
 #Make sure the mlib is up to date
 matas_in_ado := $(wildcard ado/*.mata)
 ado/l/lproject.mlib : $(matas_in_ado)
 	statab.sh do cli_build_proj_mlib.do
 	
-DO_SCRIPTS_logs := $(patsubst %.do,../log/smcl/%.smcl,$(DO_SCRIPTS))
-$(DO_SCRIPTS_logs) : ado/l/lproject.mlib
+#DO_SCRIPTS_logs := $(patsubst %.do,../log/smcl/%.smcl,$(DO_SCRIPTS))
+#$(DO_SCRIPTS_logs) : ado/l/lproject.mlib
+$(DO_SCRIPTS) : ado/l/lproject.mlib
 
 #Windows parallel gateway
 # hould be handled by autodependency
