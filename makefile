@@ -5,10 +5,18 @@
 export PATH := $(CURDIR)/resources/bin:$(PATH)
 #Sometimes it uses /bin/sh which has a problem with picking up the better path
 SHELL := /bin/bash
+# latexmk will use the MiKTeX perl, so no need to patch the LyX Perl with Stawberry Perl.
+export PERL5LIB=
 
 
 ############################# Version Control ###########################
-.PHONY: post_co fullupdate vcs_updatefrom_remote vcs_addcommitlast vcs_addlast vcs_commitlast_remote
+.PHONY: post_co fullupdate vcs_updatefrom_remote vcs_addcommitlast vcs_addlast vcs_commitlast_remote ALL
+
+ALL : 
+	@echo Some analyses make take days, so you might not want to do -make all-.
+	@echo If you really want to, do -make all-dos-. 
+	@echo More likely you want to give the basename of a script in code/, like
+	@echo -make fake1- which will make sure running code/fake1.do is up to date.
 
 fullupdate : vcs_updatefrom_remote post_co
 

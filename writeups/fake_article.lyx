@@ -14,9 +14,6 @@
 %to allow the \begin{adjustwidth}
 \usepackage[strict]{changepage}
 
-%Allows for Color bars along margins. Do \cbstart and \cbend.
-\usepackage{changebar}
-
 %allows a \FloatBarrier
 \usepackage{placeins}
 
@@ -126,7 +123,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Scatttttdssdddssxer
+Scatter
 \end_layout
 
 \end_inset
@@ -137,7 +134,7 @@ Scatttttdssdddssxer
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename auto_scatter_notitle.pdf
+	filename ../fig/eps/notitle/auto_scatter_notitle.eps
 
 \end_inset
 

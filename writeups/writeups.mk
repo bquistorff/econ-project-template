@@ -13,8 +13,8 @@ writeups/%.tex : writeups/%.lyx
 
 writeups/%.pdf : writeups/%.tex
 	#we ignore this error so that the filtering still happens.
-	-cd writeups; latexmk -pdf -f -pdflatex="cat responses | pdflatex -interaction=nonstopmode" -use-make -deps -deps-out=$*.d $*.tex
-	cd writeups; cat $*.d | grep -v "\(texmf\|temp\|ProgramData\)"  > $*.d2 && mv $*.d2 $*.d
+	-cd writeups; latexmk -pdf -f -pdflatex="yes '' | pdflatex -interaction=nonstopmode" -use-make -deps -deps-out=$*.d $*.tex
+	cd writeups; cat $*.d | grep -v "\(texmf\|MiKTeX\|temp\|ProgramData\)"  > $*.d2 && mv $*.d2 $*.d
 	cd writeups; cat $*.d | grep -v "^#" | sed -e "s@ \([^\. :]\)@ writeups/\1@g" -e "s|^\([^ #]\)|writeups/\1|g" -e "s|  \.\./|  |g" > $*.dep
 	cd writeups; latexmk -c
 
