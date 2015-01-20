@@ -12,26 +12,22 @@ gph_files_to_eps_notitle_nopath := $(patsubst fig/gph/%.gph,%_notitle.eps,$(gph_
 .PHONY : remove_orphan_eps epss
 epss : $(gph_files_to_eps_base)
 
-fig/png/%.png fig/png/notitle/%_notitle.png : fig/gph/%.gph
-	if [ "$$OS" = "Windows_NT" ]; then \
-		statab.sh do code/cli_gph_eps.do $* png; \
-		mv cli_gph_eps.log temp/lastrun; \
-	else \
-		echo "Only works on Windows"; \
-	fi
-
-#Should put in here the ghostscript or epstopdf solution (below) if can't rely on Windows
-fig/pdf/%.pdf fig/pdf/notitle/%_notitle.pdf : fig/gph/%.gph
-	if [ "$$OS" = "Windows_NT" ]; then \
-		statab.sh do code/cli_gph_eps.do $* pdf; \
-		mv cli_gph_eps.log temp/lastrun; \
-	else \
-		echo "Only works on Windows"; \
-	fi
-
 fig/eps/%.eps fig/eps/notitle/%_notitle.eps : fig/gph/%.gph
 	statab.sh do code/cli_gph_eps.do $*; \
 	mv cli_gph_eps.log temp/lastrun;
+	
+fig/pdf/%.pdf : fig/eps/%.eps
+	epstopdf --outfile=fig/pdf/$*.pdf fig/eps/$*.eps
+
+#fig/png/%.png fig/png/notitle/%_notitle.png : fig/gph/%.gph
+#	if [ "$$OS" = "Windows_NT" ]; then \
+#		statab.sh do code/cli_gph_eps.do $* png; \
+#		mv cli_gph_eps.log temp/lastrun; \
+#	else \
+#		echo "Only works on Windows"; \
+#	fi
+fig/png/%.png : fig/pdf/%.pdf	
+	$(GSEXE) -dSAFER -dBATCH -dNOPAUSE -sDEVICE=pnggray -r600 -sOutputFile=fig/png/$*.png fig/pdf/$*.pdf
 
 fig/svg/%.svg : fig/eps/%.eps
 	inkscape -f fig/eps/$*.eps --export-plain-svg=fig/svg/$*.svg  

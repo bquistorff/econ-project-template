@@ -24,9 +24,6 @@
 \usepackage{pbox}
 \end_preamble
 \use_default_options true
-\begin_modules
-bigfoot
-\end_modules
 \maintain_unincluded_children false
 \language english
 \language_package default
@@ -114,22 +111,22 @@ bigfoot
 Simple
 \end_layout
 
+\begin_layout Author
+Author
+\end_layout
+
 \begin_layout Standard
 \begin_inset Float figure
-placement h
+placement H
 wide false
 sideways false
 status open
 
 \begin_layout Plain Layout
-
-\end_layout
-
-\begin_layout Plain Layout
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-Scatter
+Scatttttdssdddssxer
 \end_layout
 
 \end_inset
@@ -140,10 +137,14 @@ Scatter
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename ../fig/eps/notitle/auto_scatter_notitle.eps
+	filename auto_scatter_notitle.pdf
 
 \end_inset
 
+
+\end_layout
+
+\begin_layout Plain Layout
 
 \end_layout
 
