@@ -12,12 +12,17 @@ export GENDEP_PROJDIR := $(CURDIR)
 
 DO_SCRIPTS := $(wildcard code/*.do)
 
-#Make sure the mlib is up to date
-matas_in_ado := $(wildcard code/ado/*.mata)
-$(DO_SCRIPTS) : code/ado/l/lproject.mlib
-code/ado/l/lproject.mlib : $(matas_in_ado)
-	statab.sh do cli_build_proj_mlib.do; \
-	mv cli_build_proj_mlib.log temp/lastrun/
+#Technically the generation of a do file doesn't depend on inputs.
+# So turn this command into one that does. This depends on all 
+# independent do scripts making a log
+DO_SCRIPTS_base := $(patsubst code/%.do,%,$(DO_SCRIPTS))
+.PHONY : $(DO_SCRIPTS_base)
+$(DO_SCRIPTS_base):
+	@echo Converting to make command for the associate log file.
+	$(MAKE) log/smcl/$@.smcl
+
+.PHONY : all-dos
+all-dos : $(DO_SCRIPTS_base)
 	
 # Allows a forcing of code to be run (might happen that dep files are out of date).
 DO_SCRIPTS_force := $(patsubst code/%.do,%-force,$(DO_SCRIPTS))
@@ -29,14 +34,12 @@ FORCE:
 %.md5 : FORCE
 	$(MAKE) $(dir $*)$(patsubst .%,%,$(notdir $*))
 
-#Technically the generation of a do file doesn't depend on inputs.
-# So turn this command into one that does. This depends on all 
-# independent do scripts making a log
-DO_SCRIPTS_base := $(patsubst code/%.do,%,$(DO_SCRIPTS))
-.PHONY : $(DO_SCRIPTS_base)
-$(DO_SCRIPTS_base):
-	@echo Converting to make command for the associate log file.
-	$(MAKE) log/smcl/$@.smcl
+#Make sure the mlib is up to date
+matas_in_ado := $(wildcard code/ado/*.mata)
+$(DO_SCRIPTS) : code/ado/l/lproject.mlib
+code/ado/l/lproject.mlib : $(matas_in_ado)
+	statab.sh do cli_build_proj_mlib.do; \
+	mv cli_build_proj_mlib.log temp/lastrun/
 	
 ### Local install entries
 pkgs_in_ado_store := $(wildcard code/ado-store/*/*.pkg)
