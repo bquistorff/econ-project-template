@@ -23,11 +23,12 @@ http://www.kolpackov.net/pipermail/notes/2004-September/000011.html
 http://www.cmcrossroads.com/article/rebuilding-when-files-checksum-changes
 
 # Automatic Dependencies
-The automatic dependency is different from references. There are two file tracking systems.
+The automatic dependency is different by domain. For statistical code, there are two file tracking systems.
 1) Procmon based for the makefile settings
-2) in Stata logging (so that VCS will work if working interactively).
+2) in-Stata logging (so that VCS will work if working interactively).
 References:
 http://make.mad-scientist.net/papers/advanced-auto-dependency-generation/#combine
+For LaTeX, I use latexmk since LaTeX dependencies in process might be circular.
 
 ## Execution commands
 -make ...
