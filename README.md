@@ -1,6 +1,26 @@
 # econ-project-template
 This is a template to be used in an economics research project (it's geared towards Stata). It is designed to be highly automated and utilizes automatically dependency information between files.
 
+## Usage
+Typically, you just use 'make fake1' to ensure code/fake1.do is up to date (only runs if inputs or code are newer than outputs). This will track the dependencies (inputs & outputs) for fake1.do. If somehow the dependencies get messed up you should be able to always do 'make fake1-force' (and you can delete the dependency info stored in code/.fake1.dep if make is complaining about that). To make papers, just use 'make writeups/fake_article.pdf'. It should even go back and run code so that dependencies are up to date.
+
+## Installation
+Requirements:
+
+1. PATH must include dep_tracker.sh (from either [gendep](https://github.com/bquistorff/gendep) or [wingendep](https://github.com/bquistorff/wingendep)).
+
+1. STATABATCH assigned to the local batch stata command (e.g. "stata-se -b" or "StataSE-64.exe /e" with those in your path)
+
+1. Ghostscript installed with GSEXE set to find it.
+
+1. If you want to make SVGs: inkscape.
+
+1. Python.
+
+1. Latex with latexmk
+
+1. Windows: Cygwin (with make, and maybe some other utilities).
+
 
 ## Setup details (HW and installed software)
 When you instantiate this project make sure to:
@@ -24,11 +44,10 @@ http://www.cmcrossroads.com/article/rebuilding-when-files-checksum-changes
 
 # Automatic Dependencies
 The automatic dependency is different by domain. For statistical code, there are two file tracking systems.
-1) Procmon based for the makefile settings
-2) in-Stata logging (so that VCS will work if working interactively).
+
+1. Procmon based for the makefile settings
+
+2. in-Stata logging (so that VCS will work if working interactively).
 References:
 http://make.mad-scientist.net/papers/advanced-auto-dependency-generation/#combine
 For LaTeX, I use latexmk since LaTeX dependencies in process might be circular.
-
-## Execution commands
--make ...

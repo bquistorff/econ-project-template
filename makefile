@@ -4,7 +4,7 @@ export PATH := $(CURDIR)/resources/bin:$(PATH)
 #Sometimes it uses /bin/sh which has a problem with picking up the better path
 SHELL := /bin/bash
 
-.PHONY: ALL clean clean-dist dep-master hide_dot_files missing-md5 update-md5
+.PHONY: ALL clean clean-dist dep-master hide_dot_files missing-md5 update-md5 remove-orphan-deps-md5
 
 ALL : 
 	@echo Some analyses make take days, so you might not want to do -make all-.

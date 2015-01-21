@@ -2,7 +2,7 @@
 
 # Could also include code to remove the parallel junk
 statab.sh do code/cli_parallel_clean.do
-rm code/cli_parallel_clean.log
+rm cli_parallel_clean.log
 rm -f code/__*
 rm -f code/l__pll*
 
