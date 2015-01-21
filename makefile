@@ -4,7 +4,7 @@ export PATH := $(CURDIR)/resources/bin:$(PATH)
 #Sometimes it uses /bin/sh which has a problem with picking up the better path
 SHELL := /bin/bash
 
-.PHONY: ALL clean clean-dist dep-master hide_dot_files
+.PHONY: ALL clean clean-dist dep-master hide_dot_files missing-md5 update-md5
 
 ALL : 
 	@echo Some analyses make take days, so you might not want to do -make all-.
@@ -34,6 +34,10 @@ update-md5:
 	for file in $$(find data fig/gph tab snippets -type f \! -name *.gitignore \! -name *.md5 | grep -v .mk); do \
 	  update_md5.sh $$file; \
 	done
+	
+remove-orphan-deps-md5:
+	remove_orphan_dotfiles.sh
+	
 	
 #Shows input-outputs of the code files.
 dep-master:
