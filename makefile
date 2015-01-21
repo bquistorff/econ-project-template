@@ -1,16 +1,10 @@
 # If you don't list all dependencies for code (because maybe it varies programmatically) then you can force a remake by doing 'make -B <target>. Note that it will remake all dependencies!
 
-# Todo: Add target to remake all .md5 files.
-
 export PATH := $(CURDIR)/resources/bin:$(PATH)
 #Sometimes it uses /bin/sh which has a problem with picking up the better path
 SHELL := /bin/bash
-# latexmk will use the MiKTeX perl, so no need to patch the LyX Perl with Stawberry Perl.
-export PERL5LIB=
 
-
-############################# Version Control ###########################
-.PHONY: post_co fullupdate vcs_updatefrom_remote vcs_addcommitlast vcs_addlast vcs_commitlast_remote ALL
+.PHONY: ALL clean clean-dist dep-master hide_dot_files
 
 ALL : 
 	@echo Some analyses make take days, so you might not want to do -make all-.
@@ -18,49 +12,30 @@ ALL :
 	@echo More likely you want to give the basename of a script in code/, like
 	@echo -make fake1- which will make sure running code/fake1.do is up to date.
 
-fullupdate : vcs_updatefrom_remote post_co
 
-post_co : install_mods epss
-
-vcs_updatefrom_remote:
-	if [ -d ".svn" ]; then \
-		svn update .; \
-	fi
-	if [ -d ".git" ]; then \
-		git pull; \
-	fi
-
-vcs_addcommitlast: vcs_addlast vcs_commitlast_remote
-
-vcs_addlast:
-	if [ -d ".svn" ]; then \
-		cat temp/lastrun/files.txt | svn add --targets -; \
-	fi
-	if [ -d ".git" ]; then \
-		cat temp/lastrun/files.txt | xargs git add; \
-	fi
-
-vcs_commitlast_remote:
-	if [ -d ".svn" ]; then \
-		cat temp/lastrun/files.txt | svn commit -m ""  --targets -; \
-	fi
-	if [ -d ".git" ]; then \
-		git commit -m "std commit"; \
-		git push ; \
-	fi
-
-
-#### Misc #####
-.PHONY: clean clean-dist dep-master hide_dot_files
 clean:
 	-cleanup-incomplete-parallel.sh; 
 	-cleanup-tests.sh;
-	-rm -f temp/*
+	-rm -f temp/* temp/lastrun/*
 	-cd writeups && latexmk -CA
 	
 clean-dist:
-	rm code/*.dep
+	-rm code/.*.dep
+	-rm writeups/*.d writeups/*.dep
 	
+missing-md5:
+	for file in $$(find data fig/gph tab snippets -type f \! -name *.gitignore \! -name *.md5 | grep -v .mk); do \
+	  if ! [ -e "$$(dirname $$file)/.$(basename $$file).md5" ]; then \
+	    update_md5.sh $$file; \
+	  fi \
+	done
+
+update-md5:
+	for file in $$(find data fig/gph tab snippets -type f \! -name *.gitignore \! -name *.md5 | grep -v .mk); do \
+	  update_md5.sh $$file; \
+	done
+	
+#Shows input-outputs of the code files.
 dep-master:
 	cat code/*.dep | grep -v "\t"
 
@@ -71,7 +46,10 @@ hide_dot_files :
 		echo "Only Windows needs Hidden attribute for dot files"; \
 	fi
 
-############## Subdirectory files ####################
+############## Separate rules files ####################
+# Should be able to have all makefiles together to make knows everything
+#  (see the Evils of Recursive Make article).
+include vcs.mk
 include code/code.mk
 include fig/fig.mk
 include tab/tab.mk

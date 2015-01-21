@@ -1,2 +1,3 @@
 Makefile:
 -Evaluate useful with waf and https://github.com/hmgaudecker/econ-project-templates
+-For some reason hiding the .gitignore file prohibits the GitHub GUI for editing it.
