@@ -45,11 +45,11 @@ def normalize_file(in_fname, newfile=False):
 	if newfile:
 		out_fname = in_fname + ".nor"
 		out_fh = open(out_fname, "wb")
-		#print "Normalizing: " + in_fname + " > " + out_fname
+		#print("Normalizing: " + in_fname + " > " + out_fname)
 	else:
 		out_fh = tempfile.NamedTemporaryFile("wb", delete=False)
 		out_fname = out_fh.name
-		#print "Normalizing: " + in_fname
+		#print("Normalizing: " + in_fname)
 
 	idnum = 1
 	replace_list = {}
@@ -127,18 +127,18 @@ def main(argv):
 	try:
 		optlist, files = getopt.getopt(argv[1:], "hn")
 	except getopt.GetoptError as err:
-		print err
+		print(err)
 		error('usage: %s [-h] [-n] files' % os.path.basename(argv[0]))
 
 	newfile = False
 	for o, a in optlist:
 		if o == "-h":
-			print "Usage: %s [-h] [-n] files"
-			print "Options:"
-			print "      -h   Print help"
-			print "      -n   Make new files with extension .nor"
-			print "Example:"
-			print "     %s fig/gph/plot1.gph fig/gph/plot2.gph" % os.path.basename(argv[0])
+			print("Usage: %s [-h] [-n] files")
+			print("Options:")
+			print("      -h   Print help")
+			print("      -n   Make new files with extension .nor")
+			print("Example:")
+			print("     %s fig/gph/plot1.gph fig/gph/plot2.gph" % os.path.basename(argv[0]))
 			sys.exit(0)
 		elif o == "-n":
 			newfile = True
