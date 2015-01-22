@@ -4,7 +4,7 @@
 #export GENDEP_DISABLE := 1
 #export GENDEP_DEBUG := 1
 export GENDEP_MD5 := 1
-export GENDEP_PROJDIR := $(CURDIR)
+#export GENDEP_PROJDIR := $(CURDIR)
 
 #nice-ness. Uncomment a line to enable. Default is add 10
 #export nice_prefix := nice
