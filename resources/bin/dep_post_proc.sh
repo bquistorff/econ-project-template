@@ -1,44 +1,34 @@
 #!/bin/bash
 # Post-processes the dep files into makefile rules:
 
-cp $1.dep $1.dep2
+
+# Reprocess the dependency info: First line unifies the two lines. Second removes a unwanted (launchers and temporary files)
+cat $1.dep | tr -d '\n' | sed -e "s/ : $1$1 //g" > $1.dep2
+cat $1.dep2 | sed -e "s/\\b$1.log\\b//g" -e "s/\(resource\|temp\)[^ ]\+//g" > $1.dep3
+echo "" >> $1.dep3
 
 #Write out comment line (because it's nice to be able to cat .*.dep and have that looknice).
 echo "# $1" > $1.dep
-
-# Reprocess the dependency info: First line unifies the two lines. Second removes a unwanted (launchers and temporary files)
-cat $1.dep2 | tr -d '\n' | sed -e "s/ : $1$1 //g" \
-	| sed -e "s/\\b$1.log\\b//g" -e "s/\(resource\|temp\)[^ ]\+//g" \
-	> $1.dep2
-echo "" >> $1.dep2
-
-#No for the prerequisites that are outputs, substitute with MD5 format
-if [ "$GENDEP_MD5" = "1" ]; then 
-	#There's only one line
-	while read line; do
-		for word in $line; do
-			#This could be refactored better
-			if  [[ $word = ":" ]] ; then
-				LINE_SECOND=1
-			fi
-			# All output dirs but log (since they are never intermediate files)
-			if  [[ $word =~ (data|fig|snippets|tab)/.* ]] ; then
-				p_dir=$(dirname $word)
-				p_fname=$(basename "$word")
-				p_md5name="${p_dir}/.${p_fname}.md5"
-				if  [[ $LINE_SECOND = "1" ]] ; then
-					echo -n "$p_md5name " >> $1.dep
-				else
-					echo -n "$word " >> $1.dep
-				fi
-			else
-				echo -n "$word " >> $1.dep
-			fi
-		done
-	done < $1.dep2
-fi
+#There's only one line
+while read line; do
+	for word in $line; do
+		if  [[ $word = ":" ]] ; then
+			#echo "Now line 2"
+			LINE_SECOND=1
+		fi
+		#echo "$word"
+		# All output dirs but log (since they are never intermediate files) 
+		# for the prerequisites that are outputs, substitute with MD5 format
+		if [[ $word =~ (data|fig|snippets|tab)/.* && "$LINE_SECOND" = "1" && "$GENDEP_MD5" = "1" ]] ; then
+			p_md5name="$(dirname $word)/.$(basename $word).md5"
+			echo -n "$p_md5name " >> $1.dep
+		else
+			echo -n "$word " >> $1.dep
+		fi
+	done
+done < $1.dep3
 echo "" >> $1.dep
-rm $1.dep2
+rm $1.dep2 $1.dep3
 
 #Write out the recipe
 echo "	st_launcher.sh code/$1" >> $1.dep

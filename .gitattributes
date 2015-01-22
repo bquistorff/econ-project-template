@@ -16,6 +16,12 @@
 *.rtf	 diff=astextplain
 *.RTF	 diff=astextplain
 
+# other
+.tex text
+.lyx text
+.dep text
+.md5 text
+
 # makefile rules
 *.mk text
 
