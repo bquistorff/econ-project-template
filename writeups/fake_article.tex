@@ -1,0 +1,55 @@
+%% LyX 2.1.2 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[english]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{geometry}
+\geometry{verbose,tmargin=3cm,bmargin=3cm,lmargin=3.5cm,rmargin=3.5cm}
+\usepackage{babel}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage[authoryear]{natbib}
+\usepackage[unicode=true,pdfusetitle,
+ bookmarks=true,bookmarksnumbered=false,bookmarksopen=false,
+ breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=false]
+ {hyperref}
+
+\makeatletter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+%Latex likes to make ligatures from ff, fi, fl which breaks text manipulation (searching and copying)
+\usepackage{microtype}
+\DisableLigatures{encoding = *, family = * }
+
+% link DOIs in references section
+\usepackage{doi}
+
+%to allow the \begin{adjustwidth}
+\usepackage[strict]{changepage}
+
+%allows a \FloatBarrier
+\usepackage{placeins}
+
+%allows you to use pbox in tables (to wrap cells with long text) (tables often via input)
+\usepackage{pbox}
+
+\makeatother
+
+\begin{document}
+
+\title{Simple}
+
+
+\author{Author}
+
+\maketitle
+\begin{figure}[H]
+\protect\caption{Scatter}
+
+
+\begin{centering}
+\includegraphics{../fig/eps/notitle/auto_scatter_notitle}
+\par\end{centering}
+
+\end{figure}
+
+\end{document}
