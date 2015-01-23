@@ -4,6 +4,9 @@ export PATH := $(CURDIR)/resources/bin:$(PATH)
 #Sometimes it uses /bin/sh which has a problem with picking up the better path
 SHELL := /bin/bash
 
+#Disable the built-in implicit rules inside of makefile
+.SUFFIXES:
+
 .PHONY: ALL clean clean-dist dep-master hide_dot_files missing-md5 update-md5 remove-orphan-deps-md5
 
 ALL : 
@@ -21,7 +24,7 @@ clean:
 	
 clean-dist:
 	-rm code/.*.dep
-	-rm writeups/*.d writeups/*.dep
+	-rm writeups/*.d writeups/.*.dep
 	
 missing-md5:
 	for file in $$(find data fig/gph tab snippets -type f \! -name *.gitignore \! -name *.md5 | grep -v .mk); do \
