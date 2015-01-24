@@ -38,7 +38,7 @@ FORCE:
 matas_in_ado := $(wildcard code/ado/*.mata)
 $(DO_SCRIPTS) : code/ado/l/lproject.mlib
 code/ado/l/lproject.mlib : $(matas_in_ado)
-	statab.sh do cli_build_proj_mlib.do; \
+	statab.sh do code/cli_build_proj_mlib.do; \
 	mv cli_build_proj_mlib.log temp/lastrun/
 	
 ### Local install entries
