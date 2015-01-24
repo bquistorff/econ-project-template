@@ -1,12 +1,27 @@
 #!/bin/bash
 #make a package-specific makefile
+#Run from the root folder
+# To do: detect STATA_PLATFORM for Mac and SOL
 
-# For now get the platform name from the environment STATA_PLATFORM
+# Determine the Platform Type if not set by STATA_PLATFORM
 # The platform names are:
 # WIN (32-bit x86) and WIN64A (64-bit x86-64) for Windows; 
 # MACINTEL (32-bit Intel, GUI), OSX.X86 (32-bit Intel, console), MACINTEL64 (64-bit Intel, GUI), OSX.X8664 (64-bit Intel, console), MAC (32-bit PowerPC), and OSX.PPC (32-bit PowerPC), for Mac; 
 # LINUX (32-bit x86), LINUX64 (64-bit x86-64), SOL64, and SOLX8664 (64-bit x86-64) for Unix.
-# To do: generate this automatically
+if [ "$STATA_PLATFORM" = "" ]; then
+	N_BITS=`getconf LONG_BIT`
+	if [ "$OS" = "Windows_NT" ]; then
+		STATA_PLATFORM=WIN
+		if [ "$N_BITS" = "64" ]; then
+			STATA_PLATFORM=WIN64A
+		fi
+	else
+		STATA_PLATFORM=LINUX
+		if [ "$N_BITS" = "64" ]; then
+			STATA_PLATFORM=LINUX64
+		fi
+	fi
+fi
 
 # Currently only dealing with locally installable files
 # (f,g) not the system installable files (F,G)
@@ -14,14 +29,23 @@
 # and don't go into ado/<>/ like the other files. Should deal
 # better with this.
 
-outfile=dep.ados
-echo "#Generated makefile" > $outfile
+outfile=code/dep.ados
+echo "#Generated makefile rules" > $outfile
+
+#See if there are any yet
+find code/ado-store -name "*.pkg" &> /dev/null
+if [  "$?" -ne "0" ]; then
+	#echo "No locally installable modules. Empty makefile rule file"
+	exit
+fi
+
 #echo ".DEFAULT_GOAL := all_modules" >> $outfile
 
 PKGFILES=code/ado-store/*/*.pkg
 
 for fullfile in $PKGFILES
 do
+	#echo "ff=$fullfile"
     filename=$(basename "$fullfile") 
     base="${filename%.*}"
     bases="$bases $base"
@@ -32,6 +56,7 @@ echo all_modules : $bases >> $outfile
 
 for fullfile in $PKGFILES
 do
+	#echo "ff=$fullfile"
     filename=$(basename "$fullfile") 
     base="${filename%.*}"
     base_letter=${base:0:1}
