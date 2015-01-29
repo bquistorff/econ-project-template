@@ -2,7 +2,9 @@
 This is a template to be used in an economics research project (it's geared towards Stata). It is designed to be highly automated and utilizes automatically dependency information between files.
 
 ## Usage
-Typically, you just use 'make fake1' to ensure code/fake1.do is up to date (only runs if inputs or code are newer than outputs). This will track the dependencies (inputs & outputs) for fake1.do. If somehow the dependencies get messed up you should be able to always do 'make fake1-force' (and you can delete the dependency info stored in code/.fake1.dep if make is complaining about that). To make papers, just use 'make writeups/fake_article.pdf'. It should even go back and run code so that dependencies are up to date.
+To use this template for your own project you can use the "Download ZIP" option. You can delete any .gitattributes or .gitignore files.
+
+Once you have it setup, you just use 'make fake1' to ensure code/fake1.do is up to date (only runs if inputs or code are newer than outputs). This will track the dependencies (inputs & outputs) for fake1.do. If somehow the dependencies get messed up you should be able to always do 'make fake1-force' (and you can delete the dependency info stored in code/.fake1.dep if make is complaining about that). To make papers, just use 'make writeups/fake_article.pdf'. It should even go back and run code so that dependencies are up to date.
 
 ## Installation
 Requirements:
@@ -15,7 +17,7 @@ Requirements:
 
 1. If you want to make SVGs: inkscape.
 
-1. Python.
+1. Python and Perl.
 
 1. Latex with latexmk
 
