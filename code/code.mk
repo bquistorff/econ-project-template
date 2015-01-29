@@ -45,7 +45,7 @@ code/ado/l/lproject.mlib : $(matas_in_ado)
 pkgs_in_ado_store := $(wildcard code/ado-store/*/*.pkg)
 
 code/dep.ados: $(pkgs_in_ado_store)
-	gen-makefile.sh
+	gen-mod-install-rules.sh
 	
 .PHONY: install_mods
 install_mods: code/dep.ados

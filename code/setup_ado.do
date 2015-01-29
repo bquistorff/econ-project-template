@@ -1,6 +1,5 @@
-*This one will already have been imported
-if `"`: environment S_ADO'"'=="" {
-	global S_ADO =`""code/ado/";BASE"'
-	net set ado code/ado
-	mata: mata mlib index
-}
+*Override the PLUS (so that -ado dir- and -ssc uninstall- work)
+sysdir set PLUS "code/ado"
+global S_ADO "PLUS;BASE"
+net set ado PLUS
+mata: mata mlib index
