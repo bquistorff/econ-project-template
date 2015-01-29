@@ -6,11 +6,12 @@
 
 gph_files := $(wildcard fig/gph/*.gph)
 gph_files_to_eps_base := $(patsubst fig/gph/%.gph,fig/eps/%.eps,$(gph_files))
-gph_files_to_eps_base_nopath := $(patsubst fig/gph/%.gph,%.eps,$(gph_files))
-gph_files_to_eps_notitle_nopath := $(patsubst fig/gph/%.gph,%_notitle.eps,$(gph_files))
+gph_files_to_pdf_base := $(patsubst fig/gph/%.gph,fig/pdf/%.pdf,$(gph_files))
+gph_files_to_pdf_notitle := $(patsubst fig/gph/%.gph,fig/pdf/notitle/%_notitle.pdf,$(gph_files))
 
-.PHONY : remove_orphan_eps epss
-epss : $(gph_files_to_eps_base)
+.PHONY : epss_of_gphs pdfs_of_gphs
+epss_of_gphs : $(gph_files_to_eps_base)
+pdfs_of_gphs : $(gph_files_to_pdf_base) $(gph_files_to_pdf_notitle)
 
 fig/eps/%.eps fig/eps/notitle/%_notitle.eps : fig/gph/%.gph
 	statab.sh do code/cli_gph_eps.do $*; \
@@ -32,7 +33,37 @@ fig/png/%.png : fig/pdf/%.pdf
 fig/svg/%.svg : fig/eps/%.eps
 	inkscape -f fig/eps/$*.eps --export-plain-svg=fig/svg/$*.svg  
 
+
+.PHONY : remove_orphan_eps
+gph_files_to_eps_base_nopath := $(patsubst fig/gph/%.gph,%.eps,$(gph_files))
+gph_files_to_eps_notitle_nopath := $(patsubst fig/gph/%.gph,%_notitle.eps,$(gph_files))
+
+#mv out the fig-related ones, then remove non-versioned.
 #the mv command below is big, so cd first to make it smaller. Should be more robust.
-remove_orphan_eps : epss
-	mkdir -p temp/eps; mkdir -p temp/eps/notitle; cd fig/eps && mv $(gph_files_to_eps_base_nopath) ../../temp/eps/ && cd notitle && mv $(gph_files_to_eps_notitle_nopath) ../../../temp/eps/notitle && cd .. && rm-non-svn.sh && mv ../../temp/eps/notitle/*.eps notitle/ && mv ../../temp/eps/*.eps && rm -rf ../../temp/eps/
+remove_orphan_eps : epss_of_gphs
+	mkdir -p temp/eps; \
+	  mkdir -p temp/eps/notitle; \
+	  cd fig/eps && mv $(gph_files_to_eps_base_nopath) ../../temp/eps/ && \
+	  cd notitle && mv $(gph_files_to_eps_notitle_nopath) ../../../temp/eps/notitle && \
+	  cd .. && rm-non-vcs.sh && \
+	  mv ../../temp/eps/notitle/*.eps notitle/ && \
+	  cd && mv ../temp/eps/*.eps eps/ && \
+	  rm -rf ../temp/eps/
+
+#Copy of the orphan_epss stuff (how to refactor)
+.PHONY : remove_orphan_pdf
+gph_files_to_eps_base_nopath := $(patsubst fig/gph/%.gph,%.pdf,$(gph_files))
+gph_files_to_eps_notitle_nopath := $(patsubst fig/gph/%.gph,%_notitle.pdf,$(gph_files))
+
+#mv out the fig-related ones, then remove non-versioned.
+#the mv command below is big, so cd first to make it smaller. Should be more robust.
+remove_orphan_eps : epss_of_gphs
+	mkdir -p temp/pdf; \
+	  mkdir -p temp/pdf/notitle; \
+	  cd fig/pdf && mv $(gph_files_to_eps_base_nopath) ../../temp/pdf/ && \
+	  cd notitle && mv $(gph_files_to_eps_notitle_nopath) ../../../temp/pdf/notitle && \
+	  cd .. && rm-non-vcs.sh && \
+	  mv ../../temp/pdf/notitle/*.pdf notitle/ && \
+	  cd .. && mv ../temp/pdf/*.pdf pdf/ && \
+	  rm -rf ../temp/pdf/
 
