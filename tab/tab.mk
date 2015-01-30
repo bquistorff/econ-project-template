@@ -30,7 +30,7 @@ tab/png/%.png : tab/pdf/%.pdf
 	$(GSEXE) -dSAFER -dBATCH -dNOPAUSE -sDEVICE=pnggray -r600 -sOutputFile=tab/png/$*.png tab/pdf/$*.pdf
 
 tab/lyx/%.lyx : tab/tex/%.tex
-	conv_tex_table_to_lyx.sh $*
+	conv_tex_table_to_lyx.sh tab/tex/$*.tex tab/lyx/$*.lyx
 
 #the mv command below is big, so cd first to make it smaller. Should be more robust.
 remove_orphan_table_formats : pdf_tables png_tables lyx_tables

@@ -1,12 +1,12 @@
 #!/bin/bash
-base=$1
-infile=tab/tex/$base.tex
-infile_tmp1=tab/tex/$base.1.tex
-infile_tmp2=tab/tex/$base.2.tex
-infile_tmp3=tab/tex/$base.3.tex
-outfile=tab/lyx/$base.lyx
-outfile_tmp1=tab/lyx/$base.1.lyx
-outfile_tmp2=tab/lyx/$base.2.lyx
+# Cleans up tables a bit so the conversion to LyX preserves some formatting
+infile=$1
+infile_tmp1=$infile.1
+infile_tmp2=$infile.2
+infile_tmp3=$infile.3
+outfile=$2
+outfile_tmp1=$outfile.1
+outfile_tmp2=$outfile.2
 
 #get rid of the totally enclosing {}, then the sym stuff
 cat $infile | grep --text -v "^[{}]$" | grep --text -v "sym#" |sed -e "s/\\\\sym{\(\**\)}/\\\\(^{\1}\\\\)/g" > $infile_tmp1
