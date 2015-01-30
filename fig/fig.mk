@@ -57,7 +57,7 @@ gph_files_to_eps_notitle_nopath := $(patsubst fig/gph/%.gph,%_notitle.pdf,$(gph_
 
 #mv out the fig-related ones, then remove non-versioned.
 #the mv command below is big, so cd first to make it smaller. Should be more robust.
-remove_orphan_eps : epss_of_gphs
+remove_orphan_pdf : pdfs_of_gphs
 	mkdir -p temp/pdf; \
 	  mkdir -p temp/pdf/notitle; \
 	  cd fig/pdf && mv $(gph_files_to_eps_base_nopath) ../../temp/pdf/ && \
