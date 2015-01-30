@@ -7,9 +7,9 @@
 fname_base=$(basename $1)
 
 if [ "$GENDEP_DISABLE" = "1" ]; then 
-	$nice_prefix R CMD BATCH $1.R
+	$nice_prefix R CMD BATCH --vanilla $1.R
 else
-	GENDEP_TARGET=$fname_base $nice_prefix dep_tracker.sh R CMD BATCH $1.R
+	GENDEP_TARGET=$fname_base $nice_prefix dep_tracker.sh R CMD BATCH --vanilla $1.R
 fi
 ret_code=$?
 
