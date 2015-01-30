@@ -5,14 +5,16 @@
 # -if md5 tracking is on, will generate those files.
 
 fname_base=$(basename $1)
+
 if [ "$GENDEP_DISABLE" = "1" ]; then 
 	$nice_prefix statab.sh $1.do; 
 else
-	
 	GENDEP_TARGET=$fname_base $nice_prefix dep_tracker.sh statab.sh $1.do
 fi
 ret_code=$?
+
 mv $fname_base.log temp/lastrun/
+
 if [ $ret_code -eq 0 ]; then
 	if [ "$GENDEP_DISABLE" != "1" ]; then 
 		dep_post_proc.sh $fname_base
@@ -27,6 +29,7 @@ if [ $ret_code -eq 0 ]; then
 			update_md5.sh $p
 		done
 	fi
-
+else
+	exit $ret_code
 fi
 
