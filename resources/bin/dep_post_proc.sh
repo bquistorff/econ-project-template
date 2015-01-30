@@ -4,7 +4,7 @@
 
 # Reprocess the dependency info: First line unifies the two lines. Second removes a unwanted (launchers and temporary files)
 cat $1.dep | tr -d '\n' | sed -e "s/ : $1$1 //g" > $1.dep2
-cat $1.dep2 | sed -e "s/\\b$1.log\\b//g" -e "s/\(resource\|temp\)[^ ]\+//g" > $1.dep3
+cat $1.dep2 | sed -e "s/\\b$1.\(log\|Rout\)\\b//g" -e "s/\(resource\|temp\)[^ ]\+//g" > $1.dep3
 echo "" >> $1.dep3
 
 #Write out comment line (because it's nice to be able to cat .*.dep and have that looknice).

@@ -64,7 +64,18 @@ pll_gateway.sh :
 	else \
 		echo "Gateway not needed on non-Windows platforms"; \
 	fi
-	
+
+
+### R scripts ####
+R_SCRIPTS := $(wildcard code/*.R)
+R_SCRIPTS_base := $(patsubst code/%.R,%,$(R_SCRIPTS))
+.PHONY : $(R_SCRIPTS_base)
+
+#Eventually wrap with dependency generation
+$(R_SCRIPTS_base):
+	GENDEP_DISABLE=1 R_launcher.sh code/$@
+
+### Include ancilary rules ###
 DEPS_SCRIPTS := $(wildcard code/.*.dep)
 -include $(DEPS_SCRIPTS)
 
