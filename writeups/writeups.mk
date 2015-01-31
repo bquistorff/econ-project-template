@@ -35,6 +35,7 @@ writeups/%.pdf : writeups/%.tex
 #Alternative (only if have LyX on all platforms)
 #writeups/%.pdf : writeups/%.lyx
 #	lyx -e pdf2 writeups/$*.lyx
-#	normalize_pdf.sh writeups/$*.pdf
+#	#normalize_pdf.sh writeups/$*.pdf
+#	#Even after normalizing this appears to change. 
  
 endif
