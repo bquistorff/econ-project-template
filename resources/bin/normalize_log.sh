@@ -56,11 +56,13 @@ if [ "$OS" = "Windows_NT" ]; then
 	temp_base=`echo "$temp_base_unesc"| sed 's|\\\\|\\\\\\\\|g'`
 	temp_base2=`echo "$temp_base_unesc2"| sed 's|\\\\|\\\\\\\\|g'`
 	prj_base=`echo "$prj_base_unesc"| sed 's|\\\\|\\\\\\\\|g'`
+	prj_base2=`echo "$prj_base_unesc"| sed 's|\\\\|/|g'`
 else
 	temp_base_unesc=$STATATMP
 	prj_base_unesc=$root_dir
 	temp_base=`echo "$temp_base_unesc"| sed 's|\/|\\\\\/|g'`
 	prj_base=`echo "$prj_base_unesc"| sed 's|\/|\\\\\/|g'`
+	prj_base2=prj_base
 fi
 
 for f in "$@"
@@ -69,6 +71,7 @@ do
 		cp $f $backup
 		#echo "Normalizing: $f (backup in $backup)"
 	fi
+	ext="${f##*.}"
     
     #On Cygwin I was getting errors with 'sed -i' like
     #sed: cannot rename temp/lastrun/sed8xOWT7: Permission denied
@@ -86,8 +89,9 @@ do
         sed -e "s/${temp_base}[^ ]\+/-normalizedtempfile-/g" $f.temp1 > $f.temp3
     fi
     #normalize machine-specific roots
-    sed -e "s/${prj_base}/-normalizedroot-/g" $f.temp3 > $f.temp4
+    sed -e "s|${prj_base}|-normalizedroot-|g" $f.temp3 > $f.temp4
+    sed -e "s|${prj_base2}|-normalizedroot-|g" $f.temp4 > $f.temp5
 
-	sed -f ${root_dir}/resources/bin/normalize_log.sed $f.temp4 > $f
-    rm -f $f.temp1 $f.temp2 $f.temp3 $f.temp4
+	sed -f ${root_dir}/resources/bin/normalize_${ext}.sed $f.temp5 > $f
+    rm -f $f.temp1 $f.temp2 $f.temp3 $f.temp4 $f.temp5
 done
