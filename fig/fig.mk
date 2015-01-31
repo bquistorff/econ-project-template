@@ -19,6 +19,7 @@ fig/eps/%.eps fig/eps/notitle/%_notitle.eps : fig/gph/%.gph
 	
 fig/pdf/%.pdf : fig/eps/%.eps
 	epstopdf --outfile=fig/pdf/$*.pdf fig/eps/$*.eps
+	normalize_pdf.sh fig/pdf/$*.pdf
 
 #fig/png/%.png fig/png/notitle/%_notitle.png : fig/gph/%.gph
 #	if [ "$$OS" = "Windows_NT" ]; then \

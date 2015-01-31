@@ -17,9 +17,11 @@ writeups/%.pdf : writeups/%.tex
 	cd writeups; cat $*.d | grep -v "\(texmf\|MiKTeX\|ProgramData\|temp\)"  > $*.d2 && mv $*.d2 $*.d
 	cd writeups; to_parent_dep.sh writeups $*.d .$*.dep
 	cd writeups; latexmk -c
+	normalize_pdf.sh writeups/$*.pdf
 #Alternative (only if have LyX on all platforms)
 #writeups/%.pdf : writeups/%.lyx
 #	lyx -e pdfl writeups/$*.lyx
+#	normalize_pdf.sh writeups/$*.pdf
 #Do we want to delete the tex files after compilation?
 #.INTERMEDIATE: writeups/fake_article.tex
 
@@ -29,8 +31,10 @@ writeups/%.tex : writeups/%.lyx
 	cd writeups && lyx -e pdflatex $*.lyx
 writeups/%.pdf : writeups/%.tex
 	cd writeups && pdflatex -interaction=nonstopmode -aux-directory=../temp $*.tex
+	normalize_pdf.sh writeups/$*.pdf
 #Alternative (only if have LyX on all platforms)
 #writeups/%.pdf : writeups/%.lyx
 #	lyx -e pdf2 writeups/$*.lyx
+#	normalize_pdf.sh writeups/$*.pdf
  
 endif
