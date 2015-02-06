@@ -1,8 +1,11 @@
 #!/bin/bash
 # Post-processes the dep files into makefile rules:
 
-
-# Unifies the two lines. Second 
+#alphabetize the order as platforms might reverse this 
+#head -1 $1.dep | sed -e "s/ *: *.\+//g" | tr " " "\n" | sort | tr "\n" " " > $1.l1
+#head -2 $1.dep | sed -e "s/.\+ *: *//g" | tr " " "\n" | sort | tr "\n" " " > $1.l2
+cp $1.dep $1.dep1
+# Unifies the two lines
 cat $1.dep | tr -d '\n' | sed -e "s/ : $1$1 //g" > $1.dep2
 #remove unwanteds (launchers and temporary files)
 cat $1.dep2 | sed -e "s/\\b$1.log\\b//g" -e "s/\(resource\|temp\)[^ ]\+//g" > $1.dep3
@@ -31,7 +34,7 @@ done < $1.dep3
 echo "" >> $1.dep
 
 if [ "$GENDEP_DEBUG" != "1" ]; then 
-	rm $1.dep2 $1.dep3
+	rm $1.dep1 $1.dep2 $1.dep3
 fi
 
 #Write out the recipe

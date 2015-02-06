@@ -4,7 +4,6 @@
 #export GENDEP_DISABLE := 1
 #export GENDEP_DEBUG := 1
 export GENDEP_MD5 := 1
-#export GENDEP_PROJDIR := $(CURDIR)
 
 #nice-ness. Uncomment a line to enable. Default is add 10
 #export nice_prefix := nice
@@ -28,7 +27,7 @@ $(DO_SCRIPTS_base):
 	$(MAKE) log/smcl/$@.smcl
 
 .PHONY : all-dos
-all-dos : $(DO_SCRIPTS_base)
+all-dos : fake1 fake2
 	
 # Allows a forcing of code to be run (might happen that dep files are out of date).
 DO_SCRIPTS_force := $(patsubst code/%.do,%-force,$(DO_SCRIPTS))
@@ -80,7 +79,7 @@ $(R_SCRIPTS_base):
 	$(MAKE) log/Rout/$@.Rout
 
 .PHONY : all-Rs
-all-Rs : $(R_SCRIPTS_base)
+all-Rs : fake3
 
 R_SCRIPTS_force := $(patsubst code/%.R,%-force,$(R_SCRIPTS))
 .PHONY : $(R_SCRIPTS_force)
