@@ -2,9 +2,10 @@
 # Post-processes the dep files into makefile rules:
 
 
-# Reprocess the dependency info: First line unifies the two lines. Second removes a unwanted (launchers and temporary files)
+# Unifies the two lines. Second 
 cat $1.dep | tr -d '\n' | sed -e "s/ : $1$1 //g" > $1.dep2
-cat $1.dep2 | sed -e "s/\\b$1.\(log\|Rout\)\\b//g" -e "s/\(resource\|temp\)[^ ]\+//g" > $1.dep3
+#remove unwanteds (launchers and temporary files)
+cat $1.dep2 | sed -e "s/\\b$1.log\\b//g" -e "s/\(resource\|temp\)[^ ]\+//g" > $1.dep3
 echo "" >> $1.dep3
 
 #Write out comment line (because it's nice to be able to cat .*.dep and have that looknice).
@@ -28,10 +29,17 @@ while read line; do
 	done
 done < $1.dep3
 echo "" >> $1.dep
-rm $1.dep2 $1.dep3
+
+if [ "$GENDEP_DEBUG" != "1" ]; then 
+	rm $1.dep2 $1.dep3
+fi
 
 #Write out the recipe
-echo "	st_launcher.sh code/$1" >> $1.dep
+if  [[ $2 = "do" ]] ; then
+	echo "	st_launcher.sh code/$1" >> $1.dep
+else
+	echo "	R_launcher.sh code/$1" >> $1.dep
+fi
 
 #Hide the file
 oldname_dir=$(dirname "$1.dep")

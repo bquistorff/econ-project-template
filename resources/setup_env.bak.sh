@@ -1,14 +1,11 @@
 #!/bin/bash
-# Must "source" this file.
-#$ source setup_env.sh
+# This is the template for setting up environment variables.
+# On a specific machine you should copy this to resources/setup_env.sh and customize appropriately
+# Then you can
+#$ source resources/setup_env.sh
 
 #General project-specific stuff (cross machine)
-export PATH=$PWD/bin:$PATH
-
-# Could set the ADO here, but want it to work interactively too, so have default in code
-#the mlibs in relative paths are only auto found if started in the correct directory
-#Otherwise -mata: mata mlib index-
-#export S_ADO="\"code/ado/\";BASE"
+export PATH=$PWD/resources/bin:$PATH
 
 #likely computer-specific and project-specific
 export UNVERSIONED_DATA=../data

@@ -17,10 +17,10 @@ mv $fname_base.log temp/lastrun/
 
 if [ $ret_code -eq 0 ]; then
 	if [ "$GENDEP_DISABLE" != "1" ]; then 
-		dep_post_proc.sh $fname_base
+		dep_post_proc.sh $fname_base do
 	fi
 	
-	normalize_last_run.sh $fname_base
+	normalize_last_run.sh $fname_base do
 
 	#make the md5 hashes
 	if [ "$GENDEP_MD5" = "1" ]; then 

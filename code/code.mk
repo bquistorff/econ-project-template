@@ -10,6 +10,12 @@ export GENDEP_MD5 := 1
 #export nice_prefix := nice
 #export nice_prefix := nice -n10
 
+
+FORCE:
+%.md5 : FORCE
+	$(MAKE) $(dir $*)$(patsubst .%,%,$(notdir $*))
+
+### Do scripts ###
 DO_SCRIPTS := $(wildcard code/*.do)
 
 #Technically the generation of a do file doesn't depend on inputs.
@@ -30,9 +36,6 @@ DO_SCRIPTS_force := $(patsubst code/%.do,%-force,$(DO_SCRIPTS))
 $(DO_SCRIPTS_force) :
 	st_launcher.sh $(patsubst %-force,code/%,$@)
 	
-FORCE:
-%.md5 : FORCE
-	$(MAKE) $(dir $*)$(patsubst .%,%,$(notdir $*))
 
 #Make sure the mlib is up to date
 matas_in_ado := $(wildcard code/ado/*.mata)
@@ -41,7 +44,7 @@ code/ado/l/lproject.mlib : $(matas_in_ado)
 	statab.sh do code/cli_build_proj_mlib.do; \
 	mv cli_build_proj_mlib.log temp/lastrun/
 	
-### Local install entries
+## Local install entries
 pkgs_in_ado_store := $(wildcard code/ado-store/*/*.pkg)
 
 code/dep.ados: $(pkgs_in_ado_store)
@@ -65,18 +68,28 @@ pll_gateway.sh :
 		echo "Gateway not needed on non-Windows platforms"; \
 	fi
 
+-include code/dep.ados
 
 ### R scripts ####
 R_SCRIPTS := $(wildcard code/*.R)
+
 R_SCRIPTS_base := $(patsubst code/%.R,%,$(R_SCRIPTS))
 .PHONY : $(R_SCRIPTS_base)
-
-#Eventually wrap with dependency generation
 $(R_SCRIPTS_base):
-	GENDEP_DISABLE=1 R_launcher.sh code/$@
+	@echo Converting to make command for the associate log file.
+	$(MAKE) log/Rout/$@.Rout
+
+.PHONY : all-Rs
+all-Rs : $(R_SCRIPTS_base)
+
+R_SCRIPTS_force := $(patsubst code/%.R,%-force,$(R_SCRIPTS))
+.PHONY : $(R_SCRIPTS_force)
+
+$(R_SCRIPTS_force):
+	R_launcher.sh $(patsubst %-force,code/%,$@)
 
 ### Include ancilary rules ###
 DEPS_SCRIPTS := $(wildcard code/.*.dep)
 -include $(DEPS_SCRIPTS)
-
--include code/dep.ados
+.PHONY : all-code
+all-code : all-dos all-Rs

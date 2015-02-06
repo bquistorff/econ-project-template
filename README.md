@@ -53,3 +53,11 @@ The automatic dependency is different by domain. For statistical code, there are
 References:
 http://make.mad-scientist.net/papers/advanced-auto-dependency-generation/#combine
 For LaTeX, I use latexmk since LaTeX dependencies in process might be circular.
+
+# Version control and normalized content
+
+Ideally output files would be the same on different platforms, but this is not always possible. Here are some caveats:
+-Logs. The contents of log/smcl/ and log/Rout are platform dependent. "Normalized" versions of their content is in the base of log/. The latter files are kept in version control (helps checking for errors) while the former are not.
+-outputs in data/*.dta and fig/gph should be platform independent. They can be under VC if you would like (saves time and may help catch errors).
+-writeups/*.pdf and fig/pdf/*.pdf should be consistent for a platform (they don't change with time) but full platform independence hasn't been verified. It's helpful to have writeups/*.pdf under VC (as it saves time).
+--Still have to check on R-made output files.

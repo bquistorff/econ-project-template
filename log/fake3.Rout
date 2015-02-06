@@ -18,9 +18,17 @@ Type 'q()' to quit R.
 
 > # Fake project script
 > code_path = "code/"
-> source(paste0(code_path,"R-project-base.R"), echo=TRUE, max.deparse.length=10000)
+> source("code/R-project-base.R", echo=TRUE, max.deparse.length=10000)
+
+> log_output_file <- function(fname) {
++     flog = paste0("temp/lastrun/", script_name, "-files.txt")
++     cat(fname, file = flog, sep = "\n", append = TRUE)
++ }
 
 > log_open <- function() {
++     flog = paste0("temp/lastrun/", script_name, "-files.txt")
++     err = try(file.remove(flog))
++     log_output_file(paste0("log/Rout/", script_name, ".Rout"))
 +     display_run_specs(c(), c("UNVERSIONED_DATA"))
 + }
 
@@ -42,6 +50,44 @@ Type 'q()' to quit R.
 +         cat(paste("LOGREMOVE ", v, ": ", Sys.getenv(v), "\n"))
 +     }
 + }
+
+> save_data <- function(data, path) {
++     log_output_file(path)
++     save(data, file = path)
++ }
+
+> save_ggraph_w_wo_title <- function(filename_base, 
++     gbeginning, gtitle, gend = NULL, wid = 6, hei = 4) {
++     fname1 = paste0("fig/pdf/", filename_base, ".pdf")
++     pdf(file = fname1, width = wid, height = hei)
++     if (is.null(gend)) 
++         try(print(gbeginning + gtitle))
++     else try(print(gbeginning + gtitle + gend))
++     dev.off()
++     log_output_file(fname1)
++     fname2 = paste0("fig/pdf/notitle/", filename_base, "_notitle.pdf")
++     pdf(file = fname2, width = wid, height = hei)
++     if (is.null(gend)) 
++         try(print(gbeginning))
++     else try(print(gbeginning + gend))
++     dev.off()
++     log_output_file(fname2)
++ }
+
+> save_graph_call_w_wo_title <- function(filename_base, 
++     base_call, wid = 6, hei = 4, ...) {
++     base_call = substitute(base_call)
++     fname1 = paste0("fig/pdf/", filename_base, ".pdf")
++     pdf(file = fname1, width = wid, height = hei)
++     eval(as.call(c(as.list(base_call), ...)))
++     dev.off()
++     log_output_file(fname1)
++     fname2 = paste0("fig/pdf/notitle/", filename_base, "_notitle.pdf")
++     pdf(file = fname2, width = wid, height = hei)
++     eval(base_call)
++     dev.off()
++     log_output_file(fname2)
++ }
 > script_name="fake3"
 > log_open()
 PWD:  -normalizedroot- 
@@ -49,8 +95,10 @@ HOSTNAME:  -normalized-
 Time:  -normalized- 
 > 
 > x = 2
-> x
-[1] 2
+> save_data(x, path="data/estimates/fake3.RData")
 > 
+> save_graph_call_w_wo_title("scatter2", 
++ 													 plot(x=mtcars$cyl, y=mtcars$disp),
++ 													 main="Main")
 > log_close()
 > 

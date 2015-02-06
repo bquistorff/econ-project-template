@@ -11,7 +11,7 @@ SHELL := /bin/bash
 
 ALL : 
 	@echo Some analyses make take days, so you might not want to do -make all-.
-	@echo If you really want to, do -make all-dos-. 
+	@echo If you really want to, do -make all-code-. 
 	@echo More likely you want to give the basename of a script in code/, like
 	@echo -make fake1- which will make sure running code/fake1.do is up to date.
 
