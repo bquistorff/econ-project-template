@@ -44,7 +44,10 @@ remove-orphan-deps-md5:
 	
 #Shows input-outputs of the code files.
 dep-master:
-	cat code/*.dep | grep -v "\t"
+	#removes logs (never intermediate files). Undoes the md5 conversion.
+	#To do: Would be nice to remove the own_code from the Inputs side.
+	@echo Outputs : Inputs
+	@cat code/.*.dep | grep -v "launcher.sh" | sed -e 's:log/[^ ]\+ ::g' -e "s:\([^ ]\+\)/\.\([^ ]\+\)\.md5:\1/\2:g"
 
 hide_dot_files :
 	if [ "$$OS" = "Windows_NT" ]; then \

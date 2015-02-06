@@ -9,7 +9,7 @@ cat $1.dep2 | sed -e "s/\\b$1.log\\b//g" -e "s/\(resource\|temp\)[^ ]\+//g" > $1
 echo "" >> $1.dep3
 
 #Write out comment line (because it's nice to be able to cat .*.dep and have that looknice).
-echo "# $1" > $1.dep
+echo "# $1.$2" > $1.dep
 #There's only one line
 while read line; do
 	for word in $line; do
