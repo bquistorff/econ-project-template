@@ -1,3 +1,3 @@
 # fake3.R
-fig/pdf/scatter2.pdf data/estimates/fake3.RData fig/pdf/notitle/scatter2_notitle.pdf log/Rout/fake3.Rout : code/R-project-base.R code/fake3.R 
+log/Rout/fake3.Rout data/estimates/fake3.RData fig/pdf/scatter2.pdf fig/pdf/notitle/scatter2_notitle.pdf : code/fake3.R code/R-project-base.R 
 	R_launcher.sh code/fake3
