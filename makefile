@@ -7,7 +7,7 @@ SHELL := /bin/bash
 #Disable the built-in implicit rules inside of makefile
 .SUFFIXES:
 
-.PHONY: ALL clean clean-dist dep-master hide_dot_files missing-md5 update-md5 remove-orphan-deps-md5
+.PHONY: ALL clean clean-dist dep-master hide_dot_files missing-md5 update-md5 remove-orphan-deps-md5 status-check
 
 ALL : 
 	@echo Some analyses make take days, so you might not want to do -make all-.
@@ -40,6 +40,20 @@ update-md5:
 	
 remove-orphan-deps-md5:
 	remove_orphan_dotfiles.sh
+
+#check what files have changed (versioned or md5ed)
+#The final echo on the last line is so there is no error when the preceding has no output
+status-check:
+	@echo ..... VC check ......
+	@if [ -d ".svn" ]; then \
+		svn status; \
+	fi
+	@if [ -d ".git" ]; then \
+		git status -s --untracked-files=no; \
+	fi
+	#All the other md5s should be intermediate files
+	#@echo ...... md5 check ......
+	#@ $(find . -name '*.md5' | xargs cat | md5sum -c | grep -v ": OK"; echo "")
 	
 	
 #Shows input-outputs of the code files.
