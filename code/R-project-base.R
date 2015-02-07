@@ -57,8 +57,8 @@ save_data <- function(data, path){
 
 #Save a ggplot2 w/ and w/o title in the appropriate folders (in PDF)
 save_ggraph_w_wo_title <-function(filename_base, gbeginning, gtitle, gend=NULL, wid=6, hei=4){
-	fname1 = paste0("fig/pdf/",filename_base, ".pdf")
-	pdf(file=fname1, width=wid, height=hei)
+	fname1 = paste0("fig/eps/",filename_base, ".eps")
+	postscript(file=fname1, width=wid, height=hei, encoding="ISOLatin1.enc", paper = "special")
 	if(is.null(gend))
 		try(print(gbeginning+gtitle))
 	else
@@ -66,8 +66,8 @@ save_ggraph_w_wo_title <-function(filename_base, gbeginning, gtitle, gend=NULL, 
 	dev.off()
 	log_output_file(fname1)
 	
-	fname2 = paste0("fig/pdf/notitle/",filename_base, "_notitle.pdf")
-	pdf(file=fname2, width=wid, height=hei)
+	fname2 = paste0("fig/eps/notitle/",filename_base, "_notitle.eps")
+	postscript(file=fname2, width=wid, height=hei, encoding="ISOLatin1.enc", paper = "special")
 	if(is.null(gend))
 		try(print(gbeginning))
 	else
@@ -75,24 +75,19 @@ save_ggraph_w_wo_title <-function(filename_base, gbeginning, gtitle, gend=NULL, 
 	dev.off()
 	log_output_file(fname2)
 }
-#library(ggplot2)
-#save_ggraph_w_wo_title(filename_base="scatter2", 
-#											 gbeginning=ggplot(mtcars, aes(x=cyl, y=disp))+
-#											 	geom_point(shape=1), 
-#											 gtitle=ggtitle("Cylinders x Displacement"))
 
 
 #Save single graph call (e.g plot but not ggplot2) w/ and w/o title in the appropriate folders (in PDF)
 save_graph_call_w_wo_title <-function(filename_base, base_call, wid=6, hei=4,...){
 	base_call = substitute(base_call)
-	fname1 = paste0("fig/pdf/",filename_base, ".pdf")
-	pdf(file=fname1, width=wid, height=hei)
+	fname1 = paste0("fig/eps/",filename_base, ".eps")
+	postscript(file=fname1, width=wid, height=hei, encoding="ISOLatin1.enc", paper = "special")
 	eval(as.call( c(as.list(base_call), ...) ))
 	dev.off()
 	log_output_file(fname1)
 	
-	fname2 = paste0("fig/pdf/notitle/",filename_base, "_notitle.pdf")
-	pdf(file=fname2, width=wid, height=hei)
+	fname2 = paste0("fig/eps/notitle/",filename_base, "_notitle.eps")
+	postscript(file=fname2, width=wid, height=hei, encoding="ISOLatin1.enc", paper = "special")
 	eval( base_call )
 	dev.off()
 	log_output_file(fname2)

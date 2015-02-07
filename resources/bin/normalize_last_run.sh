@@ -9,11 +9,6 @@ cat temp/lastrun/files.txt | grep \.dta | while read p; do
 	normalize_dta.py $p;
 done
 
-#R produces straight PDFs
-cat temp/lastrun/files.txt | grep \.pdf | while read p; do
-	normalize_pdf.sh $p;
-done
-
 
 if  [[ $2 = "do" ]] ; then
 	statab.sh do code/cli_smcl_log.do $1
