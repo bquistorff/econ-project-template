@@ -3,16 +3,11 @@
 
 #export GENDEP_DISABLE := 1
 #export GENDEP_DEBUG := 1
-export GENDEP_MD5 := 1
 
 #nice-ness. Uncomment a line to enable. Default is add 10
 #export nice_prefix := nice
 #export nice_prefix := nice -n10
 
-
-FORCE:
-%.md5 : FORCE
-	$(MAKE) $(dir $*)$(patsubst .%,%,$(notdir $*))
 
 ### Do scripts ###
 DO_SCRIPTS := $(wildcard code/*.do)

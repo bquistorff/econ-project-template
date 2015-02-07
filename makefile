@@ -4,6 +4,8 @@ export PATH := $(CURDIR)/resources/bin:$(PATH)
 #Sometimes it uses /bin/sh which has a problem with picking up the better path
 SHELL := /bin/bash
 
+export GENDEP_MD5 := 1
+
 #Disable the built-in implicit rules inside of makefile
 .SUFFIXES:
 
@@ -69,6 +71,10 @@ hide_dot_files :
 	else \
 		echo "Only Windows needs Hidden attribute for dot files"; \
 	fi
+
+FORCE:
+%.md5 : FORCE
+	$(MAKE) $(dir $*)$(patsubst .%,%,$(notdir $*))
 
 ############## Separate rules files ####################
 # Should be able to have all makefiles together to make knows everything
