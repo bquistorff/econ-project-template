@@ -25,6 +25,7 @@ if [ $ret_code -eq 0 ]; then
 	#make the md5 hashes
 	if [ "$GENDEP_MD5" = "1" ]; then 
 		#Exclude the logs because they are never intermediate files
+		#keep launchers in sync with make_deps_md5
 		cat temp/lastrun/files.txt | grep -v "log/" | while read p; do
 			update_md5.sh $p
 		done

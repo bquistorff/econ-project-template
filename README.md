@@ -19,45 +19,32 @@ Requirements:
 
 1. Python and Perl.
 
-1. Latex with latexmk
+1. (optional) Latex with latexmk
 
 1. Windows: Cygwin (with make, and maybe some other utilities).
 
 
-## Setup details (HW and installed software)
-When you instantiate this project make sure to:
-*List OS-CPU-software* combinations that have been tested
-*List any known limitations (e.g. X doesn't work on Unix)
-*List the source of software if not obvious
--e.g. Many other modules from https://raw.githubusercontent.com/bquistorff/Stata-modules/master/
-*List what environment variables must be setup:
--see resources/setup-env.bak.sh
-*Mention any non-repo resources required (websites or external data)
+# Tracking file changes
+Often you want to know whether a file has really changed. File modification timestamps howver just record the last time something was written to the file even it was the same content or insignificantly different. If you know when a file has actually changed you can monitor your workflow for errors and avoid costly down-stream estimation. Assuming we can get rid of harmless differences to get "normalized" versions of files (see below) then we can track content changes using hashes like md5. Version control systems implicitly have this built in, however I augment this setup with manual hashes for the 'make' build system. 
 
-# Tracking freshness by content not timestamps
-For some files that take a while to generate we don't want to regenerate them if harmless modifications have been done to their prerequisites. So files in data/ fig/ tab/ snippets/ are hashed (using md5 check sums) and only when those change will downstream files be remade.
-Previous references had not accounted for intermediate files well. Say code1 creates data1 and code2 reads data1. We can make data1.md5 and have that be the actual prerequisite of the code2 rule so that only when it changes will code2 be re-run. But how do we know when to run code1? Code1 may be harmlessly edited so that it is newer than data1.md5. Now asking to update the code2 process will always run code1 process. The condition for updating data1.md5 should be if code1 is newer than data1. Solve this by always "updating md5" which launches a new Make that depends only "data1:code1" which updates the md5.
-References:
-http://blog.jgc.org/2006/04/rebuilding-when-hash-has-changed-not.html
-http://stackoverflow.com/questions/8821319/make-only-build-something-if-the-sources-md5-checksum-was-changed
-http://lists.gnu.org/archive/html/bug-make/2009-09/msg00015.html
-http://www.kolpackov.net/pipermail/notes/2004-September/000011.html
-http://www.cmcrossroads.com/article/rebuilding-when-files-checksum-changes
+The 'make' build-system works strictly off of file modification timestamps. We can mould 'make' to our needs by creating md5 sentinel files to accompany intermediate files (data and text for estimation; text, tables, and PDFs for writeups). Then we simply re-write make dependency rules so that required files become the md5 sentinels which are then only updated when real content changes. While this idea has been noted before [1](http://blog.jgc.org/2006/04/rebuilding-when-hash-has-changed-not.html) [2](http://stackoverflow.com/questions/8821319/make-only-build-something-if-the-sources-md5-checksum-was-changed) [3] (http://lists.gnu.org/archive/html/bug-make/2009-09/msg00015.html) [4](http://www.kolpackov.net/pipermail/notes/2004-September/000011.html) [5](http://www.cmcrossroads.com/article/rebuilding-when-files-checksum-changes) my solution deals well with intermediate files (suppose code1->intermediate->code2, so we have a modified rule that code2 depends on intermediate.md5 and when check if intermediate.md5 is up-to-date we relaunch make to check if intermediate needs to be updated from code1 and if so re-make intermediate.md5 in the process).
 
-# Automatic Dependencies
-The automatic dependency is different by domain. For statistical code, there are two file tracking systems.
+All direct outputs of estimation are md5 tracked. This behaviour is controlled by GENDEP_MD5.
 
-1. Procmon based for the makefile settings
+# Makefile dependency generation
+I use gendep/wingendep based for the generation of makefile rules for the code and for LaTeX I use latexmk since LaTeX dependencies in process might be circular. They create .file.dep files with makefile rules that are hidden. This is controlled by GENDEP_DISABLE. Then a requirement points to a folder that contains direct estimation output this is converted to the md5 sentinel file.
 
-2. in-Stata logging (so that VCS will work if working interactively).
-References:
-http://make.mad-scientist.net/papers/advanced-auto-dependency-generation/#combine
-For LaTeX, I use latexmk since LaTeX dependencies in process might be circular.
+# Last-run tracking
+Sometimes you just want to do something with the last run (e.g. maybe you don't want to commit all changes just from the last estimation). If you are running interactively then you can't just get the list of outputs from the code.dep file. Therefore in Stata and R I have file output saving wrapping functions that track the files outputted by the last and save the results to temp/lastrun/
 
-# Version control and normalized content
-
+# File normalization #
 Ideally output files would be the same on different platforms, but this is not always possible. Here are some caveats:
--Logs. The contents of log/smcl/ and log/Rout are platform dependent. "Normalized" versions of their content is in the base of log/. The latter files are kept in version control (helps checking for errors) while the former are not.
--outputs in data/*.dta and fig/gph should be platform independent. They can be under VC if you would like (saves time and may help catch errors).
--writeups/*.pdf and fig/pdf/*.pdf should be consistent for a platform (they don't change with time) but full platform independence hasn't been verified. It's helpful to have writeups/*.pdf under VC (as it saves time).
---Still have to check on R-made output files.
+
+-Logs. The contents of log/smcl/ and log/Rout are platform dependent. "Normalized" versions of their content are in the base of log/. The latter files are kept in version control while the former are not.
+
+-Stata: outputs in data/*.dta and fig/gph/* are normalized in-place to be platform independent. They can be under VC if you would like (you might not want to if the data are big and constantly changing). (I don't know how to normalize Stata eps, and stata can't produce PDF on all platforms).
+-R: outputs in data/*.RData and fig/eps/* are platform independent. They can be under VC if you would like (you might not want to if the data are big and constantly changing). (I don't know how to make the PDFs platform independent).
+
+-It's helpful to have writeups/*.pdf under VC (as it saves time checking the history). To do this all the writeups/*.pdf and fig/pdf/*.pdf are normalized in-place to be consistent for a platform (they don't change with time).
+
+-To do: PNG and SVG normalization
