@@ -1,3 +1,1 @@
-writeups/fake_article.pdf writeups/fake_article.d :\
-    fig/pdf/notitle/auto_scatter_notitle.pdf\
-    writeups/fake_article.tex
+writeups/fake_article.pdf writeups/fake_article.d : fig/pdf/notitle/auto_scatter_notitle.pdf writeups/fake_article.tex 
