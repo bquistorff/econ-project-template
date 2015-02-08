@@ -1,6 +1,7 @@
 #Basics for all scripts. Preferences etc.
 
-#Do you have packages. Then look into http://rstudio.github.io/packrat/
+.libPaths(paste0(getwd(),"/code/Rlib"))
+
 #Global: script_name
 
 log_output_file <-function(fname){
