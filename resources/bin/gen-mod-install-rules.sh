@@ -33,8 +33,8 @@ outfile=code/dep.ados
 echo "#Generated makefile rules" > $outfile
 
 #See if there are any yet
-find code/ado-store -name "*.pkg" &> /dev/null
-if [  "$?" -ne "0" ]; then
+npkgs=$(find code/ado-store -name "*.pkg" | wc -l)
+if [  "$npkgs" -eq "0" ]; then
 	#echo "No locally installable modules. Empty makefile rule file"
 	exit
 fi
