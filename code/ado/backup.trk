@@ -1,0 +1,68 @@
+* 00000004
+*! version 1.0.0
+* Do not erase or edit this file
+* It is used by Stata to track the ado and help
+* files you have installed.
+
+S https://raw.github.com/bquistorff/Stata-modules/master/d
+N display_run_specs.pkg
+D 11 Feb 2015
+U 1
+d 'display_run_specs': module
+d 
+d   Lists installation details necessarily for numerical
+d replication
+d 
+d Distribution-Date: 01feb2015
+d 
+f d\display_run_specs.ado
+e
+S http://fmwww.bc.edu/repec/bocode/n
+N normalizepath.pkg
+D 11 Feb 2015
+U 2
+d 'NORMALIZEPATH': module  to parse (and normalize) files' paths
+d 
+d   normalizepath parses a filename and returns (in r()) the file
+d name, extension, location (directory) and fullpath.
+d 
+d KW: file management
+d KW: parsing
+d 
+d Requires: Stata version 9
+d 
+d Distribution-Date: 20130318
+d 
+d Author: George Vega Yon , Superintendencia de Pensiones, Chile
+d Support: email gvega@@spensiones.cl
+d 
+f n\normalizepath.ado
+f n\normalizepath.sthlp
+e
+S https://raw.github.com/bquistorff/Stata-modules/master/w
+N wrap_text.pkg
+D 11 Feb 2015
+U 3
+d 'wrap_text': module
+d 
+d   Simple utility to wrap a long line of text into blocks
+d delimited by double-quotes so that the whole string can
+d be passed to a Stata routine that interprets this as separate
+d lines (e.g. -twoway-)
+d 
+d Distribution-Date: 01feb2015
+d 
+f w\wrap_text.ado
+e
+S https://raw.github.com/bquistorff/Stata-modules/master/p
+N print_dots.pkg
+D 11 Feb 2015
+U 4
+d 'print_dots': module
+d 
+d   Prints a simple progress bar along with periodic time estimates.
+d 
+d Distribution-Date: 01feb2015
+d 
+f p\print_dots.ado
+e
