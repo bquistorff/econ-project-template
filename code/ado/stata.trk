@@ -15,7 +15,7 @@ d replication
 d 
 d Distribution-Date: 01feb2015
 d 
-f d\display_run_specs.ado
+f d/display_run_specs.ado
 e
 S http://fmwww.bc.edu/repec/bocode/n
 N normalizepath.pkg
@@ -36,8 +36,8 @@ d
 d Author: George Vega Yon , Superintendencia de Pensiones, Chile
 d Support: email gvega@@spensiones.cl
 d 
-f n\normalizepath.ado
-f n\normalizepath.sthlp
+f n/normalizepath.ado
+f n/normalizepath.sthlp
 e
 S https://raw.github.com/bquistorff/Stata-modules/master/w
 N wrap_text.pkg
@@ -52,7 +52,7 @@ d lines (e.g. -twoway-)
 d 
 d Distribution-Date: 01feb2015
 d 
-f w\wrap_text.ado
+f w/wrap_text.ado
 e
 S https://raw.github.com/bquistorff/Stata-modules/master/p
 N print_dots.pkg
@@ -64,7 +64,7 @@ d   Prints a simple progress bar along with periodic time estimates.
 d 
 d Distribution-Date: 01feb2015
 d 
-f p\print_dots.ado
+f p/print_dots.ado
 e
 S https://raw.github.com/gvegayon/parallel/master
 N parallel.pkg
@@ -111,13 +111,13 @@ d
 d Author: George Vega Yon , California Institute of Technology, USA
 d Support: email gvegayon@@caltech.edu
 d 
-f p\parallel.ado
-f p\parallel_append.ado
-f p\parallel_bs.ado
-f p\parallel_sim.ado
-f p\parallel.sthlp
-f p\parallel_source.sthlp
-f l\lparallel.mlib
+f p/parallel.ado
+f p/parallel_append.ado
+f p/parallel_bs.ado
+f p/parallel_sim.ado
+f p/parallel.sthlp
+f p/parallel_source.sthlp
+f l/lparallel.mlib
 e
 S https://raw.github.com/bquistorff/Stata-modules/master/c
 N clear_all.pkg
@@ -129,5 +129,5 @@ d   Really resets everything (-clear all- doesn't clear all)
 d 
 d Distribution-Date: 11feb2015
 d 
-f c\clear_all.ado
+f c/clear_all.ado
 e
