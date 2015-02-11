@@ -1,4 +1,4 @@
-* 00000005
+* 00000006
 *! version 1.0.0
 * Do not erase or edit this file
 * It is used by Stata to track the ado and help
@@ -118,4 +118,16 @@ f p\parallel_sim.ado
 f p\parallel.sthlp
 f p\parallel_source.sthlp
 f l\lparallel.mlib
+e
+S https://raw.github.com/bquistorff/Stata-modules/master/c
+N clear_all.pkg
+D 11 Feb 2015
+U 6
+d 'clear_all': module
+d 
+d   Really resets everything (-clear all- doesn't clear all)
+d 
+d Distribution-Date: 11feb2015
+d 
+f c\clear_all.ado
 e
