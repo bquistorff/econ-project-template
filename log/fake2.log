@@ -1,0 +1,34 @@
+--------------------------------------------------------------------------------------------------------------------------------------------
+      name:  fake2
+       log:  -normalizedroot-/log/smcl/fake2.smcl
+  log type:  smcl
+ opened on:  -normalized-
+                  c(os) = -normalized-
+               c(osdtl) = -normalized-
+        c(machine_type) = -normalized-
+           c(byteorder) = -normalized-
+              c(flavor) = -normalized-
+            c(hostname) = "Lenovo-BQ"
+                 c(pwd) = "-normalizedroot-"
+       c(stata_version) = -normalized-
+          c(processors) = -normalized-
+
+. 
+. * Content
+. use ${dir_base}/data/clean/auto2.dta
+(1978 Automobile Data)
+
+. 
+. twoway (scatter price mpg)
+
+. save_fig auto_scatter
+(file ./fig/gph/auto_scatter.gph saved)
+
+. 
+. * Footer
+. log close `do_name'
+      name:  fake2
+       log:  -normalizedroot-/log/smcl/fake2.smcl
+  log type:  smcl
+ closed on:  -normalized-
+--------------------------------------------------------------------------------------------------------------------------------------------

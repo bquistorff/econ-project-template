@@ -91,12 +91,11 @@ build/
 *.tlh
 *.tmp
 *.tmp_proj
-*.log
+#*.log
 *.vspscc
 *.vssscc
 .builds
 *.pidb
-*.log
 *.scc
 
 # Visual C++ cache files
