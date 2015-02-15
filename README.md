@@ -26,7 +26,7 @@ Requirements:
 ### Using packages
 This project is setup to load R/Stata packages from project-specific folders.
 
-Stata repositories don't track versions of packages, so not only should the package files be in the project, they should also be under version control. To install a new package that is platform independent, inside Stata run setup_ado.do and then install normally from inside. Then run `normalize_trks.sh code/ado` and add the new files to VC. To install a package that is platform dependent do `cd code/ado-store` and then use `store-mod-install-files.sh` (instructions at top of file).
+Stata repositories don't track versions of packages, so not only should the package files be in the project, they should also be under version control. To install a new package that is platform independent, inside Stata run setup_ado.do and then install normally from inside. Then run `normalize_trks.sh code/ado/stata.trk` and add the new files to VC. To install a package that is platform dependent do `cd code/ado-store` and then use `store-mod-install-files.sh` (instructions at top of file). You may also want to install net_install from [here](https://github.com/bquistorff/Stata-modules)
 
 For R packages, repositories (e.g. CRAN) keep old histories so you can have the packages in the project folder but not under version control (because many are non platform-independent). See Rlib-management.R. If you have packages that aren't from a repository that stores version history then you should setup your own local CRAN (see the miniCRAN package) which would be under version control.
 
