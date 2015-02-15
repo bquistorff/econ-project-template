@@ -58,8 +58,14 @@ status-check:
 	#@ $(find . -name '*.md5' | xargs cat | md5sum -c | grep -v ": OK"; echo "")
 	
 status-check-last:
-	#use " -uno" after status to just show the versioned ones
-	last_status.sh | xargs git status -s
+	@echo ..... VC check ......
+	@if [ -d ".svn" ]; then \
+		last_status.sh | xargs svn status; \
+	fi
+	#use " -uno" after git status to just show the versioned ones
+	@if [ -d ".git" ]; then \
+		last_status.sh | xargs git status -s; \
+	fi
 	
 	
 #Shows input-outputs of the code files.
