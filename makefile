@@ -9,7 +9,7 @@ export GENDEP_MD5 := 1
 #Disable the built-in implicit rules inside of makefile
 .SUFFIXES:
 
-.PHONY: ALL clean clean-dist dep-master hide_dot_files missing-md5 update-md5 remove-orphan-deps-md5 status-check
+.PHONY: ALL clean clean-dist dep-master hide_dot_files missing-md5 update-md5 remove-orphan-deps-md5 status-check status-check-last
 
 ALL : 
 	@echo Some analyses make take days, so you might not want to do -make all-.
@@ -56,6 +56,10 @@ status-check:
 	#All the other md5s should be intermediate files
 	#@echo ...... md5 check ......
 	#@ $(find . -name '*.md5' | xargs cat | md5sum -c | grep -v ": OK"; echo "")
+	
+status-check-last:
+	#use " -uno" after status to just show the versioned ones
+	last_status.sh | xargs git status -s
 	
 	
 #Shows input-outputs of the code files.
