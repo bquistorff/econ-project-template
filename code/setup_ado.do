@@ -1,4 +1,4 @@
-*Override the PLUS (so that -ado dir- and -ssc uninstall- work)
+*Override the PLUS (so that -ado dir-, -adoupdate-, and -ssc uninstall- work)
 *  this is better than setting the env var S_ADO
 *Could put this in a .profile in the root, but want this to work interactively on Windows.
 sysdir set PLUS "code/ado"
