@@ -49,7 +49,7 @@ install_mods: code/dep.ados
 	$(MAKE) all_modules
 
 #Windows parallel gateway
-# hould be handled by autodependency
+# should be handled by autodependency
 # from $grep -r eval_synth . --include="*.do"
 #DO_SCRIPTS_needing_pll := 
 DO_TARGETS_needing_pll := $(patsubst %,log/smcl/%.smcl,$(DO_SCRIPTS_needing_pll))
