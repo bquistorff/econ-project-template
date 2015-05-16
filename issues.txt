@@ -1,3 +1,15 @@
 Makefile:
 -Evaluate useful with waf and https://github.com/hmgaudecker/econ-project-templates
--For some reason hiding the .gitignore file prohibits the GitHub GUI for editing it.
+
+remove the track-file crap (brach off). do a command to list just the deps, and list all changed since last program start.
+note how the folder structure could be modified of econ-project-template
+get econ-project-template to not use .*.dep's that have no rule
+Automake a dta flow file.
+
+Matlab:
+-test dependency tracking. finish m_launcher
+-See about normalizing files easily (blanking header)
+-Finish putting in graphics rules.
+
+Stata:
+-Anthing to be done for .ster (estimates save) and .mmat files. The former look like re-packaged versions of the later (-estimates save- came in v10 after Mata in v9). See http://www.statalist.org/forums/forum/general-stata-discussion/general/2952-can-i-save-estimation-results-to-be-used-with-older-versions-of-stata
