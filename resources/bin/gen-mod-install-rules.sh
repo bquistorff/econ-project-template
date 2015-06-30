@@ -29,7 +29,7 @@ fi
 # and don't go into ado/<>/ like the other files. Should deal
 # better with this.
 
-outfile=code/dep.ados
+outfile=code/ados.dep
 echo "#Generated makefile rules" > $outfile
 
 #See if there are any yet
