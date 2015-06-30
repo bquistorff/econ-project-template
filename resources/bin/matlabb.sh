@@ -8,4 +8,4 @@ filename=$(basename "$1")
 fname_base="${filename%.*}"
 fdir=$(dirname "$1")
 matlab -nodesktop -wait -nosplash -noFigureWindows -r "cd $fdir; try; $fname_base; catch err; disp(err); disp(err.message); disp(err.identifier); exit(1); end; exit(0);" > /dev/null
-# could have the following before the ">": -logfile log/Mout/$fname_base.Mout
+# could have the following before the ">": -logfile log/m/$fname_base.log
