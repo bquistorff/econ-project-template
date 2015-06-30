@@ -1,3 +1,16 @@
+General: 
+-make dependencies tracking be an env var that makefile only sets if unset (and have it be more fault tolerant). 
+-Merge better the R/m/do utils. ie merge the *_launcher code and separate out the post-stuff.
+-pass around real filename rather than extensionless versions (e.g. for the launcher).
+-Test stuff on a real project.  
+-Update blog about new testing procedure.
+-logs: Write up that usually do logs inside scripts (so that you get them when running interactively). This is fine except for R (make sure this doesn't work well, look more into).
+
+Implement in R/Matlab: 
+-parallelization
+-saving graphing info before backending.
+-Show bring prefs in from pref-file.
+
 Makefile:
 -Evaluate useful with waf and https://github.com/hmgaudecker/econ-project-templates
 

@@ -46,7 +46,7 @@ Sometimes you just want to do something with the last run (e.g. maybe you don't 
 # File normalization #
 Ideally output files would be the same on different platforms, but this is not always possible. Here are some caveats:
 
--Logs. The contents of `log/smcl/` and `log/Rout` are platform dependent. "Normalized" versions of their content are in the base of log/. The latter files are kept in version control while the former are not.
+-Logs. The contents of `log/*/` are platform dependent. "Normalized" versions of their content are in the base of log/. The latter files are kept in version control while the former are not.
 
 -Stata: outputs in `data/*.dta` and `fig/gph/*` are normalized in-place to be platform independent. They can be under VC if you would like (you might not want to if the data are big and constantly changing). (I don't know how to normalize Stata eps, and stata can't produce PDF on all platforms).
 

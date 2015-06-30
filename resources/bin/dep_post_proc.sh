@@ -1,39 +1,49 @@
 #!/bin/bash
-# Post-processes the (win)gendep files into nicer makefile rules:
+# Post-processes the dep files into makefile rules:
 
-cp $1.dep $1.dep1
-# Unifies the two lines
-cat $1.dep1 | tr -d '\n' | sed -e "s/ : $1$1 //g" > $1.dep2
-#remove unwanteds (launchers and temporary files)
-cat $1.dep2 | sed -e "s/\\b$1.log\\b//g" -e "s/\(resource\|temp\)[^ ]\+//g" > $1.dep3
+
+# Reprocess the dependency info: First removes a unwanted (launchers and temporary files). Second line unifies the two lines
+#exit 0
+cp $1.dep $1.$2.bak.dep
+cat $1.dep | sed -e "s/\\b$1.log.extra\\b//g" -e "s/^$1.log \\b//g" -e "s/\(resource\|temp\)[^ ]\+//g" > $1.dep2
+cat $1.dep2 | tr -d '\n' | sed -e "s/ : $1$1 //g" > $1.dep3
 echo "" >> $1.dep3
 
-if [[ "$GENDEP_MD5" = "1" ]] ; then
-	make_deps_md5.sh $1.dep3 $1.dep4
-	mv $1.dep4 $1.dep3
-fi
-
 #Write out comment line (because it's nice to be able to cat .*.dep and have that looknice).
-echo "# $1.$2" > $1.dep
-cat $1.dep3 >> $1.dep
+echo "## $1.$2" > $1.dep
+
+# Keep around they dyad data (un processify it)
+cat $1.dep2 | sed -e "s/: \([^ .]\+$\)/: code\/\1.$2/" -e "s/^[^ \.]\+ : \+\([^ ]\+ \)/\1: /g" | sed -e "s/^/# /g" >> $1.dep
+
+#There's only one line
+while read line; do
+	for word in $line; do
+		if  [[ $word = ":" ]] ; then
+			#echo "Now line 2"
+			LINE_SECOND=1
+		fi
+		#echo "$word"
+		# All output dirs but log (since they are never intermediate files) 
+		# for the prerequisites that are outputs, substitute with MD5 format
+		if [[ $word =~ (data|fig|snippets|tab)/.* && "$LINE_SECOND" = "1" && "$GENDEP_MD5" = "1" ]] ; then
+			p_md5name="$(dirname $word)/.$(basename $word).md5"
+			echo -n "$p_md5name " >> $1.dep
+		else
+			echo -n "$word " >> $1.dep
+		fi
+	done
+done < $1.dep3
 echo "" >> $1.dep
+rm $1.dep3 $1.$2.bak.dep $1.dep2
 
 #Write out the recipe
-if  [[ $2 = "do" ]] ; then
-	echo "	st_launcher.sh code/$1" >> $1.dep
-else
-	echo "	R_launcher.sh code/$1" >> $1.dep
-fi
+echo "	st_launcher.sh code/$1" >> $1.dep
 
 #Hide the file
-oldname_dir=$(dirname "$1.dep")
-oldname_fname=$(basename "$1.dep")
+oldname_dir=$(dirname "$1.$2.dep")
+oldname_fname=$(basename "$1.$2.dep")
 newname=${oldname_dir}/code/.${oldname_fname}
 mv $1.dep $newname
 if [ "$OS" = "Windows_NT" ]; then
 	ATTRIB +H $newname
-fi
-
-if [ "$GENDEP_DEBUG" != "1" ]; then 
-	rm $1.dep1 $1.dep2 $1.dep3
 fi

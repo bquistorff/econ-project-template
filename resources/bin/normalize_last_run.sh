@@ -11,12 +11,11 @@ done
 
 
 if  [[ $2 = "do" ]] ; then
-	statab.sh do code/cli_smcl_log.do $1
-	mv cli_smcl_log.log temp/lastrun/
+	cp log/do/$1.log log/$1.log #do I need this?
 	normalize_log.sh -r . log/$1.log
-	sed -e 's:\.smcl:\.log:g' -e 's:smcl/::g' -i temp/lastrun/files.txt
+	sed -e 's:do/::g' -i temp/lastrun/files.txt
 else
-	normalize_log.sh -r . log/$1.Rout
-	sed -e 's:Rout/::g' -i temp/lastrun/files.txt
+	normalize_log.sh -r . log/$1.log
+	sed -e 's:R/::g' -i temp/lastrun/files.txt
 fi
 
