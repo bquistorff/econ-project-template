@@ -1,4 +1,4 @@
-* 00000006
+* 00000008
 *! version 1.0.0
 * Do not erase or edit this file
 * It is used by Stata to track the ado and help
@@ -130,4 +130,31 @@ d
 d Distribution-Date: 11feb2015
 d 
 f c/clear_all.ado
+e
+S C:\Users\Brian\Documents\GitHub\Stata-modules\s
+N save12.pkg
+D  2 Mar 2015
+U 7
+d 'save12': module
+d 
+d   In environments where stata12 and 13 are possible, always save in v12 format
+d Also provides a wrapper to easily switch to a "testing" mode where different filenames
+d are saved/loaded.
+d 
+d Distribution-Date: 02mar2015
+d 
+f s\save12.ado
+f u\use12.ado
+e
+S C:\Users\Brian\Documents\GitHub\Stata-modules\g
+N get_config_value.pkg
+D 30 Apr 2015
+U 8
+d 'get_config_value': module
+d 
+d   Allows you to store preferences separate from code
+d 
+d Distribution-Date: 01apr2015
+d 
+f g\get_config_value.ado
 e
