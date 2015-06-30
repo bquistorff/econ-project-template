@@ -2,6 +2,8 @@
 # Wrapper for Stata batch-mode which:
 #  -issues an informative error msg and appropriate (possibly non-zero) return code
 #  -allows an implicit -do- when called with just a do file
+#  -fixes timezone when run under Cygwin
+#  -remove the forced-generated log file
 # Requirements: set $STATABATCH (e.g. 'stata-mp -b')
 
 # updated from Phil Schumm's version at https://gist.github.com/pschumm/b967dfc7f723507ac4be
@@ -27,6 +29,13 @@ else
     log="stata.log"    
 fi
 
+#MSVC-compiled programs run under Cygwin can't interpret the TZ
+# var correctly so wrongly return UTC/GMT. Solution: unset TZ for this shell
+# http://stackoverflow.com/questions/11655003/
+if [ "$OS" = "Windows_NT" ]; then
+	unset TZ
+fi
+
 # in batch mode, normally nothing sent to stdout
 # but plugins can and some generate lots of comments
 $STATABATCH $cmd "$@" 2>&1 | tail -100 > $log.extra
@@ -38,14 +47,14 @@ then rm $log.extra
 fi
 
 #Return the real error by checking the log
-if [ $rc != "0" ]
+if [ $rc == "0" ]
 then
-    exit $rc
-else
     # use --max-count to avoid matching final line ("end of do-file") when
     # do-file terminates with error
     if egrep --before-context=1 --max-count=1 "^r\([0-9]+\);$" "$log"
     then
-        exit 1
+        rc=1
     fi
 fi
+rm "$log"
+exit $rc
