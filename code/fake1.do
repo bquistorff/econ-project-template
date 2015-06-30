@@ -1,17 +1,12 @@
 * Description: Blah
 
 *Header
-do code/setup_ado.do
-clear_all
-qui include "code/proj_prefs.do"
-
 local do_name fake1
-log_open `do_name'
+include ${main_root}code/proj_header.do
 
 * Content
-use ${dir_base}/data/clean/auto.dta
+use ${main_root}/data/clean/auto.dta
 replace price=2*price 
-save12 ${dir_base}/data/clean/auto2.dta, replace
+save12 data/clean/auto2.dta, replace
 
-* Footer
-log close `do_name'
+include ${main_root}code/proj_footer.do
