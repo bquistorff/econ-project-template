@@ -9,7 +9,7 @@ export GENDEP_MD5 := 1
 #Disable the built-in implicit rules inside of makefile
 .SUFFIXES:
 
-.PHONY: ALL clean clean-dist dep-master hide_dot_files missing-md5 update-md5 remove-orphan-deps-md5 status-check status-check-last
+.PHONY: ALL clean clean-dist dep-master dep-graph hide_dot_files missing-md5 update-md5 remove-orphan-deps-md5 status-check status-check-last
 
 ALL : 
 	@echo Some analyses make take days, so you might not want to do -make all-.
@@ -69,11 +69,18 @@ status-check-last:
 	
 	
 #Shows input-outputs of the code files.
+#currently using github.com/lindenb/makefile2dot
+#Other options: github.com/lindenb/makefile2graph, metacpan.org/pod/Makefile::GraphViz, metacpan.org/pod/GraphViz::Makefile
 dep-master:
 	#removes logs (never intermediate files). Undoes the md5 conversion.
 	#To do: Would be nice to remove the own_code from the Inputs side.
 	@echo Outputs : Inputs
 	@cat code/.*.dep | grep -v "launcher.sh" | sed -e 's:log/[^ ]\+ ::g' -e "s:\([^ ]\+\)/\.\([^ ]\+\)\.md5:\1/\2:g"
+
+#If you are on cygwin you will need graphviz (and I think fontconfig and a vector font like the Vera ones)
+dep-graph:
+	cat code/.*.dep | grep "^# " | sed -e "s/# //g" | sed -e "s/ code\\/\\(ado\\|m\\|Rlib\\)[^ ]\\+//g" -e "s/^log[^ ]\\+ //g" > temp/dep_graph.mk
+	python resources/bin/makefile2dot.py < temp/dep_graph.mk |dot -Tpdf > temp/dep_graph.pdf
 
 hide_dot_files :
 	if [ "$$OS" = "Windows_NT" ]; then \
