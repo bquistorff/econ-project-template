@@ -1,11 +1,11 @@
 #! /bin/bash
-# Launches Stata with the following features:
-# -if dependency tracking is desired, will trace the Stata process
+# Launches R with the following features:
+# -if dependency tracking is desired, will trace the R process
 # -Will normalize the output files
 # -if md5 tracking is on, will generate those files.
 
 fname_base=$(basename $1)
-R_cmd="R CMD BATCH --vanilla --no-timing $1.R log/Rout/$fname_base.Rout"
+R_cmd="R CMD BATCH --vanilla --no-timing $1.R log/R/$fname_base.log"
 
 if [ "$GENDEP_DISABLE" = "1" ]; then 
 	$nice_prefix $R_cmd
@@ -19,7 +19,7 @@ if [ $ret_code -eq 0 ]; then
 		dep_post_proc.sh $fname_base R
 	fi
 	
-	cp log/Rout/$fname_base.Rout log/
+	cp log/R/$fname_base.log log/
 	normalize_last_run.sh $fname_base R
 
 	#make the md5 hashes
@@ -30,6 +30,6 @@ if [ $ret_code -eq 0 ]; then
 			update_md5.sh $p
 		done
 	fi
-else
-	exit $ret_code
 fi
+
+exit $ret_code

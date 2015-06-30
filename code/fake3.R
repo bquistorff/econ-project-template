@@ -1,5 +1,4 @@
 # Fake project script
-code_path = "code/"
 source("code/R-project-base.R", echo=TRUE, max.deparse.length=10000)
 script_name="fake3"
 log_open()

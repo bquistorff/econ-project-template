@@ -42,7 +42,7 @@ InstallOldPackage <- function(pkg, version,
 #export_pkglist <- function(){
 #	installed = installed.packages(lib.loc=.libPaths()[1])[,c("Package", "Version")]
 # #Sort by dependency!
-#	save(installed, file="code/Rlib/pkgs.RData")
+#	saveRDS(installed, file="code/Rlib/pkgs.RData")
 #}
 
 update_pkgs_from_pkglist <- function(){
