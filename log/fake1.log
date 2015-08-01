@@ -1,7 +1,8 @@
---------------------------------------------------------------------------------------------------------------------------------------------
-      name:  fake1
-       log:  -normalizedroot-/log/smcl/fake1.smcl
-  log type:  smcl
+------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  -normalizedroot-/log/d
+> o/fake1.log
+  log type:  text
  opened on:  -normalized-
                   c(os) = -normalized-
                c(osdtl) = -normalized-
@@ -9,26 +10,203 @@
            c(byteorder) = -normalized-
               c(flavor) = -normalized-
             c(hostname) = "Lenovo-BQ"
-                 c(pwd) = "-normalizedroot-"
+                 c(pwd) = "C:\Users\Brian\Documents\GitHub\econ-project-
+> template"
        c(stata_version) = -normalized-
           c(processors) = -normalized-
+.         if ${testing} cd ../..
+. }
 
 . 
+. clear_all //use all globals and passed in locals before this!
+
+. *Could try to restore do_name from -log query-,-return list- and parse
+>  filename
+. 
+. *Roots should be absolute and include final folder slash so that in ca
+> se it's blank we get relative paths
+. global main_root "`c(pwd)'/"
+
+. global testing_root "`c(pwd)'/temp/testing/"
+
+. 
+. get_config_value testing, global(testing) default(0) //re-get
+get_config_value: testing=0
+
+. if ${testing} cd temp/testing/
+
+. 
+. include "${main_root}code/proj_prefs.do" //needs $main_root
+
+. *Preferences
+. 
+. * include proj_prefs.do //more/trace are local only so have to "includ
+> e" not "do"
+. 
+. version 12.1
+
+. set matsize 10000
+
+. set more off
+
+. set linesize 140
+
+. set scheme s2mono
+
+. mata: mata set matafavor speed
+
+. set matalnum on
+
+. set varabbrev off
+
+. set tracedepth 1
+
+. 
+. *Defaults
+. set seed 1337
+
+. set sortseed 123456 //undocumented. Makes normal sort stable
+
+. global try_stata12 = 1
+
+. if ("${testing}"=="") global testing = 0
+
+. if ("${verbose}"=="") global verbose = 0
+
+. 
+. global main_root "`c(pwd)'/"
+
+. if ${testing}{
+.         pause on
+.         set trace on
+.         
+.         *get the testing dir
+.         global testing_root `: environment TESTING_ROOT'
+.         if "$testing_root"=="" global testing_root "temp"
+.         *make sure it's absolute
+.         *cd $testing_root
+.         *global testing_root `c(pwd)'
+. }
+
+. 
+. if !${verbose}{
+.         global qui "qui"
+. }
+
+. 
+. * Machine-specific stuff from environment
+. * Get stuff that isn't versioned (too big).
+. *global unversioned_data "${main_root}/../../Data/" //specify this default
+. if `"`: environment UNVERSIONED_DATA'"'!="" {
+.         global unversioned_data `"`: environment UNVERSIONED_DATA'"'
+. }
+
+. 
+. global defnumclusters = 2
+
+. if "`: environment DEFNUMCLUSTERS'"!="" {
+.         global defnumclusters = `: environment DEFNUMCLUSTERS'
+. }
+
+. 
+. *All of the above env vars should be in one category
+. global envvars_show ""
+
+. global envvars_hide "UNVERSIONED_DATA DEFNUMCLUSTERS"
+
+. 
+. 
+. 
+. set trace on
+
 . * Content
-. use ${dir_base}/data/clean/auto.dta
+. use ${main_root}data/clean/auto.dta
 (1978 Automobile Data)
 
-. replace price=2*price 
+. replace price=3*price 
+price was int now long
 (74 real changes made)
 
-. save12 ${dir_base}/data/clean/auto2.dta, replace
-file ./data/clean/auto2.dta saved
+. 
+. local read_other = 1
+
+. 
+. save12 data/clean/auto2.dta, replace
+  ------------------------------------------------------------------------------------------------------------------------- begin save12 ---
+  - syntax anything [, replace datasig compress]
+  - if "`datasig'"!="" {
+  = if ""!="" {
+    datasig set, reset
+    char _dta[datasignature_dt]
+    }
+  - cap unab temp: _*
+  - if `:list sizeof temp'>0 di "Warning: Saving with temporary (_*) vars"
+  = if 0>0 di "Warning: Saving with temporary (_*) vars"
+  - if "`compress'"!="" compress
+  = if ""!="" compress
+  - if `c(stata_version)'>=13{
+  = if 13.1>=13{
+  - if `c(stata_version)'>=15 di "save12 untested for Stata v>=15"
+  = if 13.1>=15 di "save12 untested for Stata v>=15"
+  - if `c(stata_version)'>=14 local v_opt "version(12)"
+  = if 13.1>=14 local v_opt "version(12)"
+  - saveold `anything', `replace' `v_opt'
+  = saveold data/clean/auto2.dta, replace 
+(note: file data/clean/auto2.dta not found)
+file data/clean/auto2.dta saved
+  - }
+  - else {
+    if `c(stata_version)'<11 di "save12 untested for Stata v<11"
+    save `anything', `replace'
+    }
+  --------------------------------------------------------------------------------------------------------------------------- end save12 ---
+
+. 
+. if "`read_other'"=="1"{
+.         wrap_text, unwrappedtext("Hello yes")
+  ---------------------------------------------------------------------------------------------------------------------- begin wrap_text ---
+  - version 12
+  - syntax , unwrappedtext(string) [width(integer 100)]
+  - local num_words : word count `unwrappedtext'
+  = local num_words : word count Hello yes
+  - forval i = 1/`num_words' {
+  = forval i = 1/2 {
+  - local line : piece `i' `width' of "`unwrappedtext'"
+  = local line : piece 1 100 of "Hello yes"
+  - if "`line'"==""{
+  = if "Hello yes"==""{
+    continue, break
+    }
+  - local wrappedtext `"`wrappedtext' "`line'""'
+  = local wrappedtext `" "Hello yes""'
+  - }
+  - local line : piece `i' `width' of "`unwrappedtext'"
+  = local line : piece 2 100 of "Hello yes"
+  - if "`line'"==""{
+  = if ""==""{
+  - continue, break
+    }
+    local wrappedtext `"`wrappedtext' "`line'""'
+    }
+  - sreturn local wrappedtext `"`wrappedtext'"'
+  = sreturn local wrappedtext `" "Hello yes""'
+  ------------------------------------------------------------------------------------------------------------------------ end wrap_text ---
+.         copy resources/deps/fake1.do.dep.complex resources/deps/fake1.do.dep, replace
+. }
+
+. else{
+.         copy resources/deps/fake1.do.dep.simple resources/deps/fake1.do.dep, replace
+. }
+
+. 
+. 
+. include ${main_root}code/proj_footer.do
 
 . 
 . * Footer
-. log close `do_name'
-      name:  fake1
-       log:  -normalizedroot-/log/smcl/fake1.smcl
-  log type:  smcl
+. log close
+      name:  <unnamed>
+       log:  -normalizedroot-/log/do/fake1.log
+  log type:  text
  closed on:  -normalized-
 --------------------------------------------------------------------------------------------------------------------------------------------

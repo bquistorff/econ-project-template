@@ -8,7 +8,7 @@
 
 f=$1
 cp $f $f.temp1
-sed -e '/^f /s/\\/\//g' $f.temp1 > $f.temp2
+sed -be '/^f /s/\\/\//g' $f.temp1 > $f.temp2
 
 # Normalize the rootdir
 if [ "$OS" = "Windows_NT" ]; then
@@ -23,11 +23,11 @@ fi
 
 
 # On the UMD econ cluster Stata reports the pwd different than the shell 
-sed -e 's|\/econ_s\/|\/home\/|g' $f.temp2 > $f.temp3
+sed -be 's|\/econ_s\/|\/home\/|g' $f.temp2 > $f.temp3
 
 #For windows, first swtich all the folder separators wround
-sed -e "/^S ${prj_base}/s/\\\\/\\//g" $f.temp3 > $f.temp4
+sed -be "/^S ${prj_base}/s/\\\\/\\//g" $f.temp3 > $f.temp4
 #normalize machine-specific roots
-sed -e "s|^S ${prj_base_better}\\/|S |g" $f.temp4 > $f
+sed -be "s|^S ${prj_base_better}\\/|S |g" $f.temp4 > $f
 
 rm -f $f.temp1 $f.temp2 $f.temp3 $f.temp4

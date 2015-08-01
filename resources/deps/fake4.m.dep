@@ -1,0 +1,5 @@
+## fake4.m
+# data/generated/fake4.mat fig/fig/fake4.fig log/m/fake4.log  : code/fake4.m
+# code/fake4.m : code/setup_m_path.m code/m/log_open.m code/m_project_base.m code/m/display_run_specs.m code/m/log_close.m
+data/generated/fake4.mat fig/fig/fake4.fig log/m/fake4.log :  code/fake4.m code/setup_m_path.m code/m/log_open.m code/m_project_base.m code/m/display_run_specs.m code/m/log_close.m
+

@@ -1,21 +1,36 @@
 #! /bin/bash
-cp temp/lastrun/$1-files.txt temp/lastrun/files.txt
+
+#root="${1%.*}"
+root=$1
+#ext="${1##*.}"
+ext=$2
+
+#Get the list of file outputted from the last run
+# Could get this from the dep files also
+last_status.sh > temp/lastrun/files.txt
+
 #Normalize the outputs
-cat temp/lastrun/files.txt | grep \.gph | while read p; do
-	normalize_gph.py $p;
-done
 
-cat temp/lastrun/files.txt | grep \.dta | while read p; do
-	normalize_dta.py $p;
-done
+if  [[ $ext = "do" ]] ; then
+	cat temp/lastrun/files.txt | grep \.gph | while read p; do
+		normalize_gph.py "$p";
+	done
 
-
-if  [[ $2 = "do" ]] ; then
-	cp log/do/$1.log log/$1.log #do I need this?
-	normalize_log.sh -r . log/$1.log
-	sed -e 's:do/::g' -i temp/lastrun/files.txt
-else
-	normalize_log.sh -r . log/$1.log
-	sed -e 's:R/::g' -i temp/lastrun/files.txt
+	cat temp/lastrun/files.txt | grep \.dta | while read p; do
+		normalize_dta.py "$p";
+	done
+	
+	cp log/do/$root.log log/$root.log
+	normalize_log.sh -r . log/$root.log
+	sed -be 's:log/::g' -i temp/lastrun/files.txt
 fi
 
+if  [[ $ext = "m" ]] ; then
+	cp log/m/$root.log log/
+	#TODO: normalize the log
+fi
+
+if  [[ $ext = "R" ]] ; then
+	cp log/R/$root.log log/
+	#TODO: normalize the log
+fi

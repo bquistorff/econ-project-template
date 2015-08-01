@@ -10,13 +10,15 @@ if "${main_root}"!="" cd ${main_root} //recover from testing
 do code/setup_ado.do
 
 *Logging. Has to go before clear_all
+* Don't use names for now because of complications with clearing. Names can't contain "-"
 *For now don't allow duplicate logs coming in.
 log close _all //don't use clear_all for this as we need ours open
 if "`do_name'"!=""{
 	*If testing, put it in the right dir
 	get_config_value testing, global(testing) default(0)
 	if ${testing} cd temp/testing/ //match with below
-	log_open `do_name'
+	log using "log/do/`do_name'.log", replace /*name(`do_name')*/
+	display_run_specs
 	if ${testing} cd ../..
 }
 

@@ -13,19 +13,11 @@ gphs_to_pdfs_base := $(patsubst fig/gph/%.gph,fig/pdf/%.pdf,$(gphs))
 gphs_to_pdfs_bare := $(patsubst fig/gph/%.gph,fig/pdf/bare/%_bare.pdf,$(gphs))
 .INTERMEDIATE : $(gphs_to_eps_base) $(gphs_to_eps_bare)
 
-ifeq "$(GENDEP_MD5)" "1"
-$(gphs_to_eps_base) : fig/eps/%.eps : fig/gph/.%.gph.md5
-else
 $(gphs_to_eps_base) : fig/eps/%.eps : fig/gph/%.gph
-endif
 	statab.sh do code/cli_gph_eps.do $* eps title; \
 	  mv cli_gph_eps.log temp/lastrun;
 
-ifeq "$(GENDEP_MD5)" "1"
-$(gphs_to_eps_bare) : fig/eps/bare/%_bare.eps : fig/gph/.%.gph.md5
-else
 $(gphs_to_eps_bare) : fig/eps/bare/%_bare.eps : fig/gph/%.gph
-endif
 	statab.sh do code/cli_gph_eps.do $* eps bare; \
 	  mv cli_gph_eps.log temp/lastrun;
 	
@@ -51,19 +43,11 @@ pdfs_of_epss : $(epss_to_pdfs_base) $(epss_to_pdfs_bare)
 
 all_pdfs : pdfs_of_gphs pdfs_of_epss
 
-ifeq "$(GENDEP_MD5)" "1"
-$(epss_to_pdfs_base) : fig/pdf/%.pdf : fig/eps/.%.eps.md5
-else
 $(epss_to_pdfs_base) : fig/pdf/%.pdf : fig/eps/%.eps
-endif
 	epstopdf --outfile=fig/pdf/$*.pdf fig/eps/$*.eps;
 	normalize_pdf.sh fig/pdf/$*.pdf
 
-ifeq "$(GENDEP_MD5)" "1"
-$(epss_to_pdfs_bare) : fig/pdf/bare/%_bare.pdf : fig/eps/bare/.%_bare.eps.md5
-else
 $(epss_to_pdfs_bare) : fig/pdf/bare/%_bare.pdf : fig/eps/bare/%_bare.eps
-endif
 	epstopdf --outfile=fig/pdf/bare/$*_bare.pdf fig/eps/bare/$*_bare.eps;
 	normalize_pdf.sh fig/pdf/bare/$*_bare.pdf
 

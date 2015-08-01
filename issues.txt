@@ -5,6 +5,11 @@ General:
 -Test stuff on a real project.  
 -Update blog about new testing procedure.
 -logs: Write up that usually do logs inside scripts (so that you get them when running interactively). This is fine except for R (make sure this doesn't work well, look more into).
+-update readme
+-make sure can work with {nothing, gendep}
+-think about normalizing the date in the datasig part.
+-replace perl with python in conv tex lyx table (perl -0pe means split on null bytes, and input/print line by line)
+-Allow someone to specifiy that certain files shouldn't be rebuilt (someone checks in a version that is good but takes a long time).
 
 Implement in R/Matlab: 
 -parallelization
@@ -16,7 +21,7 @@ Makefile:
 
 remove the track-file crap (brach off). do a command to list just the deps, and list all changed since last program start.
 note how the folder structure could be modified of econ-project-template
-get econ-project-template to not use .*.dep's that have no rule
+get econ-project-template to not use .dep's that have no rule
 Automake a dta flow file.
 
 Matlab:

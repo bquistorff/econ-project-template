@@ -1,0 +1,5 @@
+## fake2.do
+# log/do/fake2.log fig/gph/auto_scatter.gph  : code/fake2.do
+# code/fake2.do : code/proj_header.do code/setup_ado.do code/ado/g/get_config_value.ado code/config.project.csv code/ado/log_open.ado code/ado/d/display_run_specs.ado code/ado/c/clear_all.ado code/proj_prefs.do data/clean/auto2.dta code/ado/save_fig.ado code/proj_footer.do
+log/do/fake2.log fig/gph/auto_scatter.gph :  code/fake2.do code/proj_header.do code/setup_ado.do code/ado/g/get_config_value.ado code/config.project.csv code/ado/log_open.ado code/ado/d/display_run_specs.ado code/ado/c/clear_all.ado code/proj_prefs.do data/clean/auto2.dta code/ado/save_fig.ado code/proj_footer.do
+

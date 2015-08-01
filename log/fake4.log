@@ -1,0 +1,376 @@
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('log_open', 'C:\Users\Brian\Documents\GitHub\econ-project-template\code\m\log_open.m', 5)" style="font-weight:bold">log_open</a> (<a href="matlab: opentoline('C:\Users\Brian\Documents\GitHub\econ-project-template\code\m\log_open.m',5,0)">line 5</a>)
+Could not convert the string 'log opened on: ' to a datetime value.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('fake4', 'C:\Users\Brian\Documents\GitHub\econ-project-template\code\fake4.m', 4)" style="font-weight:bold">fake4</a> (<a href="matlab: opentoline('C:\Users\Brian\Documents\GitHub\econ-project-template\code\fake4.m',4,0)">line 4</a>)
+log_open('fake4')
+} 
+fake4
+[Warning: "C:\Users\Brian\Documents\MATLAB" not found in path.] 
+[> In <a href="matlab: opentoline('C:\Program Files\MATLAB\R2014b\toolbox\matlab\general\rmpath.m',57,1)">rmpath at 57</a>
+  In <a href="matlab: opentoline('C:\Users\Brian\Documents\GitHub\econ-project-template\code\setup_m_path.m',4,1)">setup_m_path at 4</a>
+  In <a href="matlab: opentoline('C:\Program Files\MATLAB\R2014b\toolbox\matlab\lang\run.m',63,1)">run at 63</a>
+  In <a href="matlab: opentoline('C:\Users\Brian\Documents\GitHub\econ-project-template\code\fake4.m',2,1)">fake4 at 2</a>] 
+
+log_name =
+
+../log/matlab/fake4.log
+
+[Warning: File 'log_name' not found.] 
+[> In <a href="matlab: opentoline('C:\Users\Brian\Documents\GitHub\econ-project-template\code\m\log_open.m',3,1)">log_open at 3</a>
+  In <a href="matlab: opentoline('C:\Users\Brian\Documents\GitHub\econ-project-template\code\fake4.m',4,1)">fake4 at 4</a>] 
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('strcat', 'C:\Program Files\MATLAB\R2014b\toolbox\matlab\strfun\strcat.m', 90)" style="font-weight:bold">strcat</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2014b\toolbox\matlab\strfun\strcat.m',90,0)">line 90</a>)
+Comparison is not defined between datetime and double arrays.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('log_open', 'C:\Users\Brian\Documents\GitHub\econ-project-template\code\m\log_open.m', 5)" style="font-weight:bold">log_open</a> (<a href="matlab: opentoline('C:\Users\Brian\Documents\GitHub\econ-project-template\code\m\log_open.m',5,0)">line 5</a>)
+	disp(strcat('log opened on: ', datetime()))
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('fake4', 'C:\Users\Brian\Documents\GitHub\econ-project-template\code\fake4.m', 4)" style="font-weight:bold">fake4</a> (<a href="matlab: opentoline('C:\Users\Brian\Documents\GitHub\econ-project-template\code\fake4.m',4,0)">line 4</a>)
+log_open('fake4')
+} 
+disp(strcat('log opened on: ', datetime()))
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('strcat', 'C:\Program Files\MATLAB\R2014b\toolbox\matlab\strfun\strcat.m', 90)" style="font-weight:bold">strcat</a> (<a href="matlab: opentoline('C:\Program Files\MATLAB\R2014b\toolbox\matlab\strfun\strcat.m',90,0)">line 90</a>)
+Comparison is not defined between datetime and double arrays.
+} 
+x = datetime()
+
+x = 
+
+   30-Jun-2015 12:35:36
+
+x.Format
+
+ans =
+
+dd-MMM-uuuu HH:mm:ss
+
+x2 = disp(x)
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('datetime/disp')" style="font-weight:bold">datetime/disp</a>
+Too many output arguments.
+} 
+disp(x)
+   30-Jun-2015 12:35:36
+
+x
+
+x = 
+
+   30-Jun-2015 12:35:36
+
+datestr(x)
+
+ans =
+
+30-Jun-2015 12:35:36
+
+x2 = datestr(x)
+
+x2 =
+
+30-Jun-2015 12:35:36
+
+fake4
+[Warning: "C:\Users\Brian\Documents\MATLAB" not found in path.] 
+[> In <a href="matlab: opentoline('C:\Program Files\MATLAB\R2014b\toolbox\matlab\general\rmpath.m',57,1)">rmpath at 57</a>
+  In <a href="matlab: opentoline('C:\Users\Brian\Documents\GitHub\econ-project-template\code\setup_m_path.m',4,1)">setup_m_path at 4</a>
+  In <a href="matlab: opentoline('C:\Program Files\MATLAB\R2014b\toolbox\matlab\lang\run.m',63,1)">run at 63</a>
+  In <a href="matlab: opentoline('C:\Users\Brian\Documents\GitHub\econ-project-template\code\fake4.m',2,1)">fake4 at 2</a>] 
+
+log_name =
+
+../log/matlab/fake4.log
+
+[Warning: File 'log_name' not found.] 
+[> In <a href="matlab: opentoline('C:\Users\Brian\Documents\GitHub\econ-project-template\code\m\log_open.m',3,1)">log_open at 3</a>
+  In <a href="matlab: opentoline('C:\Users\Brian\Documents\GitHub\econ-project-template\code\fake4.m',4,1)">fake4 at 4</a>] 
+log opened on:30-Jun-2015 12:39:49
+run('m_project_base.m')
+
+%graymon
+%rng(1337) %By default uses Mersenne Twister with seed 0
+if exist('testing','var')==0
+	testing=0;
+end
+if exist('verbose','var')==0
+	verbose=0;
+end
+%Get any environment variables
+%N = getenv('name')
+echo display_run_specs on
+display_run_specs()
+    % Display the generic stuff
+	version
+
+ans =
+
+8.4.0.150421 (R2014b)
+
+	version -java
+
+ans =
+
+Java 1.7.0_11-b21 with Oracle Corporation Java HotSpot(TM) 64-Bit Server VM mixed mode
+
+	computer
+
+ans =
+
+PCWIN64
+
+	system('hostname');
+Lenovo-BQ 
+	pwd
+
+ans =
+
+C:\Users\Brian\Documents\GitHub\econ-project-template\code
+
+	feature('numCores');
+MATLAB detected: 2 physical cores.
+MATLAB detected: 4 logical cores.
+MATLAB was assigned: 4 logical cores by the OS.
+MATLAB is using: 2 logical cores.
+MATLAB is not using all logical cores because hyper-threading is enabled.
+	
+	switch nargin
+    case 0
+        envvars_show = {};
+        envvars_hide = {};
+	end
+	for i = 1:length(envvars_show)
+	end
+	for i = 1:length(envvars_hide)
+
+%Content
+x = 0:pi/100:2*pi;
+y = sin(x);
+save('../data/generated/fake4.mat','x')
+plot(x,y)
+
+startup_exists = exist('startuphandle_graphics','file');
+if startup_exists == 2 || startup_exists == 6
+else
+    clear startup_exists
+title('new title')
+savefig('../fig/fig/fake4.fig')
+
+log_close()
+log closed on:30-Jun-2015 12:39:50
+log opened on:30-Jun-2015 12:40:18
+run('m_project_base.m')
+
+%graymon
+%rng(1337) %By default uses Mersenne Twister with seed 0
+if exist('testing','var')==0
+	testing=0;
+end
+if exist('verbose','var')==0
+	verbose=0;
+end
+%Get any environment variables
+%N = getenv('name')
+echo display_run_specs on
+display_run_specs()
+    % Display the generic stuff
+	version
+
+ans =
+
+8.4.0.150421 (R2014b)
+
+	version -java
+
+ans =
+
+Java 1.7.0_11-b21 with Oracle Corporation Java HotSpot(TM) 64-Bit Server VM mixed mode
+
+	computer
+
+ans =
+
+PCWIN64
+
+	system('hostname');
+Lenovo-BQ
+	pwd
+
+ans =
+
+C:\Users\Brian\Documents\GitHub\econ-project-template\code
+
+	feature('numCores');
+MATLAB detected: 2 physical cores.
+MATLAB detected: 4 logical cores.
+MATLAB was assigned: 4 logical cores by the OS.
+MATLAB is using: 2 logical cores.
+MATLAB is not using all logical cores because hyper-threading is enabled.
+	
+	switch nargin
+    case 0
+        envvars_show = {};
+        envvars_hide = {};
+	end
+	for i = 1:length(envvars_show)
+	end
+	for i = 1:length(envvars_hide)
+
+%Content
+x = 0:pi/100:2*pi;
+y = sin(x);
+save('../data/generated/fake4.mat','x')
+plot(x,y)
+
+startup_exists = exist('startuphandle_graphics','file');
+if startup_exists == 2 || startup_exists == 6
+else
+    clear startup_exists
+title('new title')
+savefig('../fig/fig/fake4.fig')
+
+log_close()
+log closed on:30-Jun-2015 12:40:23
+log opened on:30-Jun-2015 12:56:12
+run('m_project_base.m')
+
+%graymon
+%rng(1337) %By default uses Mersenne Twister with seed 0
+if exist('testing','var')==0
+	testing=0;
+end
+if exist('verbose','var')==0
+	verbose=0;
+end
+%Get any environment variables
+%N = getenv('name')
+echo display_run_specs on
+display_run_specs()
+    % Display the generic stuff
+	version
+
+ans =
+
+8.4.0.150421 (R2014b)
+
+	version -java
+
+ans =
+
+Java 1.7.0_11-b21 with Oracle Corporation Java HotSpot(TM) 64-Bit Server VM mixed mode
+
+	computer
+
+ans =
+
+PCWIN64
+
+	system('hostname');
+Lenovo-BQ
+	pwd
+
+ans =
+
+C:\Users\Brian\Documents\GitHub\econ-project-template\code
+
+	feature('numCores');
+MATLAB detected: 2 physical cores.
+MATLAB detected: 4 logical cores.
+MATLAB was assigned: 4 logical cores by the OS.
+MATLAB is using: 2 logical cores.
+MATLAB is not using all logical cores because hyper-threading is enabled.
+	
+	switch nargin
+    case 0
+        envvars_show = {};
+        envvars_hide = {};
+	end
+	for i = 1:length(envvars_show)
+	end
+	for i = 1:length(envvars_hide)
+
+%Content
+x = 0:pi/100:2*pi;
+y = sin(x);
+save('../data/generated/fake4.mat','x')
+plot(x,y)
+
+startup_exists = exist('startuphandle_graphics','file');
+if startup_exists == 2 || startup_exists == 6
+else
+    clear startup_exists
+title('new title')
+savefig('../fig/fig/fake4.fig')
+
+log_close()
+log closed on:30-Jun-2015 12:56:18
+log opened on:17-Jul-2015 14:38:28
+run('m_project_base.m')
+
+%graymon
+%rng(1337) %By default uses Mersenne Twister with seed 0
+if exist('testing','var')==0
+	testing=0;
+end
+if exist('verbose','var')==0
+	verbose=0;
+end
+%Get any environment variables
+%N = getenv('name')
+echo display_run_specs on
+display_run_specs()
+    % Display the generic stuff
+	version
+
+ans =
+
+8.4.0.150421 (R2014b)
+
+	version -java
+
+ans =
+
+Java 1.7.0_11-b21 with Oracle Corporation Java HotSpot(TM) 64-Bit Server VM mixed mode
+
+	computer
+
+ans =
+
+PCWIN64
+
+	system('hostname');
+Lenovo-BQ
+	pwd
+
+ans =
+
+C:\Users\Brian\Documents\GitHub\econ-project-template\code
+
+	feature('numCores');
+MATLAB detected: 2 physical cores.
+MATLAB detected: 4 logical cores.
+MATLAB was assigned: 4 logical cores by the OS.
+MATLAB is using: 2 logical cores.
+MATLAB is not using all logical cores because hyper-threading is enabled.
+	
+	switch nargin
+    case 0
+        envvars_show = {};
+        envvars_hide = {};
+	end
+	for i = 1:length(envvars_show)
+	end
+	for i = 1:length(envvars_hide)
+
+%Content
+x = 0:pi/100:2*pi;
+y = sin(x);
+save('../data/generated/fake4.mat','x')
+plot(x,y)
+
+startup_exists = exist('startuphandle_graphics','file');
+if startup_exists == 2 || startup_exists == 6
+else
+    clear startup_exists
+title('new title')
+savefig('../fig/fig/fake4.fig')
+
+log_close()
+log closed on:17-Jul-2015 14:38:37

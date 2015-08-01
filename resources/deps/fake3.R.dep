@@ -1,0 +1,5 @@
+## fake3.R
+# log/R/fake3.log  data/estimates/fake3.RData fig/eps/scatter2.eps fig/eps/bare/scatter2_bare.eps  : code/fake3.R
+# code/fake3.R : code/R-project-base.R code/R_utils.R
+log/R/fake3.log  data/estimates/fake3.RData fig/eps/scatter2.eps fig/eps/bare/scatter2_bare.eps : code/fake3.R code/R-project-base.R code/R_utils.R
+

@@ -1,3 +1,0 @@
-# fake3.R
-log/Rout/fake3.Rout data/estimates/fake3.RData fig/eps/scatter2.eps fig/eps/notitle/scatter2_notitle.eps : code/fake3.R code/R-project-base.R 
-	R_launcher.sh code/fake3

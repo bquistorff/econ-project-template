@@ -80,18 +80,18 @@ do
     ### Machine-specific (from script because they use a shell variable)
     ##OS-dependent: file path
     # On the UMD econ cluster Stata reports the pwd different than the shell 
-    sed -e 's|\/econ_s\/|\/home\/|g' $f > $f.temp1
+    sed -be 's|\/econ_s\/|\/home\/|g' $f > $f.temp1
     # Temp file mechanism vary from OS to OS
     if [ "$OS" = "Windows_NT" ]; then
-        sed -e "s/${temp_base}[^ ]\+/-normalizedtempfile-/g" $f.temp1 > $f.temp2
-        sed -e "s/${temp_base2}[^ ]\+/-normalizedtempfile-/g" $f.temp2 > $f.temp3
+        sed -be "s/${temp_base}[^ ]\+/-normalizedtempfile-/g" $f.temp1 > $f.temp2
+        sed -be "s/${temp_base2}[^ ]\+/-normalizedtempfile-/g" $f.temp2 > $f.temp3
     else
-        sed -e "s/${temp_base}[^ ]\+/-normalizedtempfile-/g" $f.temp1 > $f.temp3
+        sed -be "s/${temp_base}[^ ]\+/-normalizedtempfile-/g" $f.temp1 > $f.temp3
     fi
     #normalize machine-specific roots
-    sed -e "s|${prj_base}|-normalizedroot-|g" $f.temp3 > $f.temp4
-    sed -e "s|${prj_base2}|-normalizedroot-|g" $f.temp4 > $f.temp5
+    sed -be "s|${prj_base}|-normalizedroot-|g" $f.temp3 > $f.temp4
+    sed -be "s|${prj_base2}|-normalizedroot-|g" $f.temp4 > $f.temp5
 
-	sed -f ${root_dir}/resources/bin/normalize_${ext}.sed $f.temp5 > $f
+	sed -bf ${root_dir}/resources/bin/normalize_${ext}.sed $f.temp5 > $f
     rm -f $f.temp1 $f.temp2 $f.temp3 $f.temp4 $f.temp5
 done

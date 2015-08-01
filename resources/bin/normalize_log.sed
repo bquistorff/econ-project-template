@@ -1,4 +1,4 @@
-#!/usr/bin/sed -f
+#!/usr/bin/sed -bf
 
 #### Standard Stata output ####
 

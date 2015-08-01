@@ -1,0 +1,72 @@
+run('m_project_base.m')
+
+%Set the per-project m library folder
+% (can't use env vars on Windows)
+% (can't use local ./startup.m since want to work interactively when started from Start Menu)
+rmpath(userpath()) %project should be self-contained
+addpath(genpath(strcat(pwd(),'/m'))) %genpath does subdirs. the pwd() now includes 'code'
+
+%graymon
+%rng(1337) %By default uses Mersenne Twister with seed 0
+if exist('testing','var')==0
+	testing=0;
+end
+if exist('verbose','var')==0
+	verbose=0;
+end
+%N = getenv('name')
+echo display_run_specs on
+display_run_specs()
+    % Display the generic stuff
+	version
+
+ans =
+
+8.4.0.150421 (R2014b)
+
+	version -java
+
+ans =
+
+Java 1.7.0_11-b21 with Oracle Corporation Java HotSpot(TM) 64-Bit Server VM mixed mode
+
+	computer
+
+ans =
+
+PCWIN64
+
+	system('hostname');
+Lenovo-BQ
+	pwd
+
+ans =
+
+C:\Users\Brian\Documents\GitHub\econ-project-template\code
+
+	feature('numCores');
+MATLAB detected: 2 physical cores.
+MATLAB detected: 4 logical cores.
+MATLAB was assigned: 4 logical cores by the OS.
+MATLAB is using: 2 logical cores.
+MATLAB is not using all logical cores because hyper-threading is enabled.
+	
+	switch nargin
+    case 0
+        envvars_show = {};
+        envvars_hide = {};
+	end
+	for i = 1:length(envvars_show)
+	end
+	for i = 1:length(envvars_hide)
+
+sdfsfe3
+  MException with properties:
+
+    identifier: 'MATLAB:UndefinedFunction'
+       message: 'Undefined function or variable 'sdfsfe3'.'
+         cause: {}
+         stack: [1x1 struct]
+
+Undefined function or variable 'sdfsfe3'.
+MATLAB:UndefinedFunction

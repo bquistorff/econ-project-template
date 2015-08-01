@@ -21,7 +21,7 @@ DO_SCRIPTS_base := $(patsubst code/%.do,%,$(DO_SCRIPTS))
 .PHONY : $(DO_SCRIPTS_base)
 $(DO_SCRIPTS_base):
 	@echo Converting to make command for the associate log file.
-	$(MAKE) log/do/$@.log
+	$(MAKE) --no-print-directory log/do/$@.log
 
 .PHONY : all-dos
 all-dos : fake1 fake2
@@ -30,7 +30,7 @@ all-dos : fake1 fake2
 DO_SCRIPTS_force := $(patsubst code/%.do,%-force,$(DO_SCRIPTS))
 .PHONY : $(DO_SCRIPTS_force)
 $(DO_SCRIPTS_force) :
-	st_launcher.sh $(patsubst %-force,code/%,$@)
+	st_launcher.sh $(patsubst %-force,code/%,$@).do
 	
 
 #Make sure the mlib is up to date
@@ -107,7 +107,7 @@ $(M_SCRIPTS_force):
 ifeq "$(GENDEP_DISABLE)" "1"
 -include code/code-manual.dep
 else
-DEPS_SCRIPTS := $(wildcard code/.*.dep)
+DEPS_SCRIPTS := $(wildcard resources/deps/*.dep)
 -include $(DEPS_SCRIPTS)
 endif
 

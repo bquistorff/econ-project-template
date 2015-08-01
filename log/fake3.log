@@ -1,0 +1,58 @@
+
+R version 3.2.0 (2015-04-16) -- "Full of Ingredients"
+Copyright (C) 2015 The R Foundation for Statistical Computing
+Platform: x86_64-w64-mingw32/x64 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> # Fake project script
+> source("code/R-project-base.R", echo=TRUE, max.deparse.length=10000)
+
+> set.seed(1337)
+
+> main_root = paste0(getwd(), "/")
+
+> .libPaths(paste0(main_root, "code/Rlib"))
+
+> if (!exists("testing")) {
++     testing = 0
++ }
+
+> if (!exists("verbose")) {
++     verbose = 0
++ }
+
+> source(paste0(main_root, "code/R_utils.R"))
+> script_name="fake3"
+> log_open()
+PWD:  C:/Users/Brian/Documents/GitHub/econ-project-template 
+HOSTNAME:  Lenovo-BQ 
+Time:  2015-07-17 14:36:59 
+LOGREMOVE  UNVERSIONED_DATA :   
+> 
+> x = 2
+> save_data(x, path="data/estimates/fake3.RData")
+> 
+> save_graph_call_w_wo_title("scatter2", 
++ 													 plot(x=mtcars$cyl, y=mtcars$disp),
++ 													 main="Main")
+> #library(ggplot2)
+> #save_ggraph_w_wo_title(filename_base="scatter2", 
+> #											 gbeginning=ggplot(mtcars, aes(x=cyl, y=disp))+
+> #											 	geom_point(shape=1), 
+> #											 gtitle=ggtitle("Cylinders x Displacement"))
+> log_close()
+user.self: 0.37 	system: 0.14 	elapsed: 0.5 
+> 

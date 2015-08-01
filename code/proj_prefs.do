@@ -19,7 +19,7 @@ global try_stata12 = 1
 if ("${testing}"=="") global testing = 0
 if ("${verbose}"=="") global verbose = 0
 
-global main_root `c(pwd)'
+global main_root "`c(pwd)'/"
 if ${testing}{
 	pause on
 	set trace on
