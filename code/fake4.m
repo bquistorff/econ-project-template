@@ -12,6 +12,14 @@ y = sin(x);
 save('../data/generated/fake4.mat','x')
 plot(x,y)
 title('new title')
-savefig('../fig/fig/fake4.fig')
+wr_save_fig('fake4')
+
+t=0:900;
+plot(t,0.25*exp(-0.005*t))
+xlabel('-2\pi < x < 2\pi')
+ylabel('sine and cosine values')
+title('The title')
+long_note = 'hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi';
+wr_save_fig('fake4b',long_note)
 
 log_close()

@@ -3,7 +3,7 @@
 # and I think it stores a lot of machine-specific info so not very 
 # version control safe.
 
-source("code/utils.R")
+source("code/R_utils.R")
 .libPaths(paste0(getwd(),"/code/Rlib"))
 
 #This was ripped from repmis::InstallOldPackages 0.4. Don't need the package overhead

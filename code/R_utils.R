@@ -7,23 +7,42 @@ inc_seq <- function(from = 1, to = 1, by=1){
 	return(seq.int(from, to, by))
 }
 
-
-#Global: script_name
-log_output_file <-function(fname){
-	flog = paste0("temp/lastrun/", script_name, "-files.txt")
-	cat(fname,file=flog, sep="\n", append=TRUE)
+#requires ggplot2 produced after June-2015
+save_ggraph_parts<-function(gbase, title, note="", plain_file="", title_file="", titleless_file="", noteless_file="", bare_file="", note_file="", width=80) {
+	if (bare_file!="") ggsave(bare_file, gbase)
+	
+	#An alternative to ggtile() is the top= param in arrangeGrob()
+	gtitled = gbase+ggtitle(title)
+	if (noteless_file!="") ggsave(noteless_file, gtitled) 
+	
+	if (title_file!="") writeLines(title, title_file)
+	
+	library(grid)
+	library(gridExtra)
+	if (note!=""){
+		if (note_file!="") writeLines(note, note_file)
+		
+		foot = textGrob(paste(strwrap(p_note, width),collapse="\n"))
+		g1 <- arrangeGrob(gbase, bottom = foot)
+		if (titleless_file!="") ggsave(titleless_file, g1)
+		
+		g2 <- arrangeGrob(gtitled, bottom = foot)
+		grid.draw(g2)
+		if (plain_file!="") ggsave(plain_file, g2) 
+	}
+	else{
+		if (titleless_file!="") ggsave(titleless_file, gbase) 
+		if (plain_file!="") ggsave(plain_file, gtitled) 
+	}
 }
 
 log_open <- function(){
 	#Do you want logging when done interactively? Here's a start.
 	#You really should have a wrapper that runs the script and source(echo=T)
 	# after the below. Seems too cumbersome
-	#con <- file(paste0("log/R/",script_name,".log"))
+	#con <- file(log_name)
 	#sink(con, append=TRUE)
 	#sink(con, append=TRUE, type="message")
-	flog = paste0("temp/lastrun/", script_name, "-files.txt")
-	err=try(file.remove(flog))
-	log_output_file(paste0("log/R/",script_name,".log"))
 	display_run_specs(c(),c("UNVERSIONED_DATA"))
 	
 	#return(con)
@@ -56,45 +75,17 @@ display_run_specs <- function(to_show, to_hide){
 	}
 }
 
-save_data <- function(data, path){
-	log_output_file(path)
-	saveRDS(data, file=path)
-}
 
-#Save a ggplot2 w/ and w/o title in the appropriate folders (in eps)
-save_ggraph_w_wo_title <-function(filename_base, gbeginning, gtitle, gend=NULL, wid=6, hei=4){
-	fname1 = paste0("fig/eps/",filename_base, ".eps")
-	postscript(file=fname1, width=wid, height=hei, encoding="ISOLatin1.enc", paper = "special")
-	if(is.null(gend))
-		try(print(gbeginning+gtitle))
-	else
-		try(print(gbeginning+gtitle+gend))
-	dev.off()
-	log_output_file(fname1)
-	
-	fname2 = paste0("fig/eps/bare/",filename_base, "_bare.eps")
-	postscript(file=fname2, width=wid, height=hei, encoding="ISOLatin1.enc", paper = "special")
-	if(is.null(gend))
-		try(print(gbeginning))
-	else
-		try(print(gbeginning+gend))
-	dev.off()
-	log_output_file(fname2)
-}
-
-
-#Save single graph call (e.g plot but not ggplot2) w/ and w/o title in the appropriate folders (in PDF)
-save_graph_call_w_wo_title <-function(filename_base, base_call, wid=6, hei=4,...){
+#Save single graph call (e.g plot but not ggplot2) w/ and w/o title 
+#A bit old (can't handle notes) but worth keeping around.
+save_graph_call_w_wo_title <-function(plain_file,titleless_file, base_call, wid=6, hei=4,...){
 	base_call = substitute(base_call)
-	fname1 = paste0("fig/eps/",filename_base, ".eps")
-	postscript(file=fname1, width=wid, height=hei, encoding="ISOLatin1.enc", paper = "special")
+
+	postscript(file=plain_file, width=wid, height=hei, encoding="ISOLatin1.enc", paper = "special")
 	eval(as.call( c(as.list(base_call), ...) ))
 	dev.off()
-	log_output_file(fname1)
 	
-	fname2 = paste0("fig/eps/bare/",filename_base, "_bare.eps")
-	postscript(file=fname2, width=wid, height=hei, encoding="ISOLatin1.enc", paper = "special")
+	postscript(file=titleless_file, width=wid, height=hei, encoding="ISOLatin1.enc", paper = "special")
 	eval( base_call )
 	dev.off()
-	log_output_file(fname2)
 }

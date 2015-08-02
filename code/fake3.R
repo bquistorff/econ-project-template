@@ -4,14 +4,15 @@ script_name="fake3"
 log_open()
 
 x = 2
-save_data(x, path="data/estimates/fake3.RData")
+saveRDS(x, file="data/estimates/fake3.RData")
 
-save_graph_call_w_wo_title("scatter2", 
-													 plot(x=mtcars$cyl, y=mtcars$disp),
-													 main="Main")
-#library(ggplot2)
-#save_ggraph_w_wo_title(filename_base="scatter2", 
-#											 gbeginning=ggplot(mtcars, aes(x=cyl, y=disp))+
-#											 	geom_point(shape=1), 
-#											 gtitle=ggtitle("Cylinders x Displacement"))
+
+library(ggplot2)
+p <- qplot(1:10, 1:10)
+p_note = "data from N. data from N. data from N. data from N. data from N. data from N. data from N. data from N"
+wr_save_ggraph_parts(p, title="Note Test", note=p_note, base_name="plot1", width=40)
+
+p2 = ggplot(mtcars, aes(x=cyl, y=disp))+geom_point(shape=1)
+wr_save_ggraph_parts(p2, title="Cylinders x Displacement", base_name="scatter2")
+								 
 log_close()
