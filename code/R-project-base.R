@@ -12,6 +12,9 @@ if (!exists("testing")) testing=0
 if (!exists("verbose")) verbose=0
 source(paste0(main_root,"code/R_utils.R"))
 
+library(ggplot2)
+theme_set(theme_bw())
+
 #########################################
 # Wrapper utils for my file paths
 #########################################
