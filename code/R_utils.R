@@ -8,7 +8,8 @@ inc_seq <- function(from = 1, to = 1, by=1){
 }
 
 #requires ggplot2 produced after June-2015
-save_ggraph_parts<-function(gbase, title, note="", plain_file="", title_file="", titleless_file="", noteless_file="", bare_file="", note_file="", width=80) {
+save_ggraph_parts<-function(gbase, title, note="", rdata_file="", plain_file="", title_file="", titleless_file="", noteless_file="", bare_file="", note_file="", width=80) {
+	if (rdata_file!="") save(gbase, title, note, file=rdata_file)
 	if (bare_file!="") ggsave(bare_file, gbase)
 	
 	#An alternative to ggtile() is the top= param in arrangeGrob()
