@@ -10,6 +10,7 @@ ext="${fname##*.}"
 
 if [ "$ext" = "do" ]; then stat_cmd="statab.sh $fname"; fi
 if [ "$ext" = "m"  ]; then stat_cmd="matlabb.sh $fname"; fi
+#Could use RScript (which is usually preferred) but I don't think that echos the commands, just the output.
 if [ "$ext" = "R"  ]; then stat_cmd="R CMD BATCH --vanilla --no-timing $fname log/R/$fname_base.log"; fi
 
 if [ "$GENDEP_DISABLE" = "1" ]; then 

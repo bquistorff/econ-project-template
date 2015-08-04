@@ -2,12 +2,26 @@
 % To do: save the output and display nicely.
 function display_run_specs(envvars_show,envvars_hide)
     % Display the generic stuff
-	version
-	version -java
-	computer
-	system('hostname');
-	pwd
-	feature('numCores');
+	v1 = version;
+	disp(['Version: ', v1])
+	v2=version('-java');
+	disp(['Version (Java): ', v2])
+	c = computer;
+	disp(['Computer: ', c])
+	p = pwd;
+	disp(['PWD: ', p])
+	disp(['numCores: ',int2str(feature('numCores'))]);
+	
+	[ret, name] = system('hostname');   
+	if ret ~= 0,
+		 if ispc
+				name = getenv('COMPUTERNAME');
+		 else      
+				name = getenv('HOSTNAME');      
+		 end
+	end
+	name = strtrim(lower(name));
+	disp(['hostname: ', name])
 	
 	switch nargin
     case 0
@@ -21,9 +35,9 @@ function display_run_specs(envvars_show,envvars_hide)
 	end
 
 	for i = 1:length(envvars_show)
-		getenv(envvars_show{i})
+		disp([envvars_show{i}, ': ', getenv(envvars_show{i})])
 	end
 	for i = 1:length(envvars_hide)
-		disp(strcat('LOGREMOVE ', getenv(envvars_show{i})))
+		disp(['LOGREMOVE ', envvars_hide{i}, ': ', getenv(envvars_hide{i})])
 	end
 end

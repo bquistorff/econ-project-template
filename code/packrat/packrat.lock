@@ -4,6 +4,11 @@ RVersion: 3.2.0
 Repos: CRAN=http://cran.rstudio.com,
     CRANextra=http://www.stats.ox.ac.uk/pub/RWin
 
+Package: BH
+Source: CRAN
+Version: 1.58.0-1
+Hash: 4f6db3b5311bb006f536a2e67278d058
+
 Package: RColorBrewer
 Source: CRAN
 Version: 1.1-2
@@ -49,6 +54,11 @@ Package: gtable
 Source: CRAN
 Version: 0.1.2
 Hash: 38a0f066373a60824cd3ade2362af363
+
+Package: haven
+Source: CRAN
+Version: 0.2.0
+Requires: BH, Rcpp
 
 Package: labeling
 Source: CRAN

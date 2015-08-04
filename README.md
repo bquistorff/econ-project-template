@@ -28,9 +28,11 @@ Requirements:
 ### Using packages
 This project is setup to load R/Stata packages from project-specific folders.
 
-Stata repositories don't track versions of packages, so not only should the package files be in the project, they should also be under version control. To install a new package that is platform independent, inside Stata run setup_ado.do and then install normally from inside. Then run `normalize_trks.sh code/ado/stata.trk` and add the new files to VC. To install a package that is platform dependent do `cd code/ado-store` and then use `store-mod-install-files.sh` (instructions at top of file). You may also want to install net_install from [here](https://github.com/bquistorff/Stata-modules)
+Stata repositories don't track versions of packages, so not only should the package files be in the project, they should also be under version control. To install a new package that is platform independent (e.g. -ssc describe synth- lists a plugin file and that is platform specific), inside Stata run setup_ado.do and then install normally from inside. Then run `normalize_trks.sh code/ado/stata.trk` and add the new files to VC. To install a package that is platform dependent do `cd code/ado-store` and then use `store-mod-install-files.sh` (instructions at top of file). You may also want to install net_install from [here](https://github.com/bquistorff/Stata-modules)
 
-For R packages, repositories I use packrat. If you are on Windows+Cygwin and don't want RTools normally in your path, then before installing new packages that need compilation you will have to add 'c:\Rtools\bin;C:\Rtools\gcc-4.6.3\bin;' to your path before starting R/Studio that will do the installation.
+For R packages, repositories I use packrat. If you are on Windows+Cygwin and don't want RTools normally in your path, then before installing new packages that need compilation you will have to add 'c:\Rtools\bin;C:\Rtools\gcc-4.6.3\bin;' to your path before starting R/Studio that will do the installation. Make sure you're in a packrat project (packrat::on()), then see packrat::install() (don't think I need snapshot here).
+
+For M. Put stuff in m/
 
 # Tracking file changes
 Often you want to know whether a file has really changed. File modification timestamps however just record the last time something was written to the file even it was the same content or insignificantly different. If you know when a file has actually changed you can monitor your workflow for errors and avoid costly down-stream estimation. Assuming we can get rid of harmless differences to get "normalized" versions of files (see below) then Scons tracks content changes using hashes like md5.

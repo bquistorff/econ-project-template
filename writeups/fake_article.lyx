@@ -19,6 +19,11 @@
 
 %allows you to use pbox in tables (to wrap cells with long text) (tables often via input)
 \usepackage{pbox}
+
+%Put all floats at the end. Options:
+%\usepackage[nolists]{endfloat}
+%Allow multiple floats per page at the end
+%\renewcommand{\efloatseparator}{\vfill}
 \end_preamble
 \use_default_options true
 \maintain_unincluded_children false

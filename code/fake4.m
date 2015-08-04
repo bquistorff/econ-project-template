@@ -1,15 +1,14 @@
 %Header
-run('setup_m_path.m')
+setup_m_path
 
 log_open('fake4')
 echo on %show commands along with the output (helpful for logging)
-run('m_project_base.m')
-
+m_project_base
 
 %Content
 x = 0:pi/100:2*pi;
 y = sin(x);
-save('../data/generated/fake4.mat','x')
+save('data/generated/fake4.mat','x')
 plot(x,y)
 title('new title')
 wr_save_fig('fake4')

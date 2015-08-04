@@ -21,16 +21,16 @@ if  [[ $ext = "do" ]] ; then
 	done
 	
 	cp log/do/$root.log log/$root.log
-	normalize_log.sh -r . log/$root.log
+	normalize_do_log.sh -r . log/$root.log
 	sed -be 's:log/::g' -i temp/lastrun/files.txt
 fi
 
 if  [[ $ext = "m" ]] ; then
 	cp log/m/$root.log log/
-	#TODO: normalize the log
+	normalize_m_log.sh log/$root.log
 fi
 
 if  [[ $ext = "R" ]] ; then
 	cp log/R/$root.log log/
-	#TODO: normalize the log
+	normalize_R_log.sh log/$root.log
 fi
