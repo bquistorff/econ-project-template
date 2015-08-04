@@ -1,17 +1,16 @@
-------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------
       name:  <unnamed>
-       log:  -normalizedroot-/log/d
-> o/fake2.log
+       log:  -normalizedroot-/log/do/fake2.log
   log type:  text
  opened on:  -normalized-
+.         display_run_specs
                   c(os) = -normalized-
                c(osdtl) = -normalized-
         c(machine_type) = -normalized-
            c(byteorder) = -normalized-
               c(flavor) = -normalized-
             c(hostname) = "Lenovo-BQ"
-                 c(pwd) = "C:\Users\Brian\Documents\GitHub\econ-project-
-> template"
+                 c(pwd) = "-normalizedroot-"
        c(stata_version) = -normalized-
           c(processors) = -normalized-
 .         if ${testing} cd ../..
@@ -20,11 +19,10 @@
 . 
 . clear_all //use all globals and passed in locals before this!
 
-. *Could try to restore do_name from -log query-,-return list- and parse
->  filename
+. *Could try to restore do_name from -log query-,-return list- and parse filename
 . 
-. *Roots should be absolute and include final folder slash so that in ca
-> se it's blank we get relative paths
+. *Roots should be absolute and include final folder slash so that in case it's blank we get
+>  relative paths
 . global main_root "`c(pwd)'/"
 
 . global testing_root "`c(pwd)'/temp/testing/"
@@ -40,8 +38,7 @@ get_config_value: testing=0
 
 . *Preferences
 . 
-. * include proj_prefs.do //more/trace are local only so have to "includ
-> e" not "do"
+. * include proj_prefs.do //more/trace are local only so have to "include" not "do"
 . 
 . version 12.1
 
@@ -123,10 +120,8 @@ get_config_value: testing=0
 (1978 Automobile Data)
 
 . 
-. twoway (scatter price mpg), title("Scatter of price on mpg") note("Source: -sysuse auto-" "Produced: Stata")
-
-. save_fig auto_scatter
-(note: file fig/gph/auto_scatter.gph not found)
+. wr_save_fig, name(auto_scatter) : twoway (scatter price mpg), ///
+>         title("Scatter of price on mpg") note("Source: -sysuse auto-" "Produced: Stata")
 (file fig/gph/auto_scatter.gph saved)
 
 . 

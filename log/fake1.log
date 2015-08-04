@@ -1,17 +1,16 @@
-------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------
       name:  <unnamed>
-       log:  -normalizedroot-/log/d
-> o/fake1.log
+       log:  -normalizedroot-/log/do/fake1.log
   log type:  text
  opened on:  -normalized-
+.         display_run_specs
                   c(os) = -normalized-
                c(osdtl) = -normalized-
         c(machine_type) = -normalized-
            c(byteorder) = -normalized-
               c(flavor) = -normalized-
             c(hostname) = "Lenovo-BQ"
-                 c(pwd) = "C:\Users\Brian\Documents\GitHub\econ-project-
-> template"
+                 c(pwd) = "-normalizedroot-"
        c(stata_version) = -normalized-
           c(processors) = -normalized-
 .         if ${testing} cd ../..
@@ -20,11 +19,10 @@
 . 
 . clear_all //use all globals and passed in locals before this!
 
-. *Could try to restore do_name from -log query-,-return list- and parse
->  filename
+. *Could try to restore do_name from -log query-,-return list- and parse filename
 . 
-. *Roots should be absolute and include final folder slash so that in ca
-> se it's blank we get relative paths
+. *Roots should be absolute and include final folder slash so that in case it's blank we get
+>  relative paths
 . global main_root "`c(pwd)'/"
 
 . global testing_root "`c(pwd)'/temp/testing/"
@@ -40,8 +38,7 @@ get_config_value: testing=0
 
 . *Preferences
 . 
-. * include proj_prefs.do //more/trace are local only so have to "includ
-> e" not "do"
+. * include proj_prefs.do //more/trace are local only so have to "include" not "do"
 . 
 . version 12.1
 
@@ -152,7 +149,6 @@ price was int now long
   = if 13.1>=14 local v_opt "version(12)"
   - saveold `anything', `replace' `v_opt'
   = saveold data/clean/auto2.dta, replace 
-(note: file data/clean/auto2.dta not found)
 file data/clean/auto2.dta saved
   - }
   - else {
@@ -163,33 +159,56 @@ file data/clean/auto2.dta saved
 
 . 
 . if "`read_other'"=="1"{
-.         wrap_text, unwrappedtext("Hello yes")
+.         wrap_text, unwrappedtext("Hello yes") wrapped_out_loc(temp)
   ---------------------------------------------------------------------------------------------------------------------- begin wrap_text ---
   - version 12
-  - syntax , unwrappedtext(string) [width(integer 100)]
-  - local num_words : word count `unwrappedtext'
+  - syntax , unwrappedtext(string asis) wrapped_out_loc(string) [width(integer 100)]
+  - di `"input: `unwrappedtext'"'
+  = di `"input: "Hello yes""'
+input: "Hello yes"
+  - local unwrappedtext = trim(`"`unwrappedtext'"')
+  = local unwrappedtext = trim(`""Hello yes""')
+  - if substr(`"`unwrappedtext'"',1,1)!=`"""' local unwrappedtext `""`unwrappedtext'""'
+  = if substr(`""Hello yes""',1,1)!=`"""' local unwrappedtext `"""Hello yes"""'
+  - di `"std: `unwrappedtext'"'
+  = di `"std: "Hello yes""'
+std: "Hello yes"
+  - foreach oline in `unwrappedtext'{
+  = foreach oline in "Hello yes"{
+  - di `"line: `oline'"'
+  = di `"line: Hello yes"'
+line: Hello yes
+  - local num_words : word count `oline'
   = local num_words : word count Hello yes
+  - if `num_words'==0 local wrappedtext `"`wrappedtext'`space'"`oline'""'
+  = if 2==0 local wrappedtext `""Hello yes""'
   - forval i = 1/`num_words' {
   = forval i = 1/2 {
-  - local line : piece `i' `width' of "`unwrappedtext'"
+  - local line : piece `i' `width' of "`oline'"
   = local line : piece 1 100 of "Hello yes"
   - if "`line'"==""{
   = if "Hello yes"==""{
     continue, break
     }
-  - local wrappedtext `"`wrappedtext' "`line'""'
-  = local wrappedtext `" "Hello yes""'
+  - local wrappedtext `"`wrappedtext'`space'"`line'""'
+  = local wrappedtext `""Hello yes""'
+  - local space " "
   - }
-  - local line : piece `i' `width' of "`unwrappedtext'"
+  - local line : piece `i' `width' of "`oline'"
   = local line : piece 2 100 of "Hello yes"
   - if "`line'"==""{
   = if ""==""{
   - continue, break
     }
-    local wrappedtext `"`wrappedtext' "`line'""'
+    local wrappedtext `"`wrappedtext'`space'"`line'""'
+    local space " "
     }
-  - sreturn local wrappedtext `"`wrappedtext'"'
-  = sreturn local wrappedtext `" "Hello yes""'
+  - }
+  - di `"output: `wrappedtext'"'
+  = di `"output: "Hello yes""'
+output: "Hello yes"
+  - c_local `wrapped_out_loc' `"`wrappedtext'"'
+  = c_local temp `""Hello yes""'
   ------------------------------------------------------------------------------------------------------------------------ end wrap_text ---
 .         copy resources/deps/fake1.do.dep.complex resources/deps/fake1.do.dep, replace
 . }
