@@ -4,15 +4,17 @@
 
 temp/
 
-fig/eps/
-fig/png/
-fig/pdf/
-fig/svg/
+fig/eps/*.eps
+fig/eps/cuts/*.eps
+fig/png/*.png
+fig/png/cuts/*.png
+fig/pdf/*.pdf
+fig/pdf/cuts/*.pdf
+fig/svg/*.svg
+fig/svg/cuts/*.svg
 
-log/smcl/
-
-tab/pdf/
-tab/png/
+tab/pdf/*.pdf
+tab/png/*.png
 
 # From Latexmk
 *.cb
