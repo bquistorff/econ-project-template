@@ -29,14 +29,25 @@ if ~strcmp(note,'')
 	%Add note
 	
 	%first shift plot to make room for note
-	orig_units = get(gca,'Units');
-	set(gca,'Units','inches')
-	plot_pos0 = get(gca,'Position');
+	ax1 = gca;
+	orig_units = get(ax1,'Units');
+	set(ax1,'Units','norm')
+	plot_pos0 = get(ax1,'Position');
 	diff0 = plot_pos0(3)/2;
 	plot_pos1 = [plot_pos0(1),plot_pos0(2)+diff0,plot_pos0(3),plot_pos0(4)-diff0];
-	set(gca,'Position',plot_pos1)
+	set(ax1,'Position',plot_pos1)
 
 	%place the note
+	ax2 = axes('Position',[0 0 1 1],'Visible','off');
+	wrapped_note2=textwrap({note},100);
+	t1_orig_coord = [0.05, .3];
+	t1=text(t1_orig_coord(1),t1_orig_coord(2),wrapped_note2, 'VerticalAlignment','top', 'HorizontalAlignment','left');
+	t1_orig_pos = get(t1,'extent');
+	set(t1,'Position',[t1_orig_coord(1), t1_orig_pos(4)+.05]);
+	diff1 = t1_orig_pos(4)+.18;
+	%{
+	%Was trying to do uicontrols as that doesn't require second axis but
+	% can't make PDFs of these on Linux.
 	MyBox = uicontrol('style','text','Units','inches','HorizontalAlignment','Left');
 	%For some reason when printing to PDF the figure background goes to
 	%white, but on the UI controls
@@ -45,12 +56,13 @@ if ~strcmp(note,'')
 	set(MyBox,'Position',init_note_pos)
 	[wrapped_note,new_note_pos] = textwrap(MyBox,{note});
 	set(MyBox,'String',wrapped_note,'Position',new_note_pos)
-
-	%re-shift the graph back down
 	diff1 = diff0 - (init_note_pos(4)-new_note_pos(4));
+	%}
+	
+	%re-shift the graph back down
 	plot_pos2 = [plot_pos1(1), plot_pos1(2)-diff1,plot_pos1(3),plot_pos1(4)+diff1];
-	set(gca,'Position',plot_pos2)
-	set(gca,'Units',orig_units)
+	set(ax1,'Position',plot_pos2)
+	set(ax1,'Units',orig_units)
 	
 	
 	if ~strcmp(titleless_pdf_file,''); saveas(gcf, titleless_pdf_file); end;
