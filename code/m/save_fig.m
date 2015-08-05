@@ -2,8 +2,8 @@ function save_fig(fig_file, plain_pdf_file, titleless_pdf_file, noteless_pdf_fil
 	title_file, note_file, note)
 
 savefig(fig_file)
-orig_title = get(gca,'title');
-orig_title = orig_title.String;
+h = get(gca,'title');
+orig_title = get(h,'String');
 if ~strcmp(title_file,'')
 	fid = fopen(title_file,'w');
 	fprintf(fid, orig_title);
