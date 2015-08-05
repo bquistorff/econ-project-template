@@ -1,8 +1,0 @@
-#Generated makefile-ish file
-.PHONY : all_modules ado ado-store clear_all.ado cli_build_proj_mlib.do cli_build_proj_mlib.log cli_gph_eps.do cli_gph_eps.log cli_install_module.do cli_parallel_clean.do cli_smcl_log.do cli_smcl_log.log config.pmc dep.ados fake1.do fake1.log fake2.do fake2.log Makefile proj_prefs.do project_consts.do
-all_modules : ado ado-store clear_all.ado cli_build_proj_mlib.do cli_build_proj_mlib.log cli_gph_eps.do cli_gph_eps.log cli_install_module.do cli_parallel_clean.do cli_smcl_log.do cli_smcl_log.log config.pmc dep.ados fake1.do fake1.log fake2.do fake2.log Makefile proj_prefs.do project_consts.do
-:
-	statab.sh do cli_install_module.do *; mv cli_install_module.log ../temp/lastrun
-ado ado-store clear_all.ado cli_build_proj_mlib.do cli_build_proj_mlib.log cli_gph_eps.do cli_gph_eps.log cli_install_module.do cli_parallel_clean.do cli_smcl_log.do cli_smcl_log.log config.pmc dep.ados fake1.do fake1.log fake2.do fake2.log Makefile proj_prefs.do project_consts.do :
-
-

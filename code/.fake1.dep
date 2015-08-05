@@ -1,3 +1,0 @@
-# fake1.do
-log/smcl/fake1.smcl data/clean/auto2.dta : code/fake1.do code/setup_ado.do code/ado/clear_all.ado code/proj_prefs.do code/ado/log_open.ado code/ado/d/display_run_specs.ado code/ado/writeout_tracked_file.ado data/clean/.auto.dta.md5 code/ado/save12.ado 
-	st_launcher.sh code/fake1

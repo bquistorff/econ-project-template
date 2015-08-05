@@ -1,8 +1,17 @@
 #!/bin/bash
-# Example usage:
-# cd code/ado-store
-# store-mod-install-files.sh http://fmwww.bc.edu/repec/bocode/s/synth.pkg
+# Stores locally the installation files for Stata module
+# This is helpful if the installation files include platform-specific files
+# (so what is installed isn't sufficient to have it run elsewhere)
 # Assumes the standard first-letter directory structure.
+#
+# How will you know if this is the case?
+# - You can check have "g " lines in the module's package file
+# - Look through your ado folder for files that might be platform specific
+#  $ cat stata.trk | grep "^f " | grep -v '\(ado\|mlib\|hlp\|dlg\)$'
+#
+# Example usage:
+# $ cd code/ado-store
+# $ store-mod-install-files.sh http://fmwww.bc.edu/repec/bocode/s/synth.pkg
 
 pkgfilename=$(basename "$1") 
 pkgdirpath=$(dirname "$1")

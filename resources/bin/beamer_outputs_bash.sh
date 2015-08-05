@@ -15,7 +15,7 @@ cp $filename.lyx  $filename-slides.lyx
 optLines="$(grep -c '\\options' $filename.lyx)" 
 if [ $optLines -eq 0 ]
 then
-	sed -i 's/\(\\end_preamble\)/\1\n\\options /g' $filename-slides.lyx
+	sed -bi 's/\(\\end_preamble\)/\1\n\\options /g' $filename-slides.lyx
 fi
 if [ $optLines -gt 1 ]
 then
@@ -23,15 +23,15 @@ then
 fi
 
 # Remove just the relevant options
-sed -i 's/\(\\options .*\)notes=show,*/\1/g' $filename-slides.lyx
-sed -i 's/\(\\options .*\)handout,*/\1/g' $filename-slides.lyx
+sed -bi 's/\(\\options .*\)notes=show,*/\1/g' $filename-slides.lyx
+sed -bi 's/\(\\options .*\)handout,*/\1/g' $filename-slides.lyx
 
 # Make the other versions
 cp $filename-slides.lyx  $filename-handout.lyx
-sed -i 's/\(\\options \)/\1handout,/g' $filename-handout.lyx
+sed -bi 's/\(\\options \)/\1handout,/g' $filename-handout.lyx
 
 cp $filename-slides.lyx  $filename-notes.lyx
-sed -i 's/\(\\options \)/\1handout,notes=show,/g' $filename-notes.lyx
+sed -bi 's/\(\\options \)/\1handout,notes=show,/g' $filename-notes.lyx
 
 
 # export slides

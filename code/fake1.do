@@ -1,17 +1,24 @@
 * Description: Blah
 
 *Header
-do code/setup_ado.do
-clear_all
-qui include "code/proj_prefs.do"
-
 local do_name fake1
-log_open `do_name'
-
+include ${main_root}code/proj_header.do
+set trace on
 * Content
-use ${dir_base}/data/clean/auto.dta
-replace price=2*price 
-save12 ${dir_base}/data/clean/auto2.dta, replace
+use ${main_root}data/clean/auto.dta
+replace price=3*price 
 
-* Footer
-log close `do_name'
+local read_other = 1
+
+save12 data/clean/auto2.dta, replace
+
+if "`read_other'"=="1"{
+	wrap_text, unwrappedtext("Hello yes") wrapped_out_loc(temp)
+	copy resources/deps/fake1.do.dep.complex resources/deps/fake1.do.dep, replace
+}
+else{
+	copy resources/deps/fake1.do.dep.simple resources/deps/fake1.do.dep, replace
+}
+
+
+include ${main_root}code/proj_footer.do

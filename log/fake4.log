@@ -1,0 +1,84 @@
+log opened on:-normalized-
+m_project_base
+
+clear all %doesn't reset the path
+close all
+
+echo on %show commands along with the output (helpful for logging)
+
+%graymon
+%rng(1337) %By default uses Mersenne Twister with seed 0
+if exist('testing','var')==0
+	testing=0;
+end
+if exist('verbose','var')==0
+	verbose=0;
+end
+%Get any environment variables
+%N = getenv('name')
+echo display_run_specs on
+display_run_specs()
+    % Display the generic stuff
+	v1 = version;
+	disp(['Version: ', v1])
+Version: -normalized-
+	v2=version('-java');
+	disp(['Version (Java): ', v2])
+Version (Java): -normalized-
+	c = computer;
+	disp(['Computer: ', c])
+Computer: -normalized-
+	p = pwd;
+	disp(['PWD: ', p])
+PWD: -normalized-
+	disp(['numCores: ',int2str(feature('numCores'))]);
+numCores: -normalized-
+	
+	[ret, name] = system('hostname');   
+	if ret ~= 0,
+		 end
+	end
+	name = strtrim(lower(name));
+	disp(['hostname: ', name])
+hostname: -normalized-
+	
+	switch nargin
+    case 0
+        envvars_show = {};
+        envvars_hide = {};
+	end
+	for i = 1:length(envvars_show)
+	end
+	for i = 1:length(envvars_hide)
+
+%Content
+x = 0:pi/100:2*pi;
+y = sin(x);
+save('data/generated/fake4.mat','x')
+plot(x,y)
+
+startup_exists = exist('startuphandle_graphics','file');
+if startup_exists == 2 || startup_exists == 6
+else
+    clear startup_exists
+title('new title')
+wr_save_fig('fake4')
+
+note =
+
+     ''
+
+
+log4j:WARN No appenders could be found for logger (org.apache.fop.util.ContentHandlerFactoryRegistry).
+log4j:WARN Please initialize the log4j system properly.
+
+t=0:900;
+plot(t,0.25*exp(-0.005*t))
+xlabel('-2\pi < x < 2\pi')
+ylabel('sine and cosine values')
+title('The title')
+long_note = 'hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi';
+wr_save_fig('fake4b',long_note)
+
+log_close()
+log closed on:-normalized-

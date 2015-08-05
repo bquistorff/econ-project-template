@@ -1,5 +1,7 @@
 #This is meant to have the PWD be in the project root.
 #It is included from the base makefile
+# The only manual part about the script is that if you want all-dos all-Rs all-Ms
+# you will have to list as dependencies for those targets the stand-alone relevant scripts
 
 #export GENDEP_DISABLE := 1
 #export GENDEP_DEBUG := 1
@@ -19,7 +21,7 @@ DO_SCRIPTS_base := $(patsubst code/%.do,%,$(DO_SCRIPTS))
 .PHONY : $(DO_SCRIPTS_base)
 $(DO_SCRIPTS_base):
 	@echo Converting to make command for the associate log file.
-	$(MAKE) log/smcl/$@.smcl
+	$(MAKE) --no-print-directory log/do/$@.log
 
 .PHONY : all-dos
 all-dos : fake1 fake2
@@ -28,7 +30,7 @@ all-dos : fake1 fake2
 DO_SCRIPTS_force := $(patsubst code/%.do,%-force,$(DO_SCRIPTS))
 .PHONY : $(DO_SCRIPTS_force)
 $(DO_SCRIPTS_force) :
-	st_launcher.sh $(patsubst %-force,code/%,$@)
+	st_launcher.sh $(patsubst %-force,code/%,$@).do
 	
 
 #Make sure the mlib is up to date
@@ -41,18 +43,18 @@ code/ado/l/lproject.mlib : $(matas_in_ado)
 ## Local install entries
 pkgs_in_ado_store := $(wildcard code/ado-store/*/*.pkg)
 
-code/dep.ados: $(pkgs_in_ado_store)
+code/ados.dep: $(pkgs_in_ado_store)
 	gen-mod-install-rules.sh
 	
 .PHONY: install_mods
-install_mods: code/dep.ados
+install_mods: code/ados.dep
 	$(MAKE) all_modules
 
 #Windows parallel gateway
-# hould be handled by autodependency
+# should be handled by autodependency
 # from $grep -r eval_synth . --include="*.do"
 #DO_SCRIPTS_needing_pll := 
-DO_TARGETS_needing_pll := $(patsubst %,log/smcl/%.smcl,$(DO_SCRIPTS_needing_pll))
+DO_TARGETS_needing_pll := $(patsubst %,log/do/%.log,$(DO_SCRIPTS_needing_pll))
 $(DO_TARGETS_needing_pll) : pll_gateway.sh
 #Note you don't need the ; after the & (and it would produce an error).
 pll_gateway.sh :
@@ -62,7 +64,7 @@ pll_gateway.sh :
 		echo "Gateway not needed on non-Windows platforms"; \
 	fi
 
--include code/dep.ados
+-include code/ados.dep
 
 ### R scripts ####
 R_SCRIPTS := $(wildcard code/*.R)
@@ -71,7 +73,7 @@ R_SCRIPTS_base := $(patsubst code/%.R,%,$(R_SCRIPTS))
 .PHONY : $(R_SCRIPTS_base)
 $(R_SCRIPTS_base):
 	@echo Converting to make command for the associate log file.
-	$(MAKE) log/Rout/$@.Rout
+	$(MAKE) log/R/$@.log
 
 .PHONY : all-Rs
 all-Rs : fake3
@@ -81,9 +83,33 @@ R_SCRIPTS_force := $(patsubst code/%.R,%-force,$(R_SCRIPTS))
 
 $(R_SCRIPTS_force):
 	R_launcher.sh $(patsubst %-force,code/%,$@)
+	
+
+### Matlab scripts ####
+M_SCRIPTS := $(wildcard code/*.m)
+
+M_SCRIPTS_base := $(patsubst code/%.m,%,$(M_SCRIPTS))
+.PHONY : $(M_SCRIPTS_base)
+$(M_SCRIPTS_base):
+	@echo Converting to make command for the associate log file.
+	$(MAKE) log/m/$@.log
+
+.PHONY : all-Ms
+all-ms : fake4
+
+M_SCRIPTS_force := $(patsubst code/%.m,%-force,$(M_SCRIPTS))
+.PHONY : $(M_SCRIPTS_force)
+
+$(M_SCRIPTS_force):
+	m_launcher.sh $(patsubst %-force,code/%,$@)
 
 ### Include ancilary rules ###
-DEPS_SCRIPTS := $(wildcard code/.*.dep)
+ifeq "$(GENDEP_DISABLE)" "1"
+-include code/code-manual.dep
+else
+DEPS_SCRIPTS := $(wildcard resources/deps/*.dep)
 -include $(DEPS_SCRIPTS)
+endif
+
 .PHONY : all-code
-all-code : all-dos all-Rs
+all-code : all-dos all-Rs all-Ms

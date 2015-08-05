@@ -1,18 +1,13 @@
 * Description: Blah
 
 *Header
-do code/setup_ado.do
-clear_all
-qui include "code/proj_prefs.do"
-
 local do_name fake2
-log_open `do_name'
+include ${main_root}code/proj_header.do
 
 * Content
-use ${dir_base}/data/clean/auto2.dta
+use ${main_root}data/clean/auto2.dta
 
-twoway (scatter price mpg)
-save_fig auto_scatter
+wr_save_fig, name(auto_scatter) : twoway (scatter price mpg), ///
+	title("Scatter of price on mpg") note("Source: -sysuse auto-" "Produced: Stata")
 
-* Footer
-log close `do_name'
+include ${main_root}code/proj_footer.do

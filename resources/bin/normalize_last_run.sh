@@ -1,22 +1,36 @@
 #! /bin/bash
-cp temp/lastrun/$1-files.txt temp/lastrun/files.txt
+
+#root="${1%.*}"
+root=$1
+#ext="${1##*.}"
+ext=$2
+
+#Get the list of file outputted from the last run
+# Could get this from the dep files also
+last_status.sh > temp/lastrun/files.txt
+
 #Normalize the outputs
-cat temp/lastrun/files.txt | grep \.gph | while read p; do
-	normalize_gph.py $p;
-done
 
-cat temp/lastrun/files.txt | grep \.dta | while read p; do
-	normalize_dta.py $p;
-done
+if  [[ $ext = "do" ]] ; then
+	cat temp/lastrun/files.txt | grep \.gph | while read p; do
+		normalize_gph.py "$p";
+	done
 
-
-if  [[ $2 = "do" ]] ; then
-	statab.sh do code/cli_smcl_log.do $1
-	mv cli_smcl_log.log temp/lastrun/
-	normalize_log.sh -r . log/$1.log
-	sed -e 's:\.smcl:\.log:g' -e 's:smcl/::g' -i temp/lastrun/files.txt
-else
-	normalize_log.sh -r . log/$1.Rout
-	sed -e 's:Rout/::g' -i temp/lastrun/files.txt
+	cat temp/lastrun/files.txt | grep \.dta | while read p; do
+		normalize_dta.py "$p";
+	done
+	
+	cp log/do/$root.log log/$root.log
+	normalize_do_log.sh -r . log/$root.log
+	sed -be 's:log/::g' -i temp/lastrun/files.txt
 fi
 
+if  [[ $ext = "m" ]] ; then
+	cp log/m/$root.log log/
+	normalize_m_log.sh log/$root.log
+fi
+
+if  [[ $ext = "R" ]] ; then
+	cp log/R/$root.log log/
+	normalize_R_log.sh log/$root.log
+fi

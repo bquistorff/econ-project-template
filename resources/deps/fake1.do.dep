@@ -1,0 +1,3 @@
+## fake1.do
+log/do/fake1.log data/clean/auto2.dta  :   code/fake1.do code/proj_header.do code/setup_ado.do code/ado/g/get_config_value.ado code/config.project.csv code/ado/log_open.ado code/ado/d/display_run_specs.ado code/ado/c/clear_all.ado code/proj_prefs.do data/clean/auto.dta code/ado/s/save12.ado code/ado/w/wrap_text.ado code/proj_footer.do
+

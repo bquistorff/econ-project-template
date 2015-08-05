@@ -1,36 +1,31 @@
 #! /bin/bash
-# Launches Stata with the following features:
+# Launches Stats-program with the following features:
 # -if dependency tracking is desired, will trace the Stata process
 # -Will normalize the output files
-# -if md5 tracking is on, will generate those files.
 
+fname=$1
 fname_base=$(basename $1)
+fname_base="${fname_base%.*}"
+ext="${fname##*.}"
+
+if [ "$ext" = "do" ]; then stat_cmd="statab.sh $fname"; fi
+if [ "$ext" = "m"  ]; then stat_cmd="matlabb.sh $fname"; fi
+#Could use RScript (which is usually preferred) but I don't think that echos the commands, just the output.
+if [ "$ext" = "R"  ]; then stat_cmd="R CMD BATCH --vanilla --no-timing $fname log/R/$fname_base.log"; fi
 
 if [ "$GENDEP_DISABLE" = "1" ]; then 
-	$nice_prefix statab.sh $1.do; 
+	$nice_prefix $stat_cmd; 
 else
-	GENDEP_TARGET=$fname_base $nice_prefix dep_tracker.sh statab.sh $1.do
+	DEP_FILE=$fname_base.dep $nice_prefix dep_tracker.sh $stat_cmd;
 fi
-ret_code=$?
 
-mv $fname_base.log temp/lastrun/
-
-if [ $ret_code -eq 0 ]; then
-	if [ "$GENDEP_DISABLE" != "1" ]; then 
-		dep_post_proc.sh $fname_base do
-	fi
-	
-	normalize_last_run.sh $fname_base do
-
-	#make the md5 hashes
-	if [ "$GENDEP_MD5" = "1" ]; then 
-		#Exclude the logs because they are never intermediate files
-		#keep launchers in sync with make_deps_md5
-		cat temp/lastrun/files.txt | grep -v "log/" | while read p; do
-			update_md5.sh $p
-		done
-	fi
-else
-	exit $ret_code
+if [ ! $? -eq 0 ]; then exit $?; fi
+#echo "finished stats run"
+if [ "$GENDEP_DISABLE" != "1" ]; then 
+	dep_post_proc.sh $fname_base $ext
 fi
+
+#echo "finished dep post"
+normalize_last_run.sh $fname_base $ext
+#echo "finished normalize"
 

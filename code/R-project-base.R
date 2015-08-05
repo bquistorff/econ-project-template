@@ -1,95 +1,47 @@
 #Basics for all scripts. Preferences etc.
+setwd("code")
+source("packrat/init.R")
+setwd("..")
+#not sure why I need this off(), the lib-ext of sometimes created/destroyed
+#sometimes there an error in here, but it seems inconsequential.
+packrat::off() 
+packrat::on(project="code")
 
-#Do you have packages. Then look into http://rstudio.github.io/packrat/
-#Global: script_name
+set.seed(1337)
 
-log_output_file <-function(fname){
-	flog = paste0("temp/lastrun/", script_name, "-files.txt")
-	cat(fname,file=flog, sep="\n", append=TRUE)
+main_root=paste0(getwd(),"/")
+
+#.libPaths(paste0(main_root,"code/Rlib")) #also removes "R_LIBS_USER"
+
+#v = Sys.getenv("var")
+
+if (!exists("testing")) testing=0
+
+if (!exists("verbose")) verbose=0
+source(paste0(main_root,"code/R_utils.R"))
+
+library(ggplot2)
+theme_set(theme_bw())
+
+#########################################
+# Wrapper utils for my file paths
+#########################################
+wr_save_ggraph_parts <-function(gbase, title, note="", note_width=80, base_name, ext="eps"){
+	return(save_ggraph_parts(gbase, title, note, note_width=note_width, 
+										rdata_file=paste0("fig/RData/", base_name, ".RData"),
+										plain_file=paste0("fig/",ext,"/", base_name, ".",ext), 
+										titleless_file=paste0("fig/",ext,"/cuts/", base_name, "_notitle.",ext), 
+										bare_file=paste0("fig/",ext,"/cuts/", base_name, "_bare.",ext),  
+										note_file=paste0("fig/notes/",base_name,"_note.txt"),  
+										title_file=paste0("fig/titles/",base_name,"_title.txt")))
 }
 
-log_open <- function(){
-	#Do you want logging when done interactively? Here's a start.
-	#You really should have a wrapper that runs the script and source(echo=T)
-	# after the below. Seems too cumbersome
-	#con <- file(paste0("log/Rout/",script_name,".Rout"))
-	#sink(con, append=TRUE)
-	#sink(con, append=TRUE, type="message")
-	flog = paste0("temp/lastrun/", script_name, "-files.txt")
-	err=try(file.remove(flog))
-	log_output_file(paste0("log/Rout/",script_name,".Rout"))
-	display_run_specs(c(),c("UNVERSIONED_DATA"))
-	
-	#return(con)
+wr_save_graph_call_w_wo_title <-function(filename_base, base_call, wid=6, hei=4,...){
+	save_graph_call_w_wo_title(paste0("fig/eps/",filename_base, ".eps"), paste0("fig/eps/cuts/",filename_base, "_bare.eps"), base_call, wid=wid, hei=hei,...)
 }
+#Example:
+#wr_save_graph_call_w_wo_title("scatter2", plot(x=mtcars$cyl, y=mtcars$disp), main="Main")
 
-log_close <- function(){
-	#Put proc stuff on one line so can filter easily
-	x= proc.time()
-	cat(paste("user.self:", x["user.self"], "\tsystem:", x["sys.self"], "\telapsed:", x["elapsed"],"\n"))
-	
-	#If doing the extra logging, then restore
-	#sink() 
-	#sink(type="message")
+wr_log_open<-function(script_name){
+	log_open(paste0("log/R/",script_name,".log"))
 }
-
-##Print the install setup
-display_run_specs <- function(to_show, to_hide){
-	#Generic ones:
-	sessionInfo()
-	cat(paste("PWD: ",getwd(),"\n"))
-	cat(paste("HOSTNAME: ",Sys.getenv("HOSTNAME"),"\n")) #If on Windows (not from CYGWIN) then use COMPUTERNAME
-	cat(paste("Time: ",Sys.time(),"\n"))
-	
-	#project-specific 
-	for(v in to_show){
-		cat(paste(v,": ",Sys.getenv(v),"\n"))
-	}
-	for(v in to_hide){
-		cat(paste("LOGREMOVE ",v,": ",Sys.getenv(v),"\n"))
-	}
-}
-
-save_data <- function(data, path){
-	log_output_file(path)
-	save(data, file=path)
-}
-
-#Save a ggplot2 w/ and w/o title in the appropriate folders (in PDF)
-save_ggraph_w_wo_title <-function(filename_base, gbeginning, gtitle, gend=NULL, wid=6, hei=4){
-	fname1 = paste0("fig/eps/",filename_base, ".eps")
-	postscript(file=fname1, width=wid, height=hei, encoding="ISOLatin1.enc", paper = "special")
-	if(is.null(gend))
-		try(print(gbeginning+gtitle))
-	else
-		try(print(gbeginning+gtitle+gend))
-	dev.off()
-	log_output_file(fname1)
-	
-	fname2 = paste0("fig/eps/notitle/",filename_base, "_notitle.eps")
-	postscript(file=fname2, width=wid, height=hei, encoding="ISOLatin1.enc", paper = "special")
-	if(is.null(gend))
-		try(print(gbeginning))
-	else
-		try(print(gbeginning+gend))
-	dev.off()
-	log_output_file(fname2)
-}
-
-
-#Save single graph call (e.g plot but not ggplot2) w/ and w/o title in the appropriate folders (in PDF)
-save_graph_call_w_wo_title <-function(filename_base, base_call, wid=6, hei=4,...){
-	base_call = substitute(base_call)
-	fname1 = paste0("fig/eps/",filename_base, ".eps")
-	postscript(file=fname1, width=wid, height=hei, encoding="ISOLatin1.enc", paper = "special")
-	eval(as.call( c(as.list(base_call), ...) ))
-	dev.off()
-	log_output_file(fname1)
-	
-	fname2 = paste0("fig/eps/notitle/",filename_base, "_notitle.eps")
-	postscript(file=fname2, width=wid, height=hei, encoding="ISOLatin1.enc", paper = "special")
-	eval( base_call )
-	dev.off()
-	log_output_file(fname2)
-}
-

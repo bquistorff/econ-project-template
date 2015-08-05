@@ -4,6 +4,7 @@
 * This should also help a bit with speed.
 
 *Possibly get some project-specific settings
+mata: mata clear
 qui include code/setup_ado.do
 
 * Load all the mata files in ado/

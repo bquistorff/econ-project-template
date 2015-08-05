@@ -4,12 +4,10 @@ export PATH := $(CURDIR)/resources/bin:$(PATH)
 #Sometimes it uses /bin/sh which has a problem with picking up the better path
 SHELL := /bin/bash
 
-export GENDEP_MD5 := 1
-
 #Disable the built-in implicit rules inside of makefile
 .SUFFIXES:
 
-.PHONY: ALL clean clean-dist dep-master hide_dot_files missing-md5 update-md5 remove-orphan-deps-md5 status-check
+.PHONY: ALL clean clean-dist dep-master dep-graph status-check status-check-last
 
 ALL : 
 	@echo Some analyses make take days, so you might not want to do -make all-.
@@ -25,25 +23,10 @@ clean:
 	-cd writeups && latexmk -CA
 	
 clean-dist:
-	-rm code/.*.dep
-	-rm writeups/*.d writeups/.*.dep
-	
-missing-md5:
-	for file in $$(find data fig/gph tab snippets -type f \! -name *.gitignore \! -name *.md5 | grep -v .mk); do \
-	  if ! [ -e "$$(dirname $$file)/.$(basename $$file).md5" ]; then \
-	    update_md5.sh $$file; \
-	  fi \
-	done
+	-rm resources/deps/*.dep
+	-rm writeups/*.d writeups/*.dep
 
-update-md5:
-	for file in $$(find data fig/gph tab snippets -type f \! -name *.gitignore \! -name *.md5 | grep -v .mk); do \
-	  update_md5.sh $$file; \
-	done
-	
-remove-orphan-deps-md5:
-	remove_orphan_dotfiles.sh
-
-#check what files have changed (versioned or md5ed)
+#check what files have changed
 #The final echo on the last line is so there is no error when the preceding has no output
 status-check:
 	@echo ..... VC check ......
@@ -53,28 +36,33 @@ status-check:
 	@if [ -d ".git" ]; then \
 		git status -s --untracked-files=no; \
 	fi
-	#All the other md5s should be intermediate files
-	#@echo ...... md5 check ......
-	#@ $(find . -name '*.md5' | xargs cat | md5sum -c | grep -v ": OK"; echo "")
+	
+status-check-last:
+	@echo ..... VC check ......
+	@if [ -d ".svn" ]; then \
+		last_status.sh | xargs svn status; \
+	fi
+	#use " -uno" after git status to just show the versioned ones
+	@if [ -d ".git" ]; then \
+		last_status.sh | xargs git status -s; \
+	fi
 	
 	
 #Shows input-outputs of the code files.
+#currently using github.com/lindenb/makefile2dot
+#Other options: github.com/lindenb/makefile2graph, metacpan.org/pod/Makefile::GraphViz, metacpan.org/pod/GraphViz::Makefile
 dep-master:
-	#removes logs (never intermediate files). Undoes the md5 conversion.
+	#removes logs (never intermediate files).
 	#To do: Would be nice to remove the own_code from the Inputs side.
 	@echo Outputs : Inputs
-	@cat code/.*.dep | grep -v "launcher.sh" | sed -e 's:log/[^ ]\+ ::g' -e "s:\([^ ]\+\)/\.\([^ ]\+\)\.md5:\1/\2:g"
+	@cat resources/deps/*.dep | grep -v "launcher.sh" | sed -e 's:log/[^ ]\+ ::g'
 
-hide_dot_files :
-	if [ "$$OS" = "Windows_NT" ]; then \
-		ATTRIB +H /s /d ".*" \
-	else \
-		echo "Only Windows needs Hidden attribute for dot files"; \
-	fi
+#If you are on cygwin you will need graphviz (and I think fontconfig and a vector font like the Vera ones)
+dep-graph:
+	cat resources/deps/*.dep | grep "^# " | sed -e "s/# //g" | sed -e "s/ code\\/\\(ado\\|m\\|Rlib\\)[^ ]\\+//g" -e "s/^log[^ ]\\+ //g" > temp/dep_graph.mk
+	python resources/bin/makefile2dot.py < temp/dep_graph.mk |dot -Tpdf > temp/dep_graph.pdf
 
 FORCE:
-%.md5 : FORCE
-	$(MAKE) $(dir $*)$(patsubst .%,%,$(notdir $*))
 
 ############## Separate rules files ####################
 # Should be able to have all makefiles together to make knows everything

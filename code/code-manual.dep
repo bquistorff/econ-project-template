@@ -1,0 +1,15 @@
+#This file lists logical dependencies between files
+# This must be kept up to date manually.
+# (alternatives for automatically determining dependencies exist
+#  but require more knowledge when things don't work).
+
+
+# list here are generic labels that don't correspond to a file
+.PHONY : all-dos clean-all
+
+#Put here a set of labels that will get everything run 
+#(don't just list all do files as some are utils and some aren't in current use)
+all-dos : fake2 fake3 fake4
+
+fake2 : fake1
+	

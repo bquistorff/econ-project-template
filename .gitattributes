@@ -16,21 +16,21 @@
 *.rtf	 diff=astextplain
 *.RTF	 diff=astextplain
 
-# other
-.tex text
-.lyx text
-.dep text
-.md5 text
-
-# makefile rules
-*.mk text
-
-# Stata-specific normalizations
-*.do text
-*.ado text
-*.mata text
-*.hlp text
-*.sthlp text
+# Stata-specific normalizations. Text ones should be auto
+#*.do text
+#*.ado text
+#*.mata text
+#*.hlp text
+#*.sthlp text
+#*.pkg text
+#*.toc text
+#*.trk text
 *.mlib binary
-*.pkg text
-*.toc text
+*.dta binary
+*.gph binary
+
+# other. Text ones should be auto
+#*.tex text
+#*.lyx text
+#*.dep text
+#*.mk text
