@@ -2,8 +2,9 @@
 # Local
 ####
 
-temp/
+temp/*
 
+# Derivatives
 fig/eps/*.eps
 fig/eps/cuts/*.eps
 fig/png/*.png
@@ -12,9 +13,11 @@ fig/pdf/*.pdf
 fig/pdf/cuts/*.pdf
 fig/svg/*.svg
 fig/svg/cuts/*.svg
-
 tab/pdf/*.pdf
 tab/png/*.png
+
+#wingendep
+config.pmc
 
 # From Latexmk
 *.cb
