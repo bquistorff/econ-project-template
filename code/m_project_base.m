@@ -14,8 +14,12 @@ end
 if exist('verbose','var')==0
 	verbose=0;
 end
-com.mathworks.services.Prefs.setStringPref('MatfileSaveFormat','v6')
+
+%Specify a default save format 
+% (not even v6 doesn't make them platform indepedent & byte equal across runs)
+%com.mathworks.services.Prefs.setStringPref('MatfileSaveFormat','v6')
 %com.mathworks.services.Prefs.getStringPref('MatfileSaveFormat') == 'v6'
+
 %Get any environment variables
 %N = getenv('name')
 
