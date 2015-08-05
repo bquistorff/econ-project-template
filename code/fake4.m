@@ -3,6 +3,7 @@ setup_m_path
 
 log_open('fake4')
 echo on %show commands along with the output (helpful for logging)
+%echo display_run_specs on %can specify for specific functions
 m_project_base
 
 %Content

@@ -18,5 +18,4 @@ end
 %Get any environment variables
 %N = getenv('name')
 
-echo display_run_specs on
 display_run_specs()

@@ -1,6 +1,6 @@
 function wr_save_fig(base_fname, note)
 if nargin<2
-	note=''
+	note='';
 end
 save_fig(strcat('fig/fig/',base_fname,'.fig'), ...
 	strcat('fig/pdf/',base_fname,'.pdf'), ...
