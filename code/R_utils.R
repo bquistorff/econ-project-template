@@ -21,9 +21,17 @@ show_graph<-function(gobj){
 	}
 }
 
+#TODO: put in the extra line breaks and do real char escaping
+escape_latex_file<-function(note_file, note_tex_file){
+	input <- readLines(note_file)
+	#for now, do nothing
+	output = input
+	writeLines(output, note_tex_file)
+}
+
 #requires ggplot2 produced after June-2015
 #returns the full graph. For notes, it's grid object so show with grid.draw rather than print
-save_ggraph_parts<-function(gbase, title, note="", rdata_file="", plain_file="", title_file="", titleless_file="", noteless_file="", bare_file="", note_file="", note_width=80, width=4, height=3) {
+save_ggraph_parts<-function(gbase, title, note="", rdata_file="", plain_file="", title_file="", titleless_file="", noteless_file="", bare_file="", note_file="", note_tex_file="", note_width=80, width=4, height=3) {
 	if (rdata_file!="") save(gbase, title, note, file=rdata_file)
 	if (bare_file!="") ggsave(bare_file, gbase, width=width, height=height)
 	
@@ -37,6 +45,7 @@ save_ggraph_parts<-function(gbase, title, note="", rdata_file="", plain_file="",
 	library(gridExtra)
 	if (note!=""){
 		if (note_file!="") writeLines(note, note_file)
+		if (note_tex_file!="") escape_latex_file(note_file, note_tex_file)
 		
 		foot = textGrob(paste(strwrap(p_note, note_width),collapse="\n"))
 		g1 <- arrangeGrob(gbase, bottom = foot)

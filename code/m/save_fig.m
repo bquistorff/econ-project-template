@@ -1,5 +1,5 @@
 function save_fig(fig_file, plain_pdf_file, titleless_pdf_file, noteless_pdf_file, bare_pdf_file, ...
-	title_file, note_file, note)
+	title_file, note_file, note_tex_file, note)
 
 savefig(fig_file)
 h = get(gca,'title');
@@ -23,6 +23,9 @@ if ~strcmp(note,'')
 		fid = fopen(note_file,'w');
 		fprintf(fid, note);
 		fclose(fid);
+		if ~strcmp(note_tex_file,'')
+			escape_latex_file(note_file, note_tex_file)
+		end
 	end
 	title('')
 	if ~strcmp(bare_pdf_file,''); saveas(gcf, bare_pdf_file); end;

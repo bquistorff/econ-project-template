@@ -1,4 +1,4 @@
- opened on: 05-Aug-2015 21:55:37
+ opened on: 06-Aug-2015 00:25:59
 %echo display_run_specs on %can specify for specific functions
 m_project_base
 
@@ -41,8 +41,8 @@ else
     clear startup_exists
 title('new title')
 wr_save_fig('fake4')
-log4j:WARN No appenders could be found for logger (org.apache.fop.util.ContentHandlerFactoryRegistry).
-log4j:WARN Please initialize the log4j system properly.
+
+writeout_txt('data','snippets/fake4.txt')
 
 t=0:900;
 plot(t,0.25*exp(-0.005*t))

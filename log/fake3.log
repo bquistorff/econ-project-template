@@ -52,7 +52,8 @@ Type 'q()' to quit R.
 +             ext), titleless_file = paste0("fig/", ext, "/cuts/", 
 +             base_name, "_notitle.", ext), bare_file = paste0("fig/", 
 +             ext, "/cuts/", base_name, "_bare.", ext), note_file = paste0("fig/notes/", 
-+             base_name, "_note.txt"), title_file = paste0("fig/titles/", 
++             base_name, "_note.txt"), note_tex_file = paste0("fig/notes/tex/", 
++             base_name, "_note.tex"), title_file = paste0("fig/titles/", 
 +             base_name, "_title.txt")))
 + }
 
@@ -68,13 +69,14 @@ Type 'q()' to quit R.
 + }
 > script_name="fake3"
 > log_open()
- opened on: 2015-08-05 21:54:27
+ opened on: 2015-08-06 00:34:01
 PWD: -normalized-
 HOSTNAME: -normalized-
 > 
 > x = 2
 > saveRDS(x, file="data/estimates/fake3.RData")
 > 
+> cat("stuff",file="snippets/fake3.txt")
 > 
 > p <- qplot(1:10, 1:10)
 > p_note = "data from N. data from N. data from N. data from N. data from N. data from N. data from N. data from N"

@@ -7,6 +7,7 @@ program wr_save_fig
 
 	save_fig, title_file("fig/titles/`name'_title.txt") ///
 		caption_file("fig/notes/`name'_note.txt") ///
+		caption_tex_file("fig/notes/tex/`name'_note.tex") ///
 		gph_file("fig/gph/`name'.gph") width(`width') ///
 		`remainder_with_colon'
 end

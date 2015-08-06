@@ -14,6 +14,8 @@ plot(x,y)
 title('new title')
 wr_save_fig('fake4')
 
+writeout_txt('data','snippets/fake4.txt')
+
 t=0:900;
 plot(t,0.25*exp(-0.005*t))
 xlabel('-2\pi < x < 2\pi')

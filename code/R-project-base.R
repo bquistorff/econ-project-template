@@ -32,7 +32,8 @@ wr_save_ggraph_parts <-function(gbase, title, note="", note_width=80, base_name,
 										plain_file=paste0("fig/",ext,"/", base_name, ".",ext), 
 										titleless_file=paste0("fig/",ext,"/cuts/", base_name, "_notitle.",ext), 
 										bare_file=paste0("fig/",ext,"/cuts/", base_name, "_bare.",ext),  
-										note_file=paste0("fig/notes/",base_name,"_note.txt"),  
+										note_file=paste0("fig/notes/",base_name,"_note.txt"),
+										note_tex_file=paste0("fig/notes/tex/",base_name,"_note.tex"),
 										title_file=paste0("fig/titles/",base_name,"_title.txt")))
 }
 

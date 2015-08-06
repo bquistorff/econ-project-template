@@ -17,6 +17,7 @@ s/^\(Version (Java): \).\+/\1-normalized-/g
 
 #### Other stuff ####
 /^LOGREMOVE/d
+/^log4j:WARN/d
 s/^\(log opened on:\).\+/\1-normalized-/g
 s/^\(log closed on:\).\+/\1-normalized-/g
 

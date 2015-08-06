@@ -6,6 +6,7 @@ log_open()
 x = 2
 saveRDS(x, file="data/estimates/fake3.RData")
 
+cat("stuff",file="snippets/fake3.txt")
 
 p <- qplot(1:10, 1:10)
 p_note = "data from N. data from N. data from N. data from N. data from N. data from N. data from N. data from N"
