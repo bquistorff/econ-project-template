@@ -68,9 +68,9 @@ Type 'q()' to quit R.
 + }
 > script_name="fake3"
 > log_open()
+ opened on: 2015-08-05 21:54:27
 PWD: -normalized-
 HOSTNAME: -normalized-
-Time: -normalized-
 > 
 > x = 2
 > saveRDS(x, file="data/estimates/fake3.RData")

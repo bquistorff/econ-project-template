@@ -60,6 +60,7 @@ log_open <- function(){
 	#con <- file(log_name)
 	#sink(con, append=TRUE)
 	#sink(con, append=TRUE, type="message")
+	cat(paste0(" opened on: ",Sys.time(),"\n"))
 	display_run_specs(c(),c("UNVERSIONED_DATA"))
 	
 	#return(con)
@@ -82,7 +83,6 @@ display_run_specs <- function(to_show, to_hide){
 	sessionInfo()
 	cat(paste0("PWD: ",getwd(),"\n"))
 	cat(paste0("HOSTNAME: ",Sys.getenv("HOSTNAME"),"\n")) #If on Windows (not from CYGWIN) then use COMPUTERNAME
-	cat(paste0("Time: ",Sys.time(),"\n"))
 	
 	#project-specific 
 	for(v in to_show){
