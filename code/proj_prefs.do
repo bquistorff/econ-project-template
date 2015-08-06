@@ -1,6 +1,6 @@
 *Preferences
 
-* include proj_prefs.do //more/trace are local only so have to "include" not "do"
+* Usage: -include proj_prefs.do- //more/trace are local only. Can't -do ..-
 
 version 12.1
 set matsize 10000

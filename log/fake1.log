@@ -9,7 +9,7 @@
         c(machine_type) = -normalized-
            c(byteorder) = -normalized-
               c(flavor) = -normalized-
-            c(hostname) = "Lenovo-BQ"
+            c(hostname) = -normalized-
                  c(pwd) = "-normalizedroot-"
        c(stata_version) = -normalized-
           c(processors) = -normalized-
@@ -19,10 +19,9 @@
 . 
 . clear_all //use all globals and passed in locals before this!
 
-. *Could try to restore do_name from -log query-,-return list- and parse filename
+. *Could restore do_name from -log query-,-return list- and parse filename
 . 
-. *Roots should be absolute and include final folder slash so that in case it's blank we get
->  relative paths
+. *Roots should be include final slash so if blank we get relative paths
 . global main_root "`c(pwd)'/"
 
 . global testing_root "`c(pwd)'/temp/testing/"
@@ -38,7 +37,7 @@ get_config_value: testing=0
 
 . *Preferences
 . 
-. * include proj_prefs.do //more/trace are local only so have to "include" not "do"
+. * Usage: -include proj_prefs.do- //more/trace are local only. Can't -do ..-
 . 
 . version 12.1
 
@@ -114,8 +113,7 @@ get_config_value: testing=0
 . 
 . 
 . 
-. set trace on
-
+. 
 . * Content
 . use ${main_root}data/clean/auto.dta
 (1978 Automobile Data)
@@ -129,89 +127,14 @@ price was int now long
 
 . 
 . save12 data/clean/auto2.dta, replace
-  ------------------------------------------------------------------------------------------------------------------------- begin save12 ---
-  - syntax anything [, replace datasig compress]
-  - if "`datasig'"!="" {
-  = if ""!="" {
-    datasig set, reset
-    char _dta[datasignature_dt]
-    }
-  - cap unab temp: _*
-  - if `:list sizeof temp'>0 di "Warning: Saving with temporary (_*) vars"
-  = if 0>0 di "Warning: Saving with temporary (_*) vars"
-  - if "`compress'"!="" compress
-  = if ""!="" compress
-  - if `c(stata_version)'>=13{
-  = if 13.1>=13{
-  - if `c(stata_version)'>=15 di "save12 untested for Stata v>=15"
-  = if 13.1>=15 di "save12 untested for Stata v>=15"
-  - if `c(stata_version)'>=14 local v_opt "version(12)"
-  = if 13.1>=14 local v_opt "version(12)"
-  - saveold `anything', `replace' `v_opt'
-  = saveold data/clean/auto2.dta, replace 
 file data/clean/auto2.dta saved
-  - }
-  - else {
-    if `c(stata_version)'<11 di "save12 untested for Stata v<11"
-    save `anything', `replace'
-    }
-  --------------------------------------------------------------------------------------------------------------------------- end save12 ---
 
 . 
 . writeout_txt 1, filename("snippets/fake1.txt")
-  ------------------------------------------------------------------------------------------------------------------- begin writeout_txt ---
-  - version 11
-  - syntax anything(name=towrite equalok everything), filename(string)
-  - local filepath `"`filename'"'
-  = local filepath `"snippets/fake1.txt"'
-  - file open fhandle using `"`filepath'"', write text replace
-  = file open fhandle using `"snippets/fake1.txt"', write text replace
-  - file write fhandle `"`towrite'"'
-  = file write fhandle `"1"'
-  - file close fhandle
-  --------------------------------------------------------------------------------------------------------------------- end writeout_txt ---
 
 . 
 . if "`read_other'"=="1"{
 .         wrap_text, unwrappedtext("Hello yes") wrapped_out_loc(temp)
-  ---------------------------------------------------------------------------------------------------------------------- begin wrap_text ---
-  - version 12
-  - syntax , unwrappedtext(string asis) wrapped_out_loc(string) [width(integer 100)]
-  - local unwrappedtext = trim(`"`unwrappedtext'"')
-  = local unwrappedtext = trim(`""Hello yes""')
-  - if substr(`"`unwrappedtext'"',1,1)!=`"""' local unwrappedtext `""`unwrappedtext'""'
-  = if substr(`""Hello yes""',1,1)!=`"""' local unwrappedtext `"""Hello yes"""'
-  - foreach oline in `unwrappedtext'{
-  = foreach oline in "Hello yes"{
-  - local num_words : word count `oline'
-  = local num_words : word count Hello yes
-  - if `num_words'==0 local wrappedtext `"`wrappedtext'`space'"`oline'""'
-  = if 2==0 local wrappedtext `""Hello yes""'
-  - forval i = 1/`num_words' {
-  = forval i = 1/2 {
-  - local line : piece `i' `width' of "`oline'"
-  = local line : piece 1 100 of "Hello yes"
-  - if "`line'"==""{
-  = if "Hello yes"==""{
-    continue, break
-    }
-  - local wrappedtext `"`wrappedtext'`space'"`line'""'
-  = local wrappedtext `""Hello yes""'
-  - local space " "
-  - }
-  - local line : piece `i' `width' of "`oline'"
-  = local line : piece 2 100 of "Hello yes"
-  - if "`line'"==""{
-  = if ""==""{
-  - continue, break
-    }
-    local wrappedtext `"`wrappedtext'`space'"`line'""'
-    local space " "
-    }
-  - }
-  - c_local `wrapped_out_loc' `"`wrappedtext'"'
-  = c_local temp `""Hello yes""'
-  ------------------------------------------------------------------------------------------------------------------------ end wrap_text ---
 .         copy resources/deps/fake1.do.dep.complex resources/deps/fake1.do.dep, replace
 . }
 

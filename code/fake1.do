@@ -3,7 +3,7 @@
 *Header
 local do_name fake1
 include ${main_root}code/proj_header.do
-set trace on
+
 * Content
 use ${main_root}data/clean/auto.dta
 replace price=3*price 

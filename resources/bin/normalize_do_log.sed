@@ -8,6 +8,8 @@ s/[ 0-9][0-9] [A-Z][a-z][a-z] [0-9]\{4\},\? ..:..\(:..\)\?/-normalized-/g
 ### Machine-specific
 ##OS-dependent: file path
 
+s/c(\(hostname\)) = .\+/c(\1) = -normalized-/g
+
 #make folder separators Unix-like
 /normalizedroot/s/\\/\//g
 # Other FS macros (these include paths not already normalized)
@@ -28,6 +30,9 @@ s/^\(S_FLAVOR: \+\).\+/\1-normalized-/g
 s/c(\(os\|osdtl\|machine_type\|byteorder\|flavor\|stata_version\|processors\)) = .\+/c(\1) = -normalized-/g
 #sometimes appear
 /^S_\(StataMP\|StataSE\|CONSOLE\|MODE\): /d
+
+### Stata version differences
+s/^variable \([a-zA-Z_0-9]\+ was [a-z]\+ now [a-z]\+\)/\1/g
 
 #### Module -parallel- ####
 # FS macros

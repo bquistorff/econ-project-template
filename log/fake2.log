@@ -9,7 +9,7 @@
         c(machine_type) = -normalized-
            c(byteorder) = -normalized-
               c(flavor) = -normalized-
-            c(hostname) = "Lenovo-BQ"
+            c(hostname) = -normalized-
                  c(pwd) = "-normalizedroot-"
        c(stata_version) = -normalized-
           c(processors) = -normalized-
@@ -19,10 +19,9 @@
 . 
 . clear_all //use all globals and passed in locals before this!
 
-. *Could try to restore do_name from -log query-,-return list- and parse filename
+. *Could restore do_name from -log query-,-return list- and parse filename
 . 
-. *Roots should be absolute and include final folder slash so that in case it's blank we get
->  relative paths
+. *Roots should be include final slash so if blank we get relative paths
 . global main_root "`c(pwd)'/"
 
 . global testing_root "`c(pwd)'/temp/testing/"
@@ -38,7 +37,7 @@ get_config_value: testing=0
 
 . *Preferences
 . 
-. * include proj_prefs.do //more/trace are local only so have to "include" not "do"
+. * Usage: -include proj_prefs.do- //more/trace are local only. Can't -do ..-
 . 
 . version 12.1
 

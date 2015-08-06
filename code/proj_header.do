@@ -23,9 +23,9 @@ if "`do_name'"!=""{
 }
 
 clear_all //use all globals and passed in locals before this!
-*Could try to restore do_name from -log query-,-return list- and parse filename
+*Could restore do_name from -log query-,-return list- and parse filename
 
-*Roots should be absolute and include final folder slash so that in case it's blank we get relative paths
+*Roots should be include final slash so if blank we get relative paths
 global main_root "`c(pwd)'/"
 global testing_root "`c(pwd)'/temp/testing/"
 
