@@ -33,6 +33,7 @@ s/c(\(os\|osdtl\|machine_type\|byteorder\|flavor\|stata_version\|processors\)) =
 
 ### Stata version differences
 s/^variable \([a-zA-Z_0-9]\+ was [a-z]\+ now [a-z]\+\)/\1/g
+/.saving in Stata 12 format. which can be read by Stata 11 or 12./d
 
 #### Module -parallel- ####
 # FS macros

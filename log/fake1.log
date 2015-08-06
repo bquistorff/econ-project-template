@@ -1,4 +1,4 @@
---------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------------------
       name:  <unnamed>
        log:  -normalizedroot-/log/do/fake1.log
   log type:  text
@@ -45,7 +45,7 @@ get_config_value: testing=0
 
 . set more off
 
-. set linesize 140
+. set linesize 140 //sync with proj_header.do
 
 . set scheme s2mono
 

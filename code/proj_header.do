@@ -17,6 +17,7 @@ if "`do_name'"!=""{
 	*If testing, put it in the right dir
 	get_config_value testing, global(testing) default(0)
 	if ${testing} cd temp/testing/ //match with below
+	set linesize 140 //sync with proj_prefs.do
 	log using "log/do/`do_name'.log", replace /*name(`do_name')*/
 	display_run_specs
 	if ${testing} cd ../..

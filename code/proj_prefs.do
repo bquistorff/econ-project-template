@@ -5,7 +5,7 @@
 version 12.1
 set matsize 10000
 set more off
-set linesize 140
+set linesize 140 //sync with proj_header.do
 set scheme s2mono
 mata: mata set matafavor speed
 set matalnum on

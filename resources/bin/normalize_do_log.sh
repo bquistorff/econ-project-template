@@ -83,10 +83,10 @@ do
 	sed -be 's|\/econ_s\/|\/home\/|g' $f > $f.temp1
 	# Temp file mechanism vary from OS to OS
 	if [ "$OS" = "Windows_NT" ]; then
-			sed -be "s/${temp_base}[^ \"]\+/-normalizedtempfile-/g" $f.temp1 > $f.temp2
-			sed -be "s/${temp_base2}[^ \"]\+/-normalizedtempfile-/g" $f.temp2 > $f.temp3
+			sed -be "s|${temp_base}[\\\/]\?_[^ \"\\\/-]\+|-normalizedtempfile-|g" $f.temp1 > $f.temp2
+			sed -be "s|${temp_base2}[\\\/]\?_[^ \"\\\/-]\+|-normalizedtempfile-|g" $f.temp2 > $f.temp3
 	else
-			sed -be "s/${temp_base}[^ \"]\+/-normalizedtempfile-/g" $f.temp1 > $f.temp3
+			sed -be "s|${temp_base}[\\\/]\?_[^ \"\\\/-]\+|-normalizedtempfile-|g" $f.temp1 > $f.temp3
 	fi
 	#normalize machine-specific roots
 	sed -be "s|${prj_base}|-normalizedroot-|g" $f.temp3 > $f.temp4
