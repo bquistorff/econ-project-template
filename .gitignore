@@ -3,6 +3,7 @@
 ####
 
 temp/*
+resources/.env
 
 # Derivatives
 fig/eps/*.eps
