@@ -11,6 +11,7 @@ s/^\(Platform: \).\+/\1-normalized-/g
 
 ### R details
 s/^\(R version \).\+/\1-normalized-/g
+/^Copyright (C)/d
 
 #### display_run_specs.ado ####
 /^LOGREMOVE/d

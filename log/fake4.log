@@ -34,11 +34,6 @@ x = 0:pi/100:2*pi;
 y = sin(x);
 save('data/generated/fake4.mat','x')
 plot(x,y)
-
-startup_exists = exist('startuphandle_graphics','file');
-if startup_exists == 2 || startup_exists == 6
-else
-    clear startup_exists
 title('new title')
 wr_save_fig('fake4')
 
