@@ -1,7 +1,8 @@
 #!/bin/bash
-# renames files (and git mv's them if in svn)
+# renames files (and git mv's them if in git)
 # not sure if this works if there is whitespace in these vars
 # use from base of project
+# (for svn just change all git->svn)
 findstr=$1
 replacestr=$2
 
@@ -12,6 +13,6 @@ find . -not -path '*/\.*' -type f -name "*$findstr*"|while read i; do
     #echo $i
     new_name=`echo $i | sed s/$findstr/$replacestr/g`
     git mv $i $new_name
-    # Todo: If not in subversion still rename somehow
+    #If not in git still rename
     mv $i $new_name
 done
