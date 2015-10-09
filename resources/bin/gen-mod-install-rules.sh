@@ -30,11 +30,13 @@ fi
 # better with this.
 
 outfile=code/dep.ados
+ignore_outfile=code/ado/.gitignore
 echo "#Generated makefile rules" > $outfile
+echo "#Generated gitignore rules" > $ignore_outfile
 
 #See if there are any yet
-npkgs=$(find code/ado-store -name "*.pkg" | wc -l)
-if [  "$npkgs" -eq "0" ]; then
+find code/ado-store -name "*.pkg" &> /dev/null
+if [  "$?" -ne "0" ]; then
 	#echo "No locally installable modules. Empty makefile rule file"
 	exit
 fi
@@ -61,11 +63,16 @@ do
     base="${filename%.*}"
     base_letter=${base:0:1}
     
-    targets=$({ cat $fullfile | grep ^f | grep -v .dta | cut -d ' ' --fields 2; cat $fullfile | grep "^g $STATA_PLATFORM " | cut -d ' ' --fields 4; } | sed -be "s:^:code/ado/$base_letter/:" | paste -sd " ")
-    deps=$({ cat $fullfile | grep ^f | grep -v .dta | cut -d ' ' --fields 2; cat $fullfile | grep "^g $STATA_PLATFORM " | cut -d ' ' --fields 3; } | sed -be "s:^:code/ado-store/$base_letter/:" | paste -sd " ")
+    targets=$({ cat $fullfile | grep ^f | grep -v .dta | cut -d ' ' --fields 2; cat $fullfile | grep "^g $STATA_PLATFORM " | cut -d ' ' --fields 4; } | sed -e "s:^:code/ado/$base_letter/:" | paste -sd " ")
+    deps=$({ cat $fullfile | grep ^f | grep -v .dta | cut -d ' ' --fields 2; cat $fullfile | grep "^g $STATA_PLATFORM " | cut -d ' ' --fields 3; } | sed -e "s:^:code/ado-store/$base_letter/:" | paste -sd " ")
     echo $targets : $deps >> $outfile
     echo "	statab.sh do code/cli_install_module.do $base" >> $outfile
     echo $base : $targets >> $outfile
     echo -e "\n" >> $outfile
+	
+	#Get the normal files
+	{ cat $fullfile | grep ^f | grep -v .dta | cut -d ' ' --fields 2; cat $fullfile | grep "^g $STATA_PLATFORM " | cut -d ' ' --fields 4; } | sed -e "s:^:$base_letter/:" | sed -e "s:^$base_letter/\.\./::" >> $ignore_outfile
+	#Get the ancillary files (probably others too)
+	cat $fullfile | grep .dta  | cut -d ' ' --fields 2 >> $ignore_outfile
 done
 
