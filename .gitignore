@@ -4,6 +4,7 @@
 
 temp/*
 resources/.env
+*/#*.lyx#
 
 # Derivatives
 fig/eps/*.eps
