@@ -38,36 +38,39 @@ fi
 
 # in batch mode, normally nothing sent to stdout
 # but plugins can and some generate lots of comments
-$STATABATCH $cmd "$@" 2>&1 | tail -100 > stata_out.log
-rc=$?
+$STATABATCH $cmd "$@" &>/dev/null &
 
-# delete stata_out.log if empty
-if ! [ -s stata_out.log ]; then
-	rm stata_out.log
-else
-	#checks if var is sets vs (set to "" or unset)
-	if [ -z "$STATATMP" ]; then
-		if [ "$OS" = "Windows_NT" ]; then
-			#under Cygwin reassigns TEMP so can't get original. Use default.
-			STATATMP=$LOCALAPPDATA/Temp
-		else
-			STATATMP=$TMPDIR
-		fi
+#Move the default external log file so that another can be made
+#checks if var is sets vs (set to "" or unset)
+if [ -z "$STATATMP" ]; then
+	if [ "$OS" = "Windows_NT" ]; then
+		#under Cygwin reassigns TEMP so can't get original. Use default.
+		STATATMP=$LOCALAPPDATA/Temp
+	else
+		STATATMP=$TMPDIR
 	fi
-	mv stata_out.log ${STATATMP}
 fi
+time_str=$(date +"%Y-%m-%d-%H-%M-%S")
+log_base=${log%.*}
+log2="${STATATMP}/${log_base}-${time_str}.log"
+#really should poll for file creation, but I might not have guessed the right log file name so want time-out
+sleep 3s
+mv "${log}" "${log2}"
+
+wait
+rc=$?
 
 #Return the real error by checking the log
 if [ $rc == "0" ]
 then
     # use --max-count to avoid matching final line ("end of do-file") when
     # do-file terminates with error
-    if egrep --before-context=1 --max-count=1 "^r\([0-9]+\);$" "$log"
+    if egrep --before-context=1 --max-count=1 "^r\([0-9]+\);$" "$log2"
     then
         rc=1
     fi
 fi
 
-rm "$log"
+#rm "$log2"
 
 exit $rc
