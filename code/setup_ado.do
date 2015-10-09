@@ -5,4 +5,5 @@ sysdir set PERSONAL "`c(pwd)'/code/ado"
 sysdir set PLUS "`c(pwd)'/code/ado" //some commands think this has to be in S_ADO
 global S_ADO "PERSONAL;BASE"
 net set ado PERSONAL
+net set other PERSONAL
 mata: mata mlib index

@@ -4,6 +4,7 @@ global dir_base "./"
 
 * Use the -net set- line before installing other packages
 net set ado "${dir_base}code/ado/"
+net set other "${dir_base}code/ado/"
 local letter1 = substr("`1'",1,1)
 net install `1' , all force from("`c(pwd)'/${dir_base}code/ado-store/`letter1'/")
 
