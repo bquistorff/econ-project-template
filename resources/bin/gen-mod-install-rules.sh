@@ -29,7 +29,7 @@ fi
 # and don't go into ado/<>/ like the other files. Should deal
 # better with this.
 
-outfile=code/dep.ados
+outfile=code/ados.dep
 ignore_outfile=code/ado/.gitignore
 echo "#Generated makefile rules" > $outfile
 echo "#Generated gitignore rules" > $ignore_outfile

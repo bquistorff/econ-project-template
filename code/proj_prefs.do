@@ -13,7 +13,7 @@ set varabbrev off
 set tracedepth 1
 
 *Defaults
-set seed 1337
+set seed 17520913 //easy default is day you start the project (nb: the day here never existed in British/American calendards)
 set sortseed 123456 //undocumented. Makes normal sort stable
 global try_stata12 = 1
 if ("${testing}"=="") global testing = 0

@@ -6,7 +6,7 @@
 \begin_preamble
 %Latex likes to make ligatures from ff, fi, fl which breaks text manipulation (searching and copying)
 \usepackage{microtype}
-\DisableLigatures{encoding = *, family = * }
+\DisableLigatures[f]{encoding = *, family = * }
 
 % link DOIs in references section
 \usepackage{doi}

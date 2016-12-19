@@ -7,6 +7,7 @@ General:
 -figure out the new v4 gph format.
 -replace perl with python in conv tex lyx table (perl -0pe means split on null bytes, and input/print line by line)
 -Allow someone to specifiy that certain files shouldn't be rebuilt (someone checks in a version that is good but takes a long time).
+-make a program to output bare tables (and notes separately).	
 
 Implement in R/Matlab: 
 -parallelization

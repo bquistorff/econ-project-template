@@ -53,12 +53,21 @@ fi
 time_str=$(date +"%Y-%m-%d-%H-%M-%S")
 log_base=${log%.*}
 log2="${STATATMP}/${log_base}-${time_str}.log"
-#really should poll for file creation, but I might not have guessed the right log file name so want time-out
-sleep 3s
-mv "${log}" "${log2}"
+
+#On Unix can move right away 
+if [ "$OS" != "Windows_NT" ]; then
+	#really should poll for file creation, but I might not have guessed the right log file name so want time-out
+	sleep 3s
+	mv "${log}" "${log2}"
+fi
 
 wait
 rc=$?
+
+#On Windows have to wait for it to finish as the file is locked
+if [ "$OS" == "Windows_NT" ]; then
+	mv "${log}" "${log2}"
+fi
 
 #Return the real error by checking the log
 if [ $rc == "0" ]
